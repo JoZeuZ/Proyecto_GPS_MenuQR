@@ -1,4 +1,5 @@
 const Plato = require('../models/platos.model');
+const {handleError} = require('../utils/errorHandler');
 
 async function getPlatos() {
     try {
@@ -12,15 +13,7 @@ async function getPlatos() {
     }
 }
 
-// router.get('/:platoID', async (req, res) => {
-//     try {
-//         const platoID = req.params.platoID;
-//         const platos = await Plato.findById(platoID);
-//         res.json(platos);
-//     } catch (error) {
-//         res.json({ error: error.message });
-//     }
-// });
+
 
 // router.post('/', async (req, res) => {
 //     try {
@@ -35,4 +28,5 @@ async function getPlatos() {
 // module.exports = router;
 module.exports = {
     getPlatos,
+
 };
