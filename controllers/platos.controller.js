@@ -17,9 +17,9 @@ async function getPlatos(req, res) {
 }
 
 
+
 module.exports = {
     getPlatos,
-    // getPlatoById,
     // getPlatoByPostulacionId,
     // deletePlato,
 };
