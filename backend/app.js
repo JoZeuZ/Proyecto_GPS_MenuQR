@@ -7,13 +7,12 @@ const { setupDB } = require("./config/db.js");
 const indexRoutes = require("./routes/index.routes.js");
 const { PORT, HOST } = require("./config/configEnv.js");
 const { handleFatalError, handleError } = require("./utils/errorHandler.js");
+const { createRoles } = require('./constants/initialSetup.js');
 
-/**
- * Inicia el servidor web
- */
+// Inicia el servidor web
 async function setupServer() {
     try {
-        const server = express(); // Crea una instancia de express
+        const server = express(); 
         server.use(express.json());
         server.use(cors({ origin: "*" }));
         server.use(cookieParser());
@@ -21,8 +20,7 @@ async function setupServer() {
         server.use(express.urlencoded({ extended: true }));
         server.use("/api", indexRoutes);
 
-        server.use((err, req, res, next) => {
-            // Error de análisis JSON (contenido incorrecto)
+        server.use((err, req, res, next) => { // Error de análisis JSON (contenido incorrecto)
             if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
                 return res.status(400).json({ message: "Error en formato de JSON" });
             }
@@ -38,15 +36,12 @@ async function setupServer() {
     }
 }
 
-/**
- * Inicia la API
- */
+//Inicia la API
 async function setupAPI() {
     try {
-        // Inicia la conexión a la base de datos
         await setupDB();
-        // Inicia el servidor web
         await setupServer();
+        await createRoles();
     } catch (err) {
         handleFatalError(err, "/server.js -> setupAPI");
     }

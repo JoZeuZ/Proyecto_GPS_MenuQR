@@ -11,8 +11,8 @@ router.put("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, us
 router.delete("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.deleteUser);
 
 // Ruta para crear usuarios sin autenticación
-router.post("/", usuarioController.createUser);
-router.get("/", authenticationMiddleware, usuarioController.getUsers);
+router.post("/", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.createUser);
+router.get("/", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.getUsers);
 router.get("/:id", authenticationMiddleware, usuarioController.getUserById);
 
 module.exports = router;

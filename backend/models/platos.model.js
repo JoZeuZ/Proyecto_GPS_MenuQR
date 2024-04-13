@@ -22,9 +22,9 @@ const platoSchema = new Schema({
         required: true
     },
     ingredientes: [
-        {
+        { // mongoose.Schema.Types.ObjectId
             type: String,
-            //ref: "ingredientes"
+            ref: "ingredientes"
         }
     ]
 });

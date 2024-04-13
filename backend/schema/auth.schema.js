@@ -12,8 +12,7 @@ const authLoginBodySchema = Joi.object({
         "string.base": "El email debe ser de tipo string.",
         "string.email": "El email debe tener un formato válido.",
     }),
-    password: Joi.string().required().messages({
-        "any.required": "La contraseña es obligatoria.",
+    password: Joi.string().messages({
         "string.empty": "La contraseña no puede estar vacía.",
         "string.base": "La contraseña debe ser de tipo string.",
     }),

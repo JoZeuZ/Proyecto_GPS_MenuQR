@@ -13,7 +13,33 @@ async function getPlatos() {
     }
 }
 
+async function createPlato(plato) {
+    try {
+        const {nombre, precio, descripcion, categoria, img, ingredientes} = plato;
+
+        let platoFound = await Plato.findOne({nombre});
+
+        if (platoFound) return [null, "Ya existe un plato registrado con ese nombre"];
+
+        const newPlato = new Plato({
+            nombre,
+            precio,
+            descripcion,
+            categoria,
+            img,
+            ingredientes
+        });
+        await newPlato.save();
+
+        return [newPlato, null];
+    } catch (error) {
+        handleError(error, "platos.service -> createPlato");
+        return [null, error];
+    }
+}
+
 // module.exports = router;
 module.exports = {
     getPlatos,
+    createPlato,
 };

@@ -16,7 +16,25 @@ async function getPlatos(req, res) {
     }
 }
 
+async function createPlato(req, res) {
+    try {
+        const { nombre, precio, descripcion, categoria, img, ingredientes } = req.body;
+
+        if (!nombre || !precio || !descripcion || !categoria || !img || !ingredientes) {
+            return respondError(req, res, 400, "Faltan datos");
+        }
+
+        const [newPlato, errorPlato] = await PlatoService.createPlato({ nombre, precio, descripcion, categoria, img, ingredientes});
+        if (errorPlato) return respondError(req, res, 400, errorPlato);
+
+        respondSuccess(req, res, 201, ["Plato creado: ", newPlato]);
+    } catch (error) {
+        handleError(error, "plato.controller -> createPlato");
+    }
+}
+
 
 module.exports = {
     getPlatos,
+    createPlato,
 };
