@@ -1,3 +1,4 @@
+"use strict";
 const platoController = require("../controllers/platos.controller.js");
 
 const express = require("express");

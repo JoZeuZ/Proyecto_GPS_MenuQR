@@ -1,3 +1,4 @@
+"use strict";
 const { model, Schema } = require('mongoose');
 
 const platoSchema = new Schema({

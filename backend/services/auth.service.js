@@ -1,9 +1,5 @@
 "use strict";
-
-/** Modelo de datos 'User' */
 const User = require("../models/user.model.js");
-
-/** Modulo 'jsonwebtoken' para crear tokens */
 const jwt = require("jsonwebtoken");
 
 const {
@@ -13,12 +9,6 @@ const {
 
 const { handleError } = require("../utils/errorHandler");
 
-/**
- * Inicia sesión con un usuario.
- * @async
- * @function login
- * @param {Object} user - Objeto de usuario
- */
 async function login(user) {
     try {
         const { email, password, rut } = user;
@@ -29,20 +19,12 @@ async function login(user) {
         } else {
             userFound = await User.findOne({ email: email }).populate("roles").exec();
         }
-
-        if (!userFound) {
-            return [null, null, "Los datos ingresados son incorrectos"];
-        }
-
+        if (!userFound) return [null, null, "Los datos ingresados son incorrectos"];
         const matchPassword = await User.comparePassword(
             password,
             userFound.password,
         );
-
-        if (!matchPassword) {
-            return [null, null, "Los datos ingresados son incorrectos"];
-        }
-
+        if (!matchPassword) return [null, null, "Los datos ingresados son incorrectos"];
         const accessToken = jwt.sign(
             { email: userFound.email, roles: userFound.roles },
             ACCESS_JWT_SECRET,
@@ -50,46 +32,35 @@ async function login(user) {
                 expiresIn: "1d",
             },
         );
-
         const refreshToken = jwt.sign(
             { email: userFound.email },
             REFRESH_JWT_SECRET,
             {
-                expiresIn: "7d", // 7 días
+                expiresIn: "7d",
             },
         );
-
         return [accessToken, refreshToken, null];
     } catch (error) {
         handleError(error, "auth.service -> signIn");
     }
 }
 
-/**
- * Refresca el token de acceso
- * @async
- * @function refresh
- * @param {Object} cookies - Objeto de cookies
- */
 async function refresh(cookies) {
     try {
         if (!cookies.jwt) return [null, "No hay autorización"];
         const refreshToken = cookies.jwt;
-
         const accessToken = await jwt.verify(
+
             refreshToken,
             REFRESH_JWT_SECRET,
             async (err, user) => {
                 if (err) return [null, "La sesion a caducado, vuelva a iniciar sesion"];
-
                 const userFound = await User.findOne({
                     email: user.email,
                 })
                     .populate("roles")
                     .exec();
-
                 if (!userFound) return [null, "No usuario no autorizado"];
-
                 const accessToken = jwt.sign(
                     { email: userFound.email, roles: userFound.roles },
                     ACCESS_JWT_SECRET,
@@ -97,11 +68,9 @@ async function refresh(cookies) {
                         expiresIn: "1d",
                     },
                 );
-
                 return [accessToken, null];
             },
         );
-
         return accessToken;
     } catch (error) {
         handleError(error, "auth.service -> refresh");
