@@ -1,13 +1,14 @@
+"use strict";
 require('dotenv').config();
-const express = require('express');
 const cors = require("cors");
 const morgan = require("morgan");
+const express = require('express');
 const cookieParser = require("cookie-parser");
 const { setupDB } = require("./config/db.js");
 const indexRoutes = require("./routes/index.routes.js");
 const { PORT, HOST } = require("./config/configEnv.js");
+const { createRoles } = require('./config/initialSetup.js');
 const { handleFatalError, handleError } = require("./utils/errorHandler.js");
-const { createRoles } = require('./constants/initialSetup.js');
 
 // Inicia el servidor web
 async function setupServer() {
@@ -26,8 +27,6 @@ async function setupServer() {
             }
             // Otros manejadores de errores aquí
         });
-
-        // Inicia el servidor en el puerto especificado
         server.listen(PORT, () => {
             console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
         });
@@ -36,7 +35,6 @@ async function setupServer() {
     }
 }
 
-//Inicia la API
 async function setupAPI() {
     try {
         await setupDB();
@@ -47,7 +45,6 @@ async function setupAPI() {
     }
 }
 
-// Inicia la API
 setupAPI()
     .then(() => console.log("=> API Iniciada exitosamente"))
     .catch((err) => handleFatalError(err, "/server.js -> setupAPI"));

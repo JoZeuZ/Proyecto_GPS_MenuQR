@@ -1,3 +1,4 @@
+"use strict";
 const mongoose = require('mongoose');
 const { handleError } = require("../utils/errorHandler");
 const { DB_URL } = require("./configEnv");

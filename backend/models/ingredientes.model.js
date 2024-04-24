@@ -1,3 +1,4 @@
+"use strict";
 const { model, Schema } = require('mongoose');
 
 const ingredienteSchema = new Schema({
@@ -5,9 +6,9 @@ const ingredienteSchema = new Schema({
         type: String,
         required: true
     },
-    cantidad: {
-        type: Number,
-        required: true
+    disponible: {
+        type: Boolean,
+        required: true,
     },
     img: {
         type: String,

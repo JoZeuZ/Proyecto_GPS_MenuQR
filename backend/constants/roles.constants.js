@@ -1,4 +1,4 @@
-/** Roles permitidos por la base de datos */
+"use strict";
 const ROLES = ["Cliente", "Administrador", "Mesero"];
 
 module.exports = ROLES;
