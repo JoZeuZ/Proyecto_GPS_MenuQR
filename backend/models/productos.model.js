@@ -1,7 +1,7 @@
 "use strict";
 const { model, Schema } = require('mongoose');
 
-const platoSchema = new Schema({
+const productoSchema = new Schema({
     nombre: {
         type: String,
         required: true
@@ -30,4 +30,4 @@ const platoSchema = new Schema({
     ]
 });
 
-module.exports = model('plato', platoSchema);
+module.exports = model('producto', productoSchema);
