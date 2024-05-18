@@ -11,5 +11,6 @@ router.use("/users", userRoutes);
 router.use("/productos", productosRoutes);
 router.use("/ingredientes", ingredientesRoutes);
 router.use("/auth", authRoutes)
+// router.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 module.exports = router;

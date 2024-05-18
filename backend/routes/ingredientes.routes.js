@@ -6,7 +6,8 @@ const ingredienteController = require("../controllers/ingredientes.controller.js
 const express = require("express");
 const router = express.Router();
 
-router.get("/", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredientes);
+// router.get("/", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredientes);
+router.get("/", ingredienteController.getIngredientes);
 router.get("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredienteById);
 router.post("/", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.createIngrediente);
 router.put("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.updateIngrediente);
