@@ -1,5 +1,5 @@
 <div class="tittle-cards">
-  <p>Listado de ingredientes de The Kindoms of Panes</p>
+  <p>Listado de ingredientes de The Kingdoms of Panes</p>
 </div>
 
 <div class="card-container" *ngFor="let ingrediente of ingredientes">
@@ -7,9 +7,12 @@
 <mat-card>
   <mat-card-header>
     <div mat-card-avatar class="ingrediente-img" [style.background-image]="'url(' + ingrediente.img + ')'"></div>
-    <mat-card-title>{{ ingrediente.nombre }}</mat-card-title>
-    <mat-card-subtitle>Disponibilidad: {{ ingrediente.disponible }}</mat-card-subtitle>
+    <mat-card-title>
+      <mat-icon *ngIf="ingrediente.disponible" class="disponible-icon">check_circle</mat-icon>
+      <mat-icon *ngIf="!ingrediente.disponible" class="nodisponible-icon">cancel</mat-icon>
+      {{ ingrediente.nombre }}
+    </mat-card-title>
+    <mat-card-subtitle class="mat-card">Disponibilidad: {{ ingrediente.disponible }}</mat-card-subtitle>
   </mat-card-header>
-
 </mat-card>
 </div>

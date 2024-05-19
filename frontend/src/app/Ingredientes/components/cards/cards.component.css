@@ -6,3 +6,20 @@
     text-align: center;
     margin-top: 3rem;
 }
+.disponible-icon {
+    color: green;
+    font-size: 24px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.nodisponible-icon{
+    color: red;
+    font-size: 24px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.mat-card{
+    margin-left: 5px;
+}
