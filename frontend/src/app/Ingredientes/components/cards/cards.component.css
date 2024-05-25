@@ -1,0 +1,65 @@
+
+.title-cards {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.title-cards p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.title-cards button {
+    margin-left: auto;
+    margin-bottom: 20px; /* Añadir margen inferior */
+}
+
+mat-card {
+    flex: 1 1 calc(33% - 20px); /* Tres columnas, ajustable */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 10px;
+}
+
+mat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.botonGuardar{
+    margin-top: 15px;
+    margin-left: 5%;
+}
+
+.botonAgregar{
+    margin-right: 3%;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 15px;
+    margin: auto;
+    max-width: 1200px;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.ingrediente-img {
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+}
+
+.switch-container {
+    margin-left: auto;
+}
+
+.botonEliminar{
+    margin-top: -12px;
+}
+
