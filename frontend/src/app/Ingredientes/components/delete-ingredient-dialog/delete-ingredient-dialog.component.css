@@ -1,0 +1,45 @@
+#miCuadroEliminar {
+    width: auto;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: white;
+    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */
+    text-align: center; /* Centra el contenido dentro del cuadro */
+}
+
+h2 {
+    font-weight: 500;
+    color: #333;
+    margin: 0; /* Eliminar márgenes adicionales */
+    overflow: visible; /* Permitir que el contenido se muestre completamente */
+}
+
+.botonesEliminar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px; /* Espaciado superior */
+    width: 100%; /* Usar todo el ancho disponible */
+    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */
+}
+
+.mat-dialog-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0; /* Eliminar el padding para asegurar que el contenido no se desborde */
+    overflow: hidden; /* Ocultar cualquier desbordamiento */
+}
+
+.mat-dialog-content {
+    width: 100%;
+    max-width: 90%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */
+}

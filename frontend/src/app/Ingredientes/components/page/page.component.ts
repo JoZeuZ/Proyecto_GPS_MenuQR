@@ -5,14 +5,12 @@ import { CardsComponent } from '../cards/cards.component';
   selector: 'app-page',
   standalone: true,
   imports: [
-    CardsComponent
+    CardsComponent,
   ],
   templateUrl: './page.component.html',
   styleUrl: './page.component.css'
 })
 export class PageComponent {
-  constructor() {
-      console.log('PageComponent constructor');
-  }
+  constructor() { }
 
 }

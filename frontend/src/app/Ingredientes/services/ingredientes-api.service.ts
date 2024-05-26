@@ -10,8 +10,19 @@ export class IngredientesApiService {
 
   constructor(private http: HttpClient) { }
 
-getIngredientes() {
-  return this.http.get(this.baseURL);
-}
+  getIngredientes() {
+    return this.http.get(this.baseURL);
+  }
 
+  addIngrediente(ingrediente: any) {
+    return this.http.post(this.baseURL, ingrediente);
+  }
+
+  updateIngrediente(id: string, ingrediente: any) {
+    return this.http.put(`${this.baseURL}/${id}`, ingrediente);
+  }
+
+  deleteIngrediente(id: string) {
+    return this.http.delete(`${this.baseURL}/${id}`);
+  }
 }
