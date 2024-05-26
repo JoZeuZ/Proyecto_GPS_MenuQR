@@ -1,4 +1,3 @@
-
 .title-cards {
     display: flex;
     flex-direction: column-reverse;
@@ -62,4 +61,3 @@ mat-card:hover {
 .botonEliminar{
     margin-top: -12px;
 }
-

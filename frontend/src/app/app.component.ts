@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,

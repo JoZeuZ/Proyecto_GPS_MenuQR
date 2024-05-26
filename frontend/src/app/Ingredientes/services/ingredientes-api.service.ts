@@ -25,5 +25,4 @@ export class IngredientesApiService {
   deleteIngrediente(id: string) {
     return this.http.delete(`${this.baseURL}/${id}`);
   }
-
 }

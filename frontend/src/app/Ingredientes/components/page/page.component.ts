@@ -11,7 +11,6 @@ import { CardsComponent } from '../cards/cards.component';
   styleUrl: './page.component.css'
 })
 export class PageComponent {
-  constructor() {
-  }
+  constructor() { }
 
 }
