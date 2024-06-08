@@ -11,6 +11,8 @@ const reseñaSchema = new Schema({
         type: String,
         required: true
     },
+}, {
+    timestamps: true
 });
 
-module.exports = model('reseña', reseñaSchema);
+module.exports = model('Reseña', reseñaSchema);
