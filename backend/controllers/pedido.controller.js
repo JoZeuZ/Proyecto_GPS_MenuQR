@@ -6,11 +6,18 @@ const { pedidoBodySchema, pedidoIdSchema } = require("../schemas/pedido.schema")
 
 async function createPedido(req, res) {
     try {
-        const { body } = req;
-        const { error: bodyError } = pedidoBodySchema.validate(body);
-        if (bodyError) return respondError(req, res, 400, bodyError.message);
+        const { body, params } = req;
+        const { mesaId } = params;
 
-        const [newPedido, error] = await pedidoService.createPedido(body);
+        // Añadir el id de la mesa al cuerpo del pedido
+        const pedidoData = {
+            ...body,
+            mesa: mesaId,
+        };
+
+        const { error: bodyError } = pedidoBodySchema.validate(pedidoData);
+        if (bodyError) return respondError(req, res, 400, bodyError.message);
+        const [newPedido, error] = await pedidoService.createPedido(pedidoData);
         if (error) return respondError(req, res, 500, error.message);
 
         respondSuccess(req, res, 201, newPedido);

@@ -15,7 +15,7 @@ async function createPedido(pedidoData) {
 
 async function getPedidoById(id) {
     try {
-        const pedido = await Pedido.findById(id).populate('productos.productoId').exec();
+        const pedido = await Pedido.findById(id).populate('mesa').populate('productos.productoId').exec();
         if (!pedido) return [null, "Pedido no encontrado"];
         return [pedido, null];
     } catch (error) {
@@ -37,7 +37,7 @@ async function updatePedido(id, pedidoData) {
 
 async function getPedidos() {
     try {
-        const pedidos = await Pedido.find().populate('productos.productoId').exec();
+        const pedidos = await Pedido.find().populate('mesa').populate('productos.productoId').exec();
         return [pedidos, null];
     } catch (error) {
         handleError(error, "pedido.service -> getPedidos");
@@ -47,7 +47,7 @@ async function getPedidos() {
 
 async function getPedidosByMesaId(mesaId) {
     try {
-        const pedidos = await Pedido.find({ mesa: mesaId }).populate('productos.productoId').exec();
+        const pedidos = await Pedido.find({ mesa: mesaId }).populate('mesa').populate('productos.productoId').exec();
         return [pedidos, null];
     } catch (error) {
         handleError(error, "pedido.service -> getPedidosByMesaId");
