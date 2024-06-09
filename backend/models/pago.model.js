@@ -12,13 +12,9 @@ const pagoSchema = new Schema({
         enum: ['Efectivo', 'Tarjeta', 'Transferencia'],
         required: true
     },
-    total: {
+    monto: {
         type: Number,
         required: true
-    },
-    propina: {
-        type: Number,
-        default: 0
     },
     fecha: {
         type: Date,

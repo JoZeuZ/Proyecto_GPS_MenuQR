@@ -1,44 +1,103 @@
 "use strict";
-const Pedido = require("../models/pedido.model");
-const Mesa = require("../models/mesa.model");
+const pedidoService = require("../services/pedido.service");
 const { respondSuccess, respondError } = require("../utils/resHandler");
+const { handleError } = require("../utils/errorHandler");
+const { pedidoBodySchema, pedidoIdSchema } = require("../schemas/pedido.schema");
 
 async function createPedido(req, res) {
     try {
-        const { cliente, productos, total, propina, metodoPago } = req.body;
-        const { mesaId } = req.query;
+        const { body } = req;
+        const { error: bodyError } = pedidoBodySchema.validate(body);
+        if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const mesa = await Mesa.findById(mesaId);
-        if (!mesa) {
-            return respondError(req, res, 404, "Mesa no encontrada");
-        }
-
-        const newPedido = new Pedido({ cliente, mesa: mesa._id, productos, total, propina, metodoPago });
-        await newPedido.save();
+        const [newPedido, error] = await pedidoService.createPedido(body);
+        if (error) return respondError(req, res, 500, error.message);
 
         respondSuccess(req, res, 201, newPedido);
     } catch (error) {
+        handleError(error, "pedido.controller -> createPedido");
         respondError(req, res, 500, error.message);
     }
 }
 
 async function getPedido(req, res) {
     try {
-        const pedido = await Pedido.findById(req.params.id).populate('productos.productoId');
+        const { params } = req;
+        const { error: paramsError } = pedidoIdSchema.validate(params);
+        if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+        const [pedido, error] = await pedidoService.getPedidoById(params.id);
+        if (error) return respondError(req, res, 500, error.message);
         if (!pedido) return respondError(req, res, 404, "Pedido no encontrado");
+
         respondSuccess(req, res, 200, pedido);
     } catch (error) {
+        handleError(error, "pedido.controller -> getPedido");
         respondError(req, res, 500, error.message);
     }
 }
 
 async function updatePedido(req, res) {
     try {
-        const { estado } = req.body;
-        const pedido = await Pedido.findByIdAndUpdate(req.params.id, { estado }, { new: true });
+        const { params, body } = req;
+        const { error: paramsError } = pedidoIdSchema.validate(params);
+        if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+        const { error: bodyError } = pedidoBodySchema.validate(body);
+        if (bodyError) return respondError(req, res, 400, bodyError.message);
+
+        const [pedido, error] = await pedidoService.updatePedido(params.id, body);
+        if (error) return respondError(req, res, 500, error.message);
         if (!pedido) return respondError(req, res, 404, "Pedido no encontrado");
+
         respondSuccess(req, res, 200, pedido);
     } catch (error) {
+        handleError(error, "pedido.controller -> updatePedido");
+        respondError(req, res, 500, error.message);
+    }
+}
+
+async function getPedidos(req, res) {
+    try {
+        const [pedidos, error] = await pedidoService.getPedidos();
+        if (error) return respondError(req, res, 500, error.message);
+
+        respondSuccess(req, res, 200, pedidos);
+    } catch (error) {
+        handleError(error, "pedido.controller -> getPedidos");
+        respondError(req, res, 500, error.message);
+    }
+}
+
+async function getPedidosByMesaId(req, res) {
+    try {
+        const { params } = req;
+        const { error: paramsError } = pedidoIdSchema.validate(params);
+        if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+        const [pedidos, error] = await pedidoService.getPedidosByMesaId(params.mesaId);
+        if (error) return respondError(req, res, 500, error.message);
+
+        respondSuccess(req, res, 200, pedidos);
+    } catch (error) {
+        handleError(error, "pedido.controller -> getPedidosByMesaId");
+        respondError(req, res, 500, error.message);
+    }
+}
+
+async function deletePedido(req, res) {
+    try {
+        const { params } = req;
+        const { error: paramsError } = pedidoIdSchema.validate(params);
+        if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+        const [pedido, error] = await pedidoService.deletePedido(params.id);
+        if (error) return respondError(req, res, 500, error.message);
+        if (!pedido) return respondError(req, res, 404, "Pedido no encontrado");
+
+        respondSuccess(req, res, 200, pedido);
+    } catch (error) {
+        handleError(error, "pedido.controller -> deletePedido");
         respondError(req, res, 500, error.message);
     }
 }
@@ -46,5 +105,8 @@ async function updatePedido(req, res) {
 module.exports = {
     createPedido,
     getPedido,
-    updatePedido
+    updatePedido,
+    getPedidos,
+    getPedidosByMesaId,
+    deletePedido,
 };
