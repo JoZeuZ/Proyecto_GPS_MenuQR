@@ -1,0 +1,9 @@
+<p class="title-cards">Gestión de Usuarios</p>
+
+<button class='botonAgregar' mat-raised-button color="primary" (click)="addUser()">Agregar Usuario</button>
+
+<app-user-cards [users]="users" (userEdited)="onUserEdited($event)"
+    (userDeleted)="onUserDeleted($event)"></app-user-cards>
+
+<button class='botonGuardar' mat-raised-button color="primary" (click)="saveChanges()"
+    [disabled]="!isSaveButtonEnabled">Guardar Cambios</button>

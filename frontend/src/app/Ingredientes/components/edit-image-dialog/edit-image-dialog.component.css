@@ -1,0 +1,16 @@
+/* edit-image-dialog.component.css */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+}

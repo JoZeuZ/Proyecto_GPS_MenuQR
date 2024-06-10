@@ -20,22 +20,21 @@ async function getUsers() {
 async function createUser(user) {
     try {
         const { username, email, password, roles } = user;
-        let userFound = await User.findOne({ username });
-        let emailFound = await User.findOne({ email });
+        const userFound = await User.findOne({email: user.email});
+        if (userFound) return [null, "El usuario ya existe"];
 
-        if (userFound) return [null, "Ya existe un usuario registrado con ese nombre de usuario"];
-        if (emailFound) return [null, "Ya existe un usuario registrado con ese email"];
         const rolesFound = await Role.find({ name: { $in: roles } });
         if (rolesFound.length === 0) return [null, "El rol no existe"];
         const myRole = rolesFound.map((role) => role._id);
+
         const newUser = new User({
             username,
-            email: email || "",
-            password: await User.encryptPassword(password) || "",
+            email,
+            password: await User.encryptPassword(password),
             roles: myRole,
-        });
-        await newUser.save();
-        return [newUser, null];
+          });
+          await newUser.save()
+          return [newUser, null];
     } catch (error) {
         handleError(error, "user.service -> createUser");
         return [null, error];
@@ -90,11 +89,16 @@ async function updateUser(id, user) {
 
 async function deleteUser(id) {
     try {
-        return await User.findByIdAndDelete(id);
+        const user = await User.findById(id);
+        if (!user) return [null, "El usuario no existe"];
+        const userDeleted = await User.findByIdAndDelete(id);
+        if (!userDeleted) return [null, "No se encontró el usuario"];
+        return [userDeleted, null];
     } catch (error) {
         handleError(error, "user.service -> deleteUser");
+        return [null, "Error al eliminar el usuario"];
     }
-}
+} // Se modifico por error que aparecia en el front, de duplicacion de llamado
 
 module.exports = {
     getUsers,
