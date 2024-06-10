@@ -28,6 +28,10 @@ const reseñaBodySchema = Joi.object({
         "any.required": "La puntuación es obligatoria.",
         "number.min": "La puntuación mínima es 0.5.",
         "number.max": "La puntuación máxima es 5."
+    }),
+    categoria: Joi.string().valid('Comida', 'Servicio', 'Ambiente', 'General').default('General').messages({
+        "string.base": "La categoría debe ser de tipo string.",
+        "any.only": "La categoría debe ser uno de los valores permitidos (Comida, Servicio, Ambiente, General)."
     })
 }).messages({
     "object.unknown": "No se permiten propiedades adicionales.",

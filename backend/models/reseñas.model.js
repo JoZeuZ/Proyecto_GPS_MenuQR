@@ -22,6 +22,11 @@ const reseñaSchema = new Schema({
             },
             message: props => `${props.value} no es un valor de estrellas válido. Debe ser un múltiplo de 0.5. Con maximo valor de 5.`
         }
+    },
+    categoria: {
+        type: String,
+        enum: ['Comida', 'Servicio', 'Ambiente', 'General'],
+        default: 'General'
     }
 }, {
     timestamps: true

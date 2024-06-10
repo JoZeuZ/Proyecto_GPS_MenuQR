@@ -16,7 +16,7 @@ async function getReseñas() {
 
 async function getReseñaById(id) {
     try {
-        const reseña = await Reseña.findById
+        const reseña = await Reseña.findById(id).exec();
         if (!reseña) return [null, "No existe la reseña"];
         return [reseña, null];
     }
