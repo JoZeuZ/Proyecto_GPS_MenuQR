@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Editar Usuario</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Nombre de usuario</mat-label>
+        <input matInput [(ngModel)]="user.username">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="user.email">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Contraseña</mat-label>
+        <input matInput [(ngModel)]="user.password" type="password">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Rol</mat-label>
+        <mat-select [(ngModel)]="user.role">
+            <mat-option *ngFor="let role of availableRoles" [value]="role">{{ role }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button (click)="onSaveClick()">Guardar</button>
+</div>

@@ -22,7 +22,6 @@ async function setupServer() {
 
         // Sirve archivos estáticos
         server.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
-
         server.use("/api", indexRoutes);
 
         server.use((err, req, res, next) => {
