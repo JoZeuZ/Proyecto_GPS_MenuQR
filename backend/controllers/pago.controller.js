@@ -10,9 +10,7 @@ async function createPago(req, res) {
         const { error: bodyError } = pagoBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const { pedidoId, metodoPago, monto } = body;
-        const pagoData = { pedidoId, metodoPago, monto };
-        const [newPago, error] = await pagoService.createPago(pagoData);
+        const [newPago, error] = await pagoService.createPago(body);
         if (error) return respondError(req, res, 500, error.message);
 
         respondSuccess(req, res, 201, newPago);
@@ -59,8 +57,39 @@ async function updatePago(req, res) {
     }
 }
 
+async function cancelPago(req, res) {
+    try {
+        const { params } = req;
+        const { error: paramsError } = pagoIdSchema.validate(params);
+        if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+        const [pago, error] = await pagoService.updatePago(params.id, { estado: 'Cancelado' });
+        if (error) return respondError(req, res, 500, error.message);
+        if (!pago) return respondError(req, res, 404, "Pago no encontrado");
+
+        respondSuccess(req, res, 200, pago);
+    } catch (error) {
+        handleError(error, "pago.controller -> cancelPago");
+        respondError(req, res, 500, error.message);
+    }
+}
+
+async function getPagos(req, res) {
+    try {
+        const [pagos, error] = await pagoService.getPagos();
+        if (error) return respondError(req, res, 500, error.message);
+
+        respondSuccess(req, res, 200, pagos);
+    } catch (error) {
+        handleError(error, "pago.controller -> getPagos");
+        respondError(req, res, 500, error.message);
+    }
+}
+
 module.exports = {
     createPago,
     getPago,
     updatePago,
+    cancelPago,
+    getPagos,
 };

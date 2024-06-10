@@ -12,9 +12,14 @@ const pagoSchema = new Schema({
         enum: ['Efectivo', 'Tarjeta', 'Transferencia'],
         required: true
     },
-    monto: {
+    total: {
         type: Number,
         required: true
+    },
+    estado: {
+        type: String,
+        enum: ['Completado', 'Reembolsado', 'Cancelado'],
+        default: 'Completado'
     },
     fecha: {
         type: Date,

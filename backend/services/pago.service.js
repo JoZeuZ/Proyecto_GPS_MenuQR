@@ -35,8 +35,19 @@ async function updatePago(id, pagoData) {
     }
 }
 
+async function getPagos() {
+    try {
+        const pagos = await Pago.find().exec();
+        return [pagos, null];
+    } catch (error) {
+        handleError(error, "pago.service -> getPagos");
+        return [null, error];
+    }
+}
+
 module.exports = {
     createPago,
     getPagoById,
     updatePago,
+    getPagos,
 };
