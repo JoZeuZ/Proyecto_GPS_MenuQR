@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Edit Image</h2>
+<div mat-dialog-content>
+    <div>
+        <img *ngIf="imageUrl" [src]="imageUrl" alt="Current Image" style="max-width: 100%;">
+        <p *ngIf="!imageUrl">No image available</p>
+    </div>
+    <input type="file" (change)="onFileSelected($event)">
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button color="primary" (click)="onSaveClick()">Guardar</button>
+</div>

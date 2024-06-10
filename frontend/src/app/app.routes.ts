@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 import { AppComponent } from './app.component';
-import { PageComponent } from './Ingredientes/components/page/page.component';
-import { LoginComponent } from './Users/components/login/login.component';
+import { IngredientPageComponent } from './Ingredientes/components/ingredient-page/ingredient-page.component';
+import { UserPageComponent } from './users/components/user-page/user-page.component';
 
 export const routes: Routes = [
     { path: '', component: AppComponent },
-    { path: 'ingredientes', component: PageComponent },
-    { path: 'login', component: LoginComponent },
+    { path: 'ingredientes', component: IngredientPageComponent },
+    { path: 'users', component: UserPageComponent },
+    { path: '**', redirectTo: '' } // Redirige a la página principal si la ruta no existe
 ];
+

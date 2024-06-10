@@ -19,16 +19,18 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+router.get("/", ingredienteController.getIngredientes);
+router.post("/",  ingredienteController.createIngrediente);
+router.put("/:id", ingredienteController.updateIngrediente);
+router.delete("/:id", ingredienteController.deleteIngrediente);
+
+router.get("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredienteById);
+
 // router.get("/", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredientes);
 // router.post("/", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.createIngrediente);
 // router.put("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.updateIngrediente);
 // router.delete("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.deleteIngrediente);
 
-router.get("/", ingredienteController.getIngredientes);
-router.get("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredienteById);
-router.post("/",  ingredienteController.createIngrediente);
-router.put("/:id", ingredienteController.updateIngrediente);
-router.delete("/:id", ingredienteController.deleteIngrediente);
 
 // Muestran mensajes cuando se necesita enviar ID pero esta vacio
 router.delete('/', authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.handleMissingId);
