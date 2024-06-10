@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,10 @@ export class IngredientesApiService {
 
   deleteIngrediente(id: string) {
     return this.http.delete(`${this.baseURL}/${id}`);
+  }
+
+  uploadImage(image: FormData): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/uploads', image);
   }
 
 }

@@ -1,9 +1,10 @@
-<div >
+<div>
     <app-toolbar-component></app-toolbar-component>
     <button mat-raised-button (click)="navigateToHome()">Ir a Home</button>
     <button mat-raised-button (click)="navigateToIngredientes()">Ir a Ingredientes</button>
-    <app-page *ngIf="isIngredientesRouteActive()"></app-page>    
+    <button mat-raised-button (click)="navigateToUsers()">Ir a Usuarios</button>
+    <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
+    <app-user-page *ngIf="isUsersRouteActive()"></app-user-page> 
 </div>
 
 <app-footer-component></app-footer-component>
-

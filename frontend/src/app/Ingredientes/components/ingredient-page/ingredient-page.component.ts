@@ -1,37 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { IngredientesApiService } from '../../services/ingredientes-api.service';
-import { DecimalPipe, NgForOf, CommonModule } from "@angular/common";
-import { MatCard, MatCardAvatar, MatCardHeader, MatCardModule } from "@angular/material/card";
-import { MatIconModule } from "@angular/material/icon";
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { IngredientCardsComponent } from '../ingredient-cards/ingredient-cards.component';
 import { AddIngredientDialog } from '../add-ingredient-dialog/add-ingredient-dialog.component';
-import { DeleteIngredientDialog } from '../delete-ingredient-dialog/delete-ingredient-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-cards',
+  selector: 'app-ingredient-page',
   standalone: true,
   imports: [
-    DecimalPipe,
-    NgForOf,
     CommonModule,
-    MatCard,
-    MatCardAvatar,
-    MatCardHeader,
-    MatCardModule,
-    MatIconModule,
-    MatSlideToggleModule,
     MatButtonModule,
-    FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    IngredientCardsComponent 
   ],
-  templateUrl: './cards.component.html',
-  styleUrls: ['./cards.component.css']
+  templateUrl: './ingredient-page.component.html',
+  styleUrls: ['./ingredient-page.component.css']
 })
-export class CardsComponent implements OnInit {
+export class IngredientPageComponent implements OnInit {
   public ingredientes: any[] = [];
   public editedIngredientes: any = {};
   public isSaveButtonEnabled: boolean = false;
@@ -52,14 +39,13 @@ export class CardsComponent implements OnInit {
     });
   }
 
-  toggleDisponibilidad(ingrediente: any, event: any) {
-    ingrediente.disponible = event.checked;
-    this.editedIngredientes[ingrediente._id] = ingrediente;
+  onIngredientEdited(event: any) {
+    this.editedIngredientes[event._id] = event;
     this.isSaveButtonEnabled = true;
   }
 
-  enableEditing(ingrediente: any, field: string) {
-    ingrediente[`editing${field}`] = true;
+  onIngredientDeleted(id: string) {
+    this.ingredientes = this.ingredientes.filter(ingrediente => ingrediente._id !== id);
   }
 
   saveChanges() {
@@ -78,13 +64,6 @@ export class CardsComponent implements OnInit {
     this.isSaveButtonEnabled = false;
   }
 
-  getBackgroundImage(imgPath: string): string {
-    if (imgPath.startsWith('/')) {
-      imgPath = imgPath.substring(1);
-    }
-    return `url(http://localhost:3000/api/${imgPath})`;
-  }
-
   openAddIngredientDialog() {
     const dialogRef = this.dialog.open(AddIngredientDialog);
 
@@ -94,43 +73,23 @@ export class CardsComponent implements OnInit {
           this.service.addIngrediente(result).subscribe(
             (response: any) => {
               console.log('Ingrediente agregado:', response);
-              this.getIngredientes(); // Refrescar la lista de ingredientes
+              this.getIngredientes();
             },
             (error: any) => {
               console.error('Error al agregar el ingrediente:', error);
             }
           );
         } else {
-          // Manejo de datos sin imagen, si es necesario
           this.service.addIngrediente(result).subscribe(
             (response: any) => {
               console.log('Ingrediente agregado:', response);
-              this.getIngredientes(); // Refrescar la lista de ingredientes
+              this.getIngredientes();
             },
             (error: any) => {
               console.error('Error al agregar el ingrediente:', error);
             }
           );
         }
-      }
-    });
-  }
-
-  openDeleteIngredientDialog(ingrediente: any): void {
-    const dialogRef = this.dialog.open(DeleteIngredientDialog, {
-      width: '250px',
-      data: ingrediente
-    });
-
-    dialogRef.componentInstance.ingredientDeleted.subscribe((id: string) => {
-      this.ingredientes = this.ingredientes.filter(i => i._id !== id);
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Ingrediente eliminado');
-      } else {
-        console.log('Eliminación cancelada');
       }
     });
   }

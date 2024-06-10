@@ -1,0 +1,30 @@
+<div class="card-container" *ngFor="let ingrediente of ingredientes">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar class="ingrediente-img" (dblclick)="openEditImageDialog(ingrediente)"
+                [style.background-image]="getBackgroundImage(ingrediente.img)">
+            </div>
+
+            <mat-card-title>
+                <span (click)="enableEditing(ingrediente, 'Nombre')">
+                    <ng-container *ngIf="!ingrediente.editingNombre">{{ ingrediente.nombre }}</ng-container>
+                    <input *ngIf="ingrediente.editingNombre" [(ngModel)]="ingrediente.nombre"
+                        (blur)="ingrediente.editingNombre = false; editedIngredientes[ingrediente._id] = ingrediente; isSaveButtonEnabled = true;" />
+                </span>
+            </mat-card-title>
+
+            <mat-card-subtitle class="mat-card">Disponibilidad: {{ ingrediente.disponible ? 'si' : 'no'
+                }}</mat-card-subtitle>
+
+            <div class="switch-container">
+                <mat-slide-toggle [checked]="ingrediente.disponible"
+                    (change)="toggleDisponibilidad(ingrediente, $event)"></mat-slide-toggle>
+            </div>
+
+            <button class='botonEliminar' mat-icon-button color="warn"
+                (click)="openDeleteIngredientDialog(ingrediente)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-card-header>
+    </mat-card>
+</div>

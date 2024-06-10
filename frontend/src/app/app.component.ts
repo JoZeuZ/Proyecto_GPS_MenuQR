@@ -1,48 +1,59 @@
-import { Router, NavigationEnd } from '@angular/router';
 import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { ToolbarComponentComponent } from './public/components/toolbar-component/toolbar-component.component';
 import { FooterComponentComponent } from './public/components/footer-component/footer-component.component';
-import { CardsComponent } from './Ingredientes/components/cards/cards.component';
-import { PageComponent } from './Ingredientes/components/page/page.component';
+import { IngredientPageComponent } from './Ingredientes/components/ingredient-page/ingredient-page.component';
+import { UserPageComponent } from './users/components/user-page/user-page.component'; 
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
+    MatButtonModule,
+    CommonModule,
     ToolbarComponentComponent,
     FooterComponentComponent,
-    CardsComponent,
-    MatButtonModule,
-    PageComponent,
-    CommonModule,
+    IngredientPageComponent,
+    UserPageComponent, 
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], 
 })
 export class AppComponent {
   title = 'frontend';
   currentRoute: string = '';
+
   constructor(private router: Router) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       this.currentRoute = this.router.url;
     });
   }
 
-  navigateToIngredientes() {
-    this.router.navigate(['/ingredientes']);
-  }
-
   navigateToHome() {
     this.router.navigate(['/']);
   }
 
+  
   isIngredientesRouteActive(): boolean {
     return this.currentRoute === '/ingredientes';
+  }
+
+  navigateToIngredientes() {
+    this.router.navigate(['/ingredientes']);
+  }
+
+  navigateToUsers() {
+    this.router.navigate(['/users']);
+  }
+
+  isUsersRouteActive(): boolean {
+    return this.currentRoute === '/users';
   }
 }

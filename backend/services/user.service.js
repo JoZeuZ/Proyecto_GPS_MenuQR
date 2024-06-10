@@ -90,11 +90,16 @@ async function updateUser(id, user) {
 
 async function deleteUser(id) {
     try {
-        return await User.findByIdAndDelete(id);
+        const user = await User.findById(id);
+        if (!user) return [null, "El usuario no existe"];
+        const userDeleted = await User.findByIdAndDelete(id);
+        if (!userDeleted) return [null, "No se encontró el usuario"];
+        return [userDeleted, null];
     } catch (error) {
         handleError(error, "user.service -> deleteUser");
+        return [null, "Error al eliminar el usuario"];
     }
-}
+} // Se modifico por error que aparecia en el front, de duplicacion de llamado
 
 module.exports = {
     getUsers,
