@@ -8,7 +8,7 @@ const router = express.Router();
 // router.put("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.updateUser);
 // router.delete("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.deleteUser);
 
-// router.post("/", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.createUser);
+// router.post("/register", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.createUser);
 // router.get("/", usuarioController.getUsers);
 // router.get("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.getUserById);
 
