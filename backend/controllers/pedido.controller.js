@@ -2,7 +2,7 @@
 const pedidoService = require("../services/pedido.service");
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const { handleError } = require("../utils/errorHandler");
-const { pedidoBodySchema, pedidoIdSchema } = require("../schemas/pedido.schema");
+const { pedidoBodySchema, pedidoIdSchema } = require("../schema/pedido.schema");
 
 async function createPedido(req, res) {
     try {

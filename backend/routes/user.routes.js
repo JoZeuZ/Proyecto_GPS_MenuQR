@@ -23,7 +23,7 @@ router.get("/:id", usuarioController.getUserById);
 router.delete('/', authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.handleMissingId);
 router.put('/', authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.handleMissingId);
 
-// Muestra mensaje cuando no haya que usar un ID pero se haya enviado
+// // Muestra mensaje cuando no haya que usar un ID pero se haya enviado
 router.post('/:id', authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.handleId);
 
 module.exports = router;
