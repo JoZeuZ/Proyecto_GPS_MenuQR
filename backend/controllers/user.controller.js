@@ -89,6 +89,14 @@ async function deleteUser(req, res) {
     }
 }
 
+function handleMissingId(req, res) {
+    respondError(req, res, 400, 'El ID es requerido en la ruta');
+}
+
+function handleId(req, res) {
+    respondError(req, res, 400, 'No se debe proporcionar un ID en la ruta');
+}
+
 
 
 module.exports = {
@@ -97,4 +105,6 @@ module.exports = {
     getUserById,
     updateUser,
     deleteUser,
+    handleMissingId,
+    handleId
 };

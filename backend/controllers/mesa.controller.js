@@ -3,7 +3,7 @@ const mesaService = require("../services/mesa.service");
 const QRCode = require("qrcode");
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const { handleError } = require("../utils/errorHandler");
-const { mesaBodySchema, mesaIdSchema } = require("../schemas/mesa.schema");
+const { mesaBodySchema, mesaIdSchema } = require("../schema/mesa.schema");
 
 async function createMesa(req, res) {
     try {
