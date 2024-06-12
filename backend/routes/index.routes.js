@@ -12,9 +12,8 @@ const { callWaiter, getWaiterCalls } = require('../controllers/llamada.controlle
 router.use("/users", userRoutes);
 router.use("/productos", productosRoutes);
 router.use("/ingredientes", ingredientesRoutes);
-router.use("/auth", authRoutes)
+router.use("/auth", authRoutes);
 router.use("/resenas", reseñasRoutes);
-// router.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 router.post("/call-waiter", callWaiter);
 router.get("/waiter-calls", getWaiterCalls);

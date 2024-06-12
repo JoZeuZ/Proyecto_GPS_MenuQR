@@ -3,17 +3,21 @@ require('dotenv').config();
 const cors = require("cors");
 const morgan = require("morgan");
 const express = require('express');
+const http = require('http');
 const cookieParser = require("cookie-parser");
 const { setupDB } = require("./config/db.js");
 const indexRoutes = require("./routes/index.routes.js");
 const { PORT, HOST } = require("./config/configEnv.js");
 const { createRoles } = require('./config/initialSetup.js');
 const { handleFatalError, handleError } = require("./utils/errorHandler.js");
+const { wss } = require('./config/websocket.js');
 
 // Inicia el servidor web
 async function setupServer() {
     try {
-        const server = express(); 
+        const server = express();
+        const httpServer = http.createServer(server);
+
         server.use(express.json());
         server.use(cors({ origin: "*" }));
         server.use(cookieParser());
@@ -27,7 +31,14 @@ async function setupServer() {
             }
             // Otros manejadores de errores aquí
         });
-        server.listen(PORT, () => {
+
+        httpServer.on('upgrade', (request, socket, head) => {
+            wss.handleUpgrade(request, socket, head, (ws) => {
+                wss.emit('connection', ws, request);
+            });
+        });
+
+        httpServer.listen(PORT, () => {
             console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
         });
     } catch (err) {
