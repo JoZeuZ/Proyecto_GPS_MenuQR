@@ -2,7 +2,7 @@
 const pagoService = require("../services/pago.service");
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const { handleError } = require("../utils/errorHandler");
-const { pagoBodySchema, pagoIdSchema } = require("../schemas/pago.schema");
+const { pagoBodySchema, pagoIdSchema } = require("../schema/pago.schema");
 
 async function createPago(req, res) {
     try {
