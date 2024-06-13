@@ -1,20 +1,53 @@
+"use strict";
+
 const { notifyWaiterCall } = require('../config/websocket');
+const { respondSuccess, respondError } = require("../utils/resHandler");
+const Joi = require("joi");
 
-// Controlador para manejar la llamada al mesero
-exports.callWaiter = (req, res) => {
-    const { tableNumber, customerName } = req.body;
+// Validación del esquema de llamada al mesero
+const callWaiterSchema = Joi.object({
+    tableNumber: Joi.number().required().messages({
+        "number.base": "El número de mesa debe ser un número.",
+        "any.required": "El número de mesa es obligatorio.",
+    }),
+    customerName: Joi.string().required().messages({
+        "string.empty": "El nombre del cliente no puede estar vacío.",
+        "any.required": "El nombre del cliente es obligatorio.",
+        "string.base": "El nombre del cliente debe ser de tipo string.",
+    }),
+}).messages({
+    "object.unknown": "No se permiten propiedades adicionales.",
+});
 
-    if (!tableNumber || !customerName) {
-        return res.status(400).json({ message: 'El número de mesa y el nombre son obligatorios' });
+async function callWaiter(req, res) {
+    try {
+        const { tableNumber, customerName } = req.body;
+
+        const { error } = callWaiterSchema.validate({ tableNumber, customerName });
+        if (error) return respondError(req, res, 400, error.details[0].message);
+
+        const call = { tableNumber, customerName, time: new Date() };
+        notifyWaiterCall(call);
+
+        return respondSuccess(req, res, 200, ["Waiter called successfully", call]);
+    } catch (err) {
+        handleError(err, "llamada.controller -> callWaiter");
+        return respondError(req, res, 500, "Error interno del servidor");
     }
-
-    const call = { tableNumber, customerName, time: new Date() };
-    notifyWaiterCall(call);
-
-    return res.status(200).json({ message: 'Waiter called successfully', call });
-};
+}
 
 // Controlador para obtener todas las llamadas al mesero (solo para debugging, puedes eliminarlo en producción)
-exports.getWaiterCalls = (req, res) => {
-    return res.status(200).json({ calls: waiterCalls });
+async function getWaiterCalls(req, res) {
+    try {
+        // Supongamos que `waiterCalls` es una lista en memoria para almacenar las llamadas (solo para debugging)
+        return respondSuccess(req, res, 200, ["Calls", waiterCalls]);
+    } catch (err) {
+        handleError(err, "llamada.controller -> getWaiterCalls");
+        return respondError(req, res, 500, "Error interno del servidor");
+    }
+}
+
+module.exports = {
+    callWaiter,
+    getWaiterCalls
 };
