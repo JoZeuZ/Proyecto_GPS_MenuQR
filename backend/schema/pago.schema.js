@@ -1,4 +1,5 @@
 "use strict";
+const e = require("express");
 const Joi = require("joi");
 
 const pagoBodySchema = Joi.object({
@@ -6,14 +7,18 @@ const pagoBodySchema = Joi.object({
         "string.base": "El id del pedido debe ser de tipo string.",
         "any.required": "El id del pedido es obligatorio.",
     }),
-    monto: Joi.number().required().messages({
-        "number.base": "El monto debe ser de tipo number.",
-        "any.required": "El monto es obligatorio.",
-    }),
     metodoPago: Joi.string().valid("Efectivo", "Tarjeta", "Transferencia").required().messages({
         "string.base": "El método de pago debe ser de tipo string.",
         "any.required": "El método de pago es obligatorio.",
         "any.only": "El método de pago proporcionado no es válido.",
+    }),
+    total: Joi.number().required().messages({
+        "number.base": "El total debe ser de tipo numérico.",
+        "any.required": "El total es obligatorio.",
+    }),
+    estado: Joi.string().valid("Completado", "Reembolsado", "Cancelado").default("Completado").messages({
+        "string.base": "El estado debe ser de tipo string.",
+        "any.only": "El estado proporcionado no es válido.",
     }),
     fecha: Joi.date().default(Date.now),
 }).messages({

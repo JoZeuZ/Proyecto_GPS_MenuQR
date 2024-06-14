@@ -9,7 +9,6 @@ const mesaSchema = new Schema({
     },
     codigoQR: {
         type: String,
-        required: true
     },
     cantidadPersonas: {
         type: Number,
