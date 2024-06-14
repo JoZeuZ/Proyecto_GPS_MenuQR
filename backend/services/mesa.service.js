@@ -4,6 +4,12 @@ const { handleError } = require('../utils/errorHandler');
 
 async function createMesa(mesaData) {
     try {
+        // Validación de la existencia de la mesa
+        const existingMesa = await Mesa.findOne({ Nmesa: mesaData.Nmesa });
+        if (existingMesa) {
+            throw new Error('La mesa especificada ya existe.');
+        }
+
         const newMesa = new Mesa(mesaData);
         await newMesa.save();
         return [newMesa, null];
@@ -12,6 +18,7 @@ async function createMesa(mesaData) {
         return [null, error];
     }
 }
+
 
 async function getMesaById(id) {
     try {
@@ -26,6 +33,11 @@ async function getMesaById(id) {
 
 async function updateMesa(id, mesaData) {
     try {
+        const existingMesa = await Mesa.findOne({ Nmesa: mesaData.Nmesa, _id: { $ne: id } });
+        if (existingMesa) {
+            throw new Error('El número de mesa ya está en uso por otra mesa.');
+        }
+
         const mesa = await Mesa.findByIdAndUpdate(id, mesaData, { new: true }).exec();
         if (!mesa) return [null, "Mesa no encontrada"];
         return [mesa, null];
@@ -34,6 +46,7 @@ async function updateMesa(id, mesaData) {
         return [null, error];
     }
 }
+
 
 async function getMesas() {
     try {

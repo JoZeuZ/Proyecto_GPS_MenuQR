@@ -63,13 +63,30 @@ async function cancelPago(req, res) {
         const { error: paramsError } = pagoIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const [pago, error] = await pagoService.updatePago(params.id, { estado: 'Cancelado' });
+        const [pago, error] = await pagoService.cancelarPago(params.id);
         if (error) return respondError(req, res, 500, error.message);
         if (!pago) return respondError(req, res, 404, "Pago no encontrado");
 
         respondSuccess(req, res, 200, pago);
     } catch (error) {
         handleError(error, "pago.controller -> cancelPago");
+        respondError(req, res, 500, error.message);
+    }
+}
+
+async function reembolsarPago(req, res) {
+    try {
+        const { params } = req;
+        const { error: paramsError } = pagoIdSchema.validate(params);
+        if (paramsError) return respondError(req, res, 400, paramsError.message);
+
+        const [pago, error] = await pagoService.reembolsarPago(params.id);
+        if (error) return respondError(req, res, 500, error.message);
+        if (!pago) return respondError(req, res, 404, "Pago no encontrado");
+
+        respondSuccess(req, res, 200, pago);
+    } catch (error) {
+        handleError(error, "pago.controller -> reembolsarPago");
         respondError(req, res, 500, error.message);
     }
 }
@@ -91,5 +108,6 @@ module.exports = {
     getPago,
     updatePago,
     cancelPago,
+    reembolsarPago,
     getPagos,
 };
