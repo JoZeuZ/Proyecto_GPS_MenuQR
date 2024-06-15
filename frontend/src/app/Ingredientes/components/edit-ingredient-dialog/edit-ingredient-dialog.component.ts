@@ -56,7 +56,6 @@ export class EditIngredientDialogComponent {
       };
       reader.readAsDataURL(file);
     }
-    console.log('Archivo seleccionado:', this.selectedFileName);
   }
 
   updateIngredient() {

@@ -9,7 +9,7 @@ const router = express.Router();
 // router.delete("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.deleteUser);
 
 // router.post("/register", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.createUser);
-// router.get("/", usuarioController.getUsers);
+// router.get("/", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.getUsers);
 // router.get("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, usuarioController.getUserById);
 
 router.put("/:id",  usuarioController.updateUser);
