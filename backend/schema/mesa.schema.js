@@ -6,9 +6,8 @@ const mesaBodySchema = Joi.object({
         "number.base": "El número de mesa debe ser de tipo numérico.",
         "any.required": "El número de mesa es obligatorio."
     }),
-    codigoQR: Joi.string().required().messages({
+    codigoQR: Joi.string().messages({
         "string.base": "El código QR debe ser de tipo string.",
-        "any.required": "El código QR es obligatorio."
     }),
     cantidadPersonas: Joi.number().required().messages({
         "number.base": "La cantidad de personas debe ser de tipo numérico.",

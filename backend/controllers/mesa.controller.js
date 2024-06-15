@@ -43,6 +43,8 @@ async function getMesa(req, res) {
     }
 }
 
+
+// Agregar función de QR al update también ************
 async function updateMesa(req, res) {
     try {
         const { params, body } = req;
