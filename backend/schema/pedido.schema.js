@@ -30,9 +30,8 @@ const pedidoBodySchema = Joi.object({
         "any.required": "Los productos son obligatorios.",
     }),
     estado: Joi.string().valid("Pendiente", "Preparación", "Completado").default("Pendiente"),
-    total: Joi.number().required().messages({
+    total: Joi.number().messages({
         "number.base": "El total debe ser de tipo number.",
-        "any.required": "El total es obligatorio.",
     }),
     propina: Joi.number().default(0),
     metodoPago: Joi.string().valid("Efectivo", "Tarjeta", "Transferencia").required().messages({

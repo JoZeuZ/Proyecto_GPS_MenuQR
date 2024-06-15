@@ -25,7 +25,6 @@ const pedidoSchema = new Schema({
     },
     total: {
         type: Number,
-        required: true
     },
     propina: {
         type: Number,
