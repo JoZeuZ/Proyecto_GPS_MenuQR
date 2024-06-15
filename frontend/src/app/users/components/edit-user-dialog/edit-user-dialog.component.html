@@ -1,25 +1,30 @@
-<h1 mat-dialog-title>Editar Usuario</h1>
-<div mat-dialog-content>
-    <mat-form-field>
-        <mat-label>Nombre de usuario</mat-label>
-        <input matInput [(ngModel)]="user.username">
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="user.email">
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Contraseña</mat-label>
-        <input matInput [(ngModel)]="user.password" type="password">
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Rol</mat-label>
-        <mat-select [(ngModel)]="user.role">
-            <mat-option *ngFor="let role of availableRoles" [value]="role">{{ role }}</mat-option>
-        </mat-select>
-    </mat-form-field>
-</div>
-<div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancelar</button>
-    <button mat-button (click)="onSaveClick()">Guardar</button>
+<div id="miCuadroEditarUsuario">
+    <h2 mat-dialog-title>Editar Usuario</h2>
+    <div mat-dialog-content class="content">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre de Usuario</mat-label>
+            <input matInput [(ngModel)]="user.username">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="user.email">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" [(ngModel)]="user.currentPassword">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Rol</mat-label>
+            <mat-select [(ngModel)]="selectedRole">
+                <mat-option *ngFor="let role of availableRoles" [value]="role">{{ role }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="botonesGuardarCancelar">
+        <button mat-button (click)="onNoClick()">Cancelar</button>
+        <button mat-button color="primary" (click)="onSaveClick()">Guardar</button>
+    </div>
 </div>

@@ -2,9 +2,12 @@
 const Joi = require("joi");
 
 const ingredienteBodySchema = Joi.object({
-    nombre: Joi.string().required().messages({
+    nombre: Joi.string().pattern(/^[A-Za-záéíóúüñÁÉÍÓÚÜÑ\s]+$/)
+    .required()
+    .messages({
         "string.empty": "El nombre de usuario no puede estar vacío.",
         "any.required": "El nombre de usuario es obligatorio.",
+        "string.pattern.base": "El nombre de usuario debe contener solo letras y espacios.",
         "string.base": "El nombre de usuario debe ser de tipo string.",
     }),
     disponible: Joi.boolean().messages({

@@ -25,33 +25,28 @@ import { FormsModule } from '@angular/forms';
 export class EditUserDialogComponent {
   public user: any;
   public availableRoles: string[] = ["Cliente", "Administrador", "Mesero"];
+  public selectedRole: string;
 
   constructor(
     public dialogRef: MatDialogRef<EditUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.user = { ...data.user };
-    if (Array.isArray(this.user.roles) && this.user.roles.length > 0) {
-      this.user.role = this.user.roles[0].name || this.user.roles[0];
-    } else {
-      this.user.role = this.user.roles;
-    }
+    this.selectedRole = this.user.roles[0]?.name || this.user.roles[0] || '';
   }
-  
+
   onSaveClick(): void {
     const updatedUser = {
       _id: this.user._id,
       username: this.user.username,
       email: this.user.email,
-      roles: [this.user.role]
+      password: this.user.currentPassword,
+      roles: [this.selectedRole],
     };
-    console.log('Datos enviados para actualizar usuario:', updatedUser);
     this.dialogRef.close(updatedUser);
   }
-  
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

@@ -28,7 +28,7 @@ export class IngredientesApiService {
   }
 
   uploadImage(image: FormData): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/uploads', image);
+    return this.http.post<any>('http://localhost:3000/api/uploads/ingredientes', image);
   }
 
 }

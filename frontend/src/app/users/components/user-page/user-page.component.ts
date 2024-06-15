@@ -71,24 +71,31 @@ export class UserPageComponent implements OnInit {
   }
 
   onUserEdited(user: any): void {
-    console.log('Usuario editado recibido:', user);
+    if (!user || !user._id || typeof user._id !== 'string' || !user.username || !user.email) {
+      console.error('Datos de usuario inválidos recibidos:', user);
+      return;
+    }
+  
+    console.log('Usuario editado:', user);
+  
     const sanitizedData = {
       _id: user._id,
       username: user.username,
       email: user.email,
-      roles: user.roles.map((role: any) => typeof role === 'string' ? role : role.name),
+      password: user.password, 
+      roles: Array.isArray(user.roles) ? user.roles.map((role: any) => typeof role === 'string' ? role : role.name) : [],
     };
+    
     this.userService.updateUser(sanitizedData._id, sanitizedData).subscribe(
       updatedUser => {
-        console.log('Usuario actualizado en la API:', updatedUser);
-        this.fetchUsers();
+        this.fetchUsers(); 
       },
       error => {
         console.error('Error al actualizar el usuario en la API:', error);
       }
     );
   }
-
+  
 
   onUserDeleted(userId: string): void {
     this.userService.deleteUser(userId).subscribe(
@@ -119,7 +126,6 @@ export class UserPageComponent implements OnInit {
       );
     });
 
-    // Limpiar el estado después de guardar
     this.editedUsers = {};
     this.isSaveButtonEnabled = false;
   }

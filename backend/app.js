@@ -28,7 +28,9 @@ async function setupServer() {
             if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
                 return res.status(400).json({ message: "Error en formato de JSON" });
             }
+            res.status(500).json({ message: 'Internal Server Error', error: err.message });
         });
+        
 
         server.listen(PORT, () => {
             console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
