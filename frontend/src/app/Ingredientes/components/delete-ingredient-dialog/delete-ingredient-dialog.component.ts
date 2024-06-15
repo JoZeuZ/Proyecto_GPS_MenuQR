@@ -17,29 +17,32 @@ export class DeleteIngredientDialog {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<DeleteIngredientDialog>, private http: HttpClient
+    public dialogRef: MatDialogRef<DeleteIngredientDialog>, 
+    private http: HttpClient
   ) { }
 
   onCancel(): void {
-    this.dialogRef.close(false); // Cierra el diálogo con el valor false
+    this.dialogRef.close(false);
   }
 
   onDelete(): void {
     if (this.data) {
-      this.DeleteIngrediente(this.data._id);
+      this.deleteIngredient(this.data._id);
     } else {
       console.error('El ID del ingrediente es undefined');
     }
   }
 
-  DeleteIngrediente(id: string) {
-    this.http.delete(`http://localhost:3000/api/ingredientes/${id}`).subscribe((response: any) => {
-      if (response.state === 'Success') {
-        this.ingredientDeleted.emit(id); // Emite el ID del ingrediente eliminado
-        this.dialogRef.close(true); // Cierra el diálogo con el valor true
-      } else {
-        console.error('Error en la respuesta del servicio:', response);
-        this.dialogRef.close(false); // Cierra el diálogo con el valor false
+  deleteIngredient(id: string) {
+    this.http.delete(`http://localhost:3000/api/ingredientes/${id}`).subscribe({
+      next: (response: any) => {
+        console.log('Ingrediente eliminado del servidor:', response);
+        this.ingredientDeleted.emit(id); 
+        this.dialogRef.close(true); 
+      },
+      error: (error) => {
+        console.error('Error al eliminar el ingrediente:', error);
+        this.dialogRef.close(false); 
       }
     });
   }

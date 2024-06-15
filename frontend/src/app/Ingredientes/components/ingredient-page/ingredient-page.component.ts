@@ -39,10 +39,10 @@ export class IngredientPageComponent implements OnInit {
     });
   }
 
-  onIngredientEdited(event: any) {
-    this.editedIngredientes[event._id] = event;
+  onIngredientEdited(ingrediente: any) {
+    this.editedIngredientes[ingrediente._id] = ingrediente;
     this.isSaveButtonEnabled = true;
-  }
+  }  
 
   onIngredientDeleted(id: string) {
     this.ingredientes = this.ingredientes.filter(ingrediente => ingrediente._id !== id);
@@ -65,7 +65,11 @@ export class IngredientPageComponent implements OnInit {
   }
 
   openAddIngredientDialog() {
-    const dialogRef = this.dialog.open(AddIngredientDialog);
+
+    const dialogRef = this.dialog.open(AddIngredientDialog, {
+      width: '600px', // Ajusta el tamaño según sea necesario
+      maxHeight: '90vh' // Evita el desplazamiento vertical
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

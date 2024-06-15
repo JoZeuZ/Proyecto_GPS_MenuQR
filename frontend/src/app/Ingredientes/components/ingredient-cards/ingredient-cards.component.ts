@@ -4,12 +4,10 @@ import { IngredientesApiService } from '../../services/ingredientes-api.service'
 import { DecimalPipe, NgForOf, CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { AddIngredientDialog } from '../add-ingredient-dialog/add-ingredient-dialog.component';
 import { DeleteIngredientDialog } from '../delete-ingredient-dialog/delete-ingredient-dialog.component';
-import { EditImageDialogComponent } from '../edit-image-dialog/edit-image-dialog.component';
+import { EditIngredientDialogComponent } from '../edit-ingredient-dialog/edit-ingredient-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
@@ -21,7 +19,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     MatCardModule,
     MatIconModule,
-    MatSlideToggleModule,
     MatButtonModule,
     FormsModule,
     MatDialogModule
@@ -33,10 +30,6 @@ export class IngredientCardsComponent {
   @Input() ingredientes: any[] = [];
   @Output() ingredientEdited = new EventEmitter<any>();
   @Output() ingredientDeleted = new EventEmitter<any>();
-  @Output() ingredientSaveChanges = new EventEmitter<void>();
-
-  public editedIngredientes: any = {};
-  public isSaveButtonEnabled: boolean = false;
 
   constructor(private service: IngredientesApiService, private dialog: MatDialog) { }
 
@@ -48,38 +41,25 @@ export class IngredientCardsComponent {
 
     let imageUrl: string;
 
-    if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
-      imageUrl = imgPath;
-    } else if (imgPath.startsWith('uploads/')) {
-      imageUrl = `http://localhost:3000/api/${imgPath}`;
-    } else {
-      imageUrl = `http://localhost:3000/api${imgPath}`;
-    }
+    imageUrl = `http://localhost:3000/api/${imgPath}`;
 
     return `url(${imageUrl})`;
   }
 
-  openEditImageDialog(ingrediente: any): void {
-    const dialogRef = this.dialog.open(EditImageDialogComponent, {
-      width: '250px',
-      data: { img: ingrediente.img } 
+  openEditIngredientDialog(ingrediente: any): void {
+    const dialogRef = this.dialog.open(EditIngredientDialogComponent, {
+      data: { ingredient: ingrediente }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        ingrediente.img = result;
-        this.editedIngredientes[ingrediente._id] = ingrediente;
-        this.isSaveButtonEnabled = true;
-        this.ingredientEdited.emit(this.editedIngredientes);
+        const index = this.ingredientes.findIndex(i => i._id === result._id);
+        if (index !== -1) {
+          this.ingredientes[index] = result;
+        }
+        this.ingredientEdited.emit(result);
       }
     });
-  }
-
-  toggleDisponibilidad(ingrediente: any, event: any) {
-    ingrediente.disponible = event.checked;
-    this.editedIngredientes[ingrediente._id] = ingrediente;
-    this.isSaveButtonEnabled = true;
-    this.ingredientEdited.emit(this.editedIngredientes);
   }
 
   openDeleteIngredientDialog(ingrediente: any): void {
@@ -93,44 +73,5 @@ export class IngredientCardsComponent {
       this.ingredientDeleted.emit(id);
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Ingrediente eliminado');
-      } else {
-        console.log('Eliminación cancelada');
-      }
-    });
   }
-
-
-
-  
-
-  enableEditing(ingrediente: any, field: string) {
-    ingrediente[`editing${field}`] = true;
-  }
-
-  saveChanges() {
-    const updates = Object.values(this.editedIngredientes);
-    updates.forEach((ingrediente: any) => {
-      this.service.updateIngrediente(ingrediente._id, ingrediente).subscribe(
-        (response: any) => {
-          console.log('Ingrediente actualizado:', response);
-        },
-        (error: any) => {
-          console.error('Error al actualizar el ingrediente:', error);
-        }
-      );
-    });
-    this.editedIngredientes = {};
-    this.isSaveButtonEnabled = false;
-    this.ingredientSaveChanges.emit();
-  }
-
-
-
-
-  
-
-
 }

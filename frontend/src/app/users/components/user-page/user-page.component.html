@@ -4,6 +4,3 @@
 
 <app-user-cards [users]="users" (userEdited)="onUserEdited($event)"
     (userDeleted)="onUserDeleted($event)"></app-user-cards>
-
-<button class='botonGuardar' mat-raised-button color="primary" (click)="saveChanges()"
-    [disabled]="!isSaveButtonEnabled">Guardar Cambios</button>

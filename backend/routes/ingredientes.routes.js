@@ -10,7 +10,7 @@ const router = express.Router();
 // Configuración de Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, 'uploads/ingredientes/'); 
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
@@ -20,13 +20,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get("/", ingredienteController.getIngredientes);
+router.get("/:id", ingredienteController.getIngredienteById);
 router.post("/",  ingredienteController.createIngrediente);
 router.put("/:id", ingredienteController.updateIngrediente);
 router.delete("/:id", ingredienteController.deleteIngrediente);
 
-router.get("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredienteById);
 
 // router.get("/", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredientes);
+// router.get("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.getIngredienteById);
 // router.post("/", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.createIngrediente);
 // router.put("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.updateIngrediente);
 // router.delete("/:id", authenticationMiddleware, authorizationMiddleware.isAdmin, ingredienteController.deleteIngrediente);

@@ -1,12 +1,9 @@
 .card-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 15px;
-    margin: auto;
+    align-items: center;
     max-width: 800px;
-    align-items: flex-start;
-    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 mat-card {
@@ -14,6 +11,7 @@ mat-card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     margin: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 mat-card:hover {
@@ -27,10 +25,12 @@ mat-card:hover {
     border-radius: 50%;
 }
 
-.switch-container {
-    margin-left: auto;
-}
-
-.botonEliminar {
-    margin-top: -12px;
+.cards-buttons button {
+    transition: box-shadow 0.3s, background-color 0.3s;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

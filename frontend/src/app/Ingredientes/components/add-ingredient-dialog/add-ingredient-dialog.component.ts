@@ -33,7 +33,6 @@ export class AddIngredientDialog {
 
   constructor(public dialogRef: MatDialogRef<AddIngredientDialog>, private http: HttpClient) { }
 
-
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -63,9 +62,7 @@ export class AddIngredientDialog {
         this.dialogRef.close(this.newIngrediente);
       });
     } else {
-        this.dialogRef.close(this.newIngrediente);
-      }
+      this.dialogRef.close(this.newIngrediente);
     }
   }
-
-
+}
