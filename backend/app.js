@@ -9,10 +9,10 @@ const { setupDB } = require("./config/db.js");
 const indexRoutes = require("./routes/index.routes.js");
 const { PORT, HOST } = require("./config/configEnv.js");
 const { createRoles } = require('./config/initialSetup.js');
-const { handleFatalError, handleError } = require("./utils/errorHandler");
 const { wss } = require('./config/websocket.js');
+const { handleFatalError, handleError } = require("./utils/errorHandler.js");
+const path = require('path');
 
-// Inicia el servidor web
 async function setupServer() {
     try {
         const server = express();
@@ -23,9 +23,12 @@ async function setupServer() {
         server.use(cookieParser());
         server.use(morgan("dev"));
         server.use(express.urlencoded({ extended: true }));
+
+        // Sirve archivos estáticos
+        server.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
         server.use("/api", indexRoutes);
 
-        server.use((err, req, res, next) => { // Error de análisis JSON (contenido incorrecto)
+        server.use((err, req, res, next) => {
             if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
                 return res.status(400).json({ message: "Error en formato de JSON" });
             }
@@ -58,4 +61,5 @@ async function setupAPI() {
 
 setupAPI()
     .then(() => console.log("=> API Iniciada exitosamente"))
-    .catch((err) => handleFatalError(err, "/app.js -> setupAPI"));
+    .catch((err) => handleFatalError(err, "/server.js -> setupAPI"));
+

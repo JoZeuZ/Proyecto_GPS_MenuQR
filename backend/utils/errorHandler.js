@@ -6,8 +6,9 @@ function handleFatalError(error, msg) {
 }
 
 function handleError(error, msg) {
-    console.log("❌ [ERROR] A ocurrido un error en: \n📁", msg);
-    console.error("🗯  " + error.message);
+    console.log("❌ [ERROR] Ha ocurrido un error en: \n📁", msg);
+    console.error("🗯  Mensaje de error: " + error.message);
+    console.error("🗯  Stack trace: " + error.stack);
 }
 
 module.exports = {

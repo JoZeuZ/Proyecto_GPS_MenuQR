@@ -53,17 +53,29 @@ async function getUserById(req, res) {
 async function updateUser(req, res) {
     try {
         const { params, body } = req;
-        const { error: paramsError } = userIdSchema.validate(params);
 
-        if (paramsError) return respondError(req, res, 400, paramsError.message);
+        const { error: paramsError } = userIdSchema.validate(params);
+        if (paramsError) {
+            return respondError(req, res, 400, "Error de validación de parámetros", paramsError.details);
+        }
+
         const { error: bodyError } = userBodySchema.validate(body);
-        if (bodyError) return respondError(req, res, 400, bodyError.message);
+        if (bodyError) {
+            console.log(body)
+            console.log(bodyError)
+            console.log(bodyError.details)
+            return respondError(req, res, 400, "Error de validación del cuerpo de la solicitud", bodyError.details);
+        }
+
         const [user, userError] = await UserService.updateUser(params.id, body);
-        if (userError) return respondError(req, res, 400, userError);
+        if (userError) {
+            return respondError(req, res, 400, "Error al actualizar el usuario", { message: userError });
+        }
+
         respondSuccess(req, res, 200, user);
     } catch (error) {
         handleError(error, "user.controller -> updateUser");
-        respondError(req, res, 500, "No se pudo actualizar el usuario");
+        respondError(req, res, 500, "No se pudo actualizar el usuario", { message: error.message, stack: error.stack });
     }
 }
 
@@ -97,6 +109,8 @@ function handleId(req, res) {
     respondError(req, res, 400, 'No se debe proporcionar un ID en la ruta');
 }
 
+
+
 module.exports = {
     getUsers,
     createUser,
@@ -104,5 +118,5 @@ module.exports = {
     updateUser,
     deleteUser,
     handleMissingId,
-    handleId,
+    handleId
 };

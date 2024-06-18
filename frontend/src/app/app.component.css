@@ -1,0 +1,17 @@
+.sidebar {
+  background-color: #673ab7;
+}
+
+.text{
+    color: white;
+    text-decoration: none;
+}
+
+.centered-text {
+    width: 100%;
+    text-align: center;
+}
+
+.big-icon {
+    font-size: 40px;
+}

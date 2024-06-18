@@ -1,7 +1,29 @@
-<app-toolbar-component></app-toolbar-component>
-<button mat-raised-button (click)="navigateToHome()">Ir a Home</button>
-<button mat-raised-button (click)="navigateToIngredientes()">Ir a Ingredientes</button>
-<app-page *ngIf="isIngredientesRouteActive()"></app-page>
-
-<app-footer-component></app-footer-component>
-
+<mat-sidenav-container>
+    <mat-sidenav class="sidebar" #sidevar mode="side">
+      <mat-nav-list>
+        <!-- Elementos dentro de la sidebar -->
+        <a mat-list-item href="ingredientes">
+            <span class="text">Ir a Ingredientes</span>
+          </a>
+            <a mat-list-item href="users">
+                <span class="text">Ir a Usuarios</span>
+            </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <!-- Elementos dentro de la toolbar -->
+        <i class="material-icons" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
+         <div class="centered-text">
+            <a class ="text"href="/">AppEat</a>
+         </div>
+      </mat-toolbar>
+      <!-- Contenido de la página -->
+      <app-ingredient-page
+        *ngIf="isIngredientesRouteActive()"
+      ></app-ingredient-page>
+      <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
+      <app-footer-component></app-footer-component>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

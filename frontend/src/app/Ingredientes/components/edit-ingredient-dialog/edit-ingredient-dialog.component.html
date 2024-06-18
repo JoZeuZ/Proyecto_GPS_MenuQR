@@ -1,0 +1,30 @@
+<div id="miCuadroEditar">
+    <h1 mat-dialog-title>Editar Ingrediente</h1>
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="ingredient.nombre">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Disponibilidad</mat-label>
+            <mat-select [(ngModel)]="ingredient.disponible">
+                <mat-option *ngFor="let status of availableStatuses" [value]="status === 'Disponible'">{{ status }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div class="image-upload-container">
+            <h4 id="im">Imagen</h4>
+            <div class="file-input-container">
+                <input type="file" id="file-input" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" hidden>
+                <button mat-button class="botonSeleccionar" (click)="fileInput.click()">Seleccionar archivo</button>
+                <p>{{ selectedFileName || 'Ningún archivo nuevo seleccionado' }}</p>
+            </div>
+        </div>
+        <div *ngIf="imagePreview" class="image-preview-container">
+            <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
+        </div>
+    </div>
+    <div mat-dialog-actions class="botonesSaveCancel">
+        <button mat-button (click)="onNoClick()">Cancelar</button>
+        <button mat-button color="primary" (click)="onSaveClick()">Guardar</button>
+    </div>
+</div>

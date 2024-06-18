@@ -1,0 +1,9 @@
+<div class="title-cards">
+    <button class='botonAgregar' mat-raised-button color="primary" (click)="openAddIngredientDialog()">Agregar
+        Ingrediente</button>
+    <p>Listado de ingredientes de The Kingdoms of Panes</p>
+</div>
+
+<app-ingredient-cards [ingredientes]="ingredientes" (ingredientEdited)="onIngredientEdited($event)"
+    (ingredientDeleted)="onIngredientDeleted($event)" (ingredientSaveChanges)="saveChanges()">
+</app-ingredient-cards>
