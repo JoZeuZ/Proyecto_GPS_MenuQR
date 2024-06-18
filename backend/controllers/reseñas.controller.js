@@ -15,6 +15,7 @@ async function getReseñas(req, res) {
             : respondSuccess(req, res, 200, ["Las reseñas son: ", reseñas]);
     } catch (error) {
         handleError(error, "reseña.controller -> getReseñas");
+        return respondError(req, res, 500, "Error interno del servidor");
     }
 }
 
@@ -26,7 +27,7 @@ async function getReseñaById(req, res) {
 
         if (!reseña) {
             return respondError(req, res, 404, "La reseña no existe");
-        } else if (error){
+        } else if (error) {
             return respondError(req, res, 500, "Error interno del servidor");
         }
         respondSuccess(req, res, 200, ["La reseña es: ", reseña]);
@@ -82,11 +83,27 @@ async function deleteReseña(req, res) {
     }
 }
 
+async function getReseñasByCategoria(req, res) {
+    try {
+        const { categoria } = req.params;
+        const [reseñas, error] = await ReseñaService.getReseñasByCategoria(categoria);
+
+        if (error) return respondError(req, res, 404, error);
+        reseñas.length === 0
+            ? respondSuccess(req, res, 204, "No hay reseñas en esta categoría")
+            : respondSuccess(req, res, 200, ["Las reseñas en esta categoría son: ", reseñas]);
+    } catch (error) {
+        handleError(error, "reseña.controller -> getReseñasByCategoria");
+        return respondError(req, res, 500, "Error interno del servidor");
+    }
+}
+
 module.exports = {
     getReseñas,
     getReseñaById,
     createReseña,
     updateReseña,
     deleteReseña,
+    getReseñasByCategoria
 };
 

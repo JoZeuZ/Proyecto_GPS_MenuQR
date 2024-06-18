@@ -12,5 +12,6 @@ router.get("/:id", reseñaController.getReseñaById);
 router.post("/", reseñaController.createReseña);
 router.put("/:id", reseñaController.updateReseña);
 router.delete("/:id", reseñaController.deleteReseña);
+router.get("/categoria/:categoria", reseñaController.getReseñasByCategoria);
 
 module.exports = router;

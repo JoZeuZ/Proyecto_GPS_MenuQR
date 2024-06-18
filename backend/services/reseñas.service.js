@@ -6,11 +6,11 @@ const Reseña = require("../models/reseñas.model");
 async function getReseñas() {
     try {
         const reseñas = await Reseña.find().exec();
-
         if (!reseñas) return [null, "No hay reseñas"];
         return [reseñas, null];
     } catch (error) {
         handleError(error, "reseñas.service -> getReseñas");
+        return [null, "Error al obtener las reseñas"];
     }
 }
 
@@ -35,8 +35,8 @@ async function createReseña(reseña) {
         return [null, "Error al crear la reseña"];
     }
 }
-async function updateReseña(id, reseña) {
 
+async function updateReseña(id, reseña) {
     try {
         const reseñaActualizada = await Reseña.findByIdAndUpdate(id, reseña, { new: true }).exec();
         if (!reseñaActualizada) return [null, "No se encontró la reseña"];
@@ -51,12 +51,22 @@ async function updateReseña(id, reseña) {
 async function deleteReseña(id) {
     try {
         const reseñaEliminada = await Reseña.findByIdAndDelete(id).exec();
-
         if (!reseñaEliminada) return [null, "No se encontró la reseña"];
         return [reseñaEliminada, null];
     } catch (error) {
         handleError(error, "reseñas.service -> deleteReseña");
         return [null, "Error al eliminar la reseña"];
+    }
+}
+
+async function getReseñasByCategoria(categoria) {
+    try {
+        const reseñas = await Reseña.find({ categoria }).exec();
+        if (!reseñas) return [null, "No hay reseñas en esta categoría"];
+        return [reseñas, null];
+    } catch (error) {
+        handleError(error, "reseñas.service -> getReseñasByCategoria");
+        return [null, "Error al obtener las reseñas por categoría"];
     }
 }
 
@@ -66,4 +76,5 @@ module.exports = {
     createReseña,
     updateReseña,
     deleteReseña,
+    getReseñasByCategoria,
 };
