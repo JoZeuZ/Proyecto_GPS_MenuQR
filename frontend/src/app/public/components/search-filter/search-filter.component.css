@@ -1,0 +1,22 @@
+.search-container {
+    position: relative;
+    width: 50%;
+}
+
+input {
+    width: 100%;
+    padding: 8px 40px 8px 16px;
+    border-radius: 999px;
+    border: 1px solid #ccc;
+}
+
+.search-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    padding: 0;
+    right: -58px;
+    margin-top: 2px;
+}

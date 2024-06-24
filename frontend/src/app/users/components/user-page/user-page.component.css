@@ -8,14 +8,54 @@
     margin-top: 3rem;
 }
 
+.search-and-add-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3%;
+    margin-top: 1rem;
+}
+
+.buscador {
+    flex-grow: 1;
+    margin-left: 20rem; /* Estilo por defecto (móvil) */
+}
+
 .botonAgregar {
-    display: block;
-    margin-left: auto;
-    margin-right: 3%;    
+    margin-left: 1rem; /* Estilo por defecto (móvil) */
 }
 
 .botonGuardar {
     align-self: flex-start;
     margin-top: 15px;
     margin-left: 5%;
+}
+
+/* Estilos específicos para escritorio */
+@media (min-width: 769px) {
+    .search-and-add-container {
+        padding: 0 12rem;
+        justify-content: center;
+    }
+
+    .buscador {
+        margin-left: 0;
+    }
+
+    .botonAgregar {
+        margin-left: 1rem;
+    }
+}
+
+/* Estilos específicos para móvil */
+@media (max-width: 768px) {
+    .search-and-add-container {
+        justify-content: center;
+        flex-wrap: nowrap; 
+    }
+
+    .buscador, .botonAgregar {
+        width: auto; 
+        margin: 0.5rem; 
+    }
 }

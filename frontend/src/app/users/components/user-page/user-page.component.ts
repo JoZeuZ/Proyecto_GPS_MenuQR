@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserCardsComponent } from '../user-cards/user-cards.component';
 import { AddUserDialog } from '../add-user-dialog/add-user-dialog.component';
 import { UsersApiService } from '../../services/users-api.service';
+import { SearchFilterComponent } from '../../../public/components/search-filter/search-filter.component';
 
 @Component({
   selector: 'app-user-page',
@@ -16,15 +17,17 @@ import { UsersApiService } from '../../services/users-api.service';
     MatDialogModule,
     UserCardsComponent,
     AddUserDialog,
-    MatButtonModule
+    MatButtonModule,
+    SearchFilterComponent
   ],
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
   users: any[] = [];
+  filteredUsers: any[] = [];
   isSaveButtonEnabled: boolean = false;
-  editedUsers: { [key: string]: any } = {}; // Para rastrear usuarios editados
+  editedUsers: { [key: string]: any } = {};
 
   constructor(private userService: UsersApiService, public dialog: MatDialog) { }
 
@@ -35,8 +38,15 @@ export class UserPageComponent implements OnInit {
   fetchUsers(): void {
     this.userService.getUsers().subscribe((users: any[]) => {
       this.users = users;
+      this.filteredUsers = users;
     });
   }
+
+  onSearch(searchTerm: string) {
+    this.filteredUsers = this.users.filter(user =>
+      user.username && user.username.toLowerCase().startsWith(searchTerm.toLowerCase())
+    );
+  }  
 
   openAddUserDialog(): void {
     const dialogRef = this.dialog.open(AddUserDialog);
@@ -56,28 +66,14 @@ export class UserPageComponent implements OnInit {
     });
   }
 
-  searchUser(searchTerm: string): void {
-    if (searchTerm) {
-      this.userService.getUsers().subscribe((users: any[]) => {
-        this.users = users.filter(user => user.name.includes(searchTerm));
-      });
-    } else {
-      this.fetchUsers();
-    }
-  }
-
-  addUser(): void {
-    this.openAddUserDialog();
-  }
-
   onUserEdited(user: any): void {
     if (!user || !user._id || typeof user._id !== 'string' || !user.username || !user.email) {
       console.error('Datos de usuario inválidos recibidos:', user);
       return;
     }
-  
+
     console.log('Usuario editado:', user);
-  
+
     const sanitizedData = {
       _id: user._id,
       username: user.username,
@@ -85,17 +81,16 @@ export class UserPageComponent implements OnInit {
       password: user.password, 
       roles: Array.isArray(user.roles) ? user.roles.map((role: any) => typeof role === 'string' ? role : role.name) : [],
     };
-    
+
     this.userService.updateUser(sanitizedData._id, sanitizedData).subscribe(
       updatedUser => {
-        this.fetchUsers(); 
+        this.fetchUsers();
       },
       error => {
         console.error('Error al actualizar el usuario en la API:', error);
       }
     );
   }
-  
 
   onUserDeleted(userId: string): void {
     this.userService.deleteUser(userId).subscribe(
@@ -113,7 +108,6 @@ export class UserPageComponent implements OnInit {
     console.log('Guardar cambios');
     const updates = Object.values(this.editedUsers);
 
-    // Realizar las actualizaciones en la API
     updates.forEach(user => {
       this.userService.updateUser(user._id, user).subscribe(
         updatedUser => {
@@ -128,5 +122,9 @@ export class UserPageComponent implements OnInit {
 
     this.editedUsers = {};
     this.isSaveButtonEnabled = false;
+  }
+
+  addUser(): void {
+    this.openAddUserDialog();
   }
 }

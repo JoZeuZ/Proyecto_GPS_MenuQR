@@ -17,7 +17,7 @@
         <mat-form-field>
             <mat-label>Imagen</mat-label>
             <input matInput [(ngModel)]="newIngrediente.img" disabled>
-            <button mat-button matSuffix (click)="fileInput.click()">Seleccionar Archivo</button>
+            <button class="select-file-button" mat-button matSuffix (click)="fileInput.click()">Seleccionar Archivo</button>
             <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" style="display:none;">
         </mat-form-field>
 

@@ -57,3 +57,20 @@ img {
     justify-content: center;
     box-sizing: border-box;
 }
+
+/* Estilo para el botón de seleccionar archivo en dispositivos móviles */
+.select-file-button {
+    white-space: normal;
+    height: auto;
+    line-height: 1.2;
+    text-align: center;
+    padding: 8px;
+}
+
+@media (max-width: 768px) {
+    .select-file-button {
+        width: 100%;
+        white-space: pre-wrap;
+        display: inline-block;
+    }
+}

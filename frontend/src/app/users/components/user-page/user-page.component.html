@@ -1,6 +1,13 @@
-<p class="title-cards">Gestión de Usuarios</p>
+<div class="title-cards">
+    <p>Gestión de Usuarios</p>
+</div>
 
-<button class='botonAgregar' mat-raised-button color="primary" (click)="addUser()">Agregar Usuario</button>
+<div class="search-and-add-container">
+    <app-search-filter class="buscador" (search)="onSearch($event)"></app-search-filter>
+    <button class='botonAgregar' mat-raised-button color="primary" (click)="addUser()">
+        <span class="material-icons">add</span>
+    </button>
+</div>
 
-<app-user-cards [users]="users" (userEdited)="onUserEdited($event)"
+<app-user-cards [users]="filteredUsers" (userEdited)="onUserEdited($event)"
     (userDeleted)="onUserDeleted($event)"></app-user-cards>

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { IngredientCardsComponent } from '../ingredient-cards/ingredient-cards.component';
 import { AddIngredientDialog } from '../add-ingredient-dialog/add-ingredient-dialog.component';
+import { SearchFilterComponent } from '../../../public/components/search-filter/search-filter.component';
 
 @Component({
   selector: 'app-ingredient-page',
@@ -13,13 +14,15 @@ import { AddIngredientDialog } from '../add-ingredient-dialog/add-ingredient-dia
     CommonModule,
     MatButtonModule,
     MatDialogModule,
-    IngredientCardsComponent 
+    IngredientCardsComponent,
+    SearchFilterComponent
   ],
   templateUrl: './ingredient-page.component.html',
   styleUrls: ['./ingredient-page.component.css']
 })
 export class IngredientPageComponent implements OnInit {
   public ingredientes: any[] = [];
+  public filteredIngredientes: any[] = [];
   public editedIngredientes: any = {};
   public isSaveButtonEnabled: boolean = false;
 
@@ -33,11 +36,18 @@ export class IngredientPageComponent implements OnInit {
     this.service.getIngredientes().subscribe((response: any) => {
       if (response.state === 'Success' && Array.isArray(response.data)) {
         this.ingredientes = response.data[1];
+        this.filteredIngredientes = this.ingredientes;
       } else {
         console.error('Error en la respuesta del servicio:', response);
       }
     });
   }
+
+  onSearch(searchTerm: string) {
+    this.filteredIngredientes = this.ingredientes.filter(ingrediente =>
+      ingrediente.nombre && ingrediente.nombre.toLowerCase().startsWith(searchTerm.toLowerCase())
+    );
+  }  
 
   onIngredientEdited(ingrediente: any) {
     this.editedIngredientes[ingrediente._id] = ingrediente;
@@ -46,6 +56,7 @@ export class IngredientPageComponent implements OnInit {
 
   onIngredientDeleted(id: string) {
     this.ingredientes = this.ingredientes.filter(ingrediente => ingrediente._id !== id);
+    this.filteredIngredientes = this.ingredientes;
   }
 
   saveChanges() {
@@ -65,7 +76,6 @@ export class IngredientPageComponent implements OnInit {
   }
 
   openAddIngredientDialog() {
-
     const dialogRef = this.dialog.open(AddIngredientDialog, {
       width: '600px', // Ajusta el tamaño según sea necesario
       maxHeight: '90vh' // Evita el desplazamiento vertical
