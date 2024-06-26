@@ -38,11 +38,11 @@
     }
 
     .buscador {
-        margin-left: 0; 
+        margin-left: 16%; 
     }
 
     .botonAgregar {
-        margin-left: 1rem; 
+        margin-right: 16%; 
     }
 }
 
