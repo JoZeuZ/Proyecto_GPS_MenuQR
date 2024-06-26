@@ -12,6 +12,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginComponent } from './auth/components/login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
     FooterComponentComponent,
     IngredientPageComponent,
     UserPageComponent,
+    LoginComponent,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
@@ -60,5 +62,9 @@ export class AppComponent {
 
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
+  }
+
+  isLoginRouteActive(): boolean {
+    return this.currentRoute === '/login';
   }
 }

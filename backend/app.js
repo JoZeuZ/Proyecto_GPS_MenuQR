@@ -15,7 +15,7 @@ async function setupServer() {
     try {
         const server = express();
         server.use(express.json());
-        server.use(cors({ origin: "*" }));
+        server.use(cors({ origin: "http://localhost:4200", credentials: true }));
         server.use(cookieParser());
         server.use(morgan("dev"));
         server.use(express.urlencoded({ extended: true }));
