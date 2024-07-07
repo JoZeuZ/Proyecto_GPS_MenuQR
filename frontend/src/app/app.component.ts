@@ -13,6 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './auth/components/login/login.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,7 @@ export class AppComponent {
   title = 'frontend';
   currentRoute: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private dialog: MatDialog) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       this.currentRoute = this.router.url;
     });
@@ -66,5 +67,20 @@ export class AppComponent {
 
   isLoginRouteActive(): boolean {
     return this.currentRoute === '/login';
+  }
+
+  openLoginDialog(): void{
+    const dialogRef = this.dialog.open(LoginComponent, {
+      width: '300px',
+      height: '300px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Login Correcto!')
+      }
+    });
+
   }
 }
