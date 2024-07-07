@@ -1,0 +1,13 @@
+<h1>Gestión de Pedidos</h1>
+
+<div *ngFor="let pedido of pedidos">
+  <p>Cliente: {{ pedido.cliente }}</p>
+  <p>Método de Pago: {{ pedido.metodoPago }}</p>
+  <p>Total: {{ pedido.total }}</p>
+  <!-- Aquí puedes añadir más detalles según tus necesidades -->
+
+  <button (click)="deletePedido(pedido._id)">Eliminar</button>
+  <!-- Aquí puedes añadir botones para editar u otras acciones -->
+</div>
+
+<!-- Aquí puedes añadir un formulario para crear nuevos pedidos -->
