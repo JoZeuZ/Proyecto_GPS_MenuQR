@@ -1,3 +1,5 @@
+@import '../../../../styles.css';
+
 .title-cards {
     display: flex;
     flex-direction: column-reverse;
@@ -8,54 +10,35 @@
     margin-top: 3rem;
 }
 
-.search-and-add-container {
+.buscadorFiltroAdd {
     display: flex;
+    margin-bottom: 1rem;
+    margin-left: 4px;
+    margin-right: 4px;
     align-items: center;
-    justify-content: center;
-    padding: 0 3%;
-    margin-top: 1rem;
-}
-
-.buscador {
-    flex-grow: 1;
-    margin-left: 20rem; /* Estilo por defecto (móvil) */
+    justify-content: space-between;
 }
 
 .botonAgregar {
-    margin-left: 1rem; /* Estilo por defecto (móvil) */
-}
-
-.botonGuardar {
-    align-self: flex-start;
-    margin-top: 15px;
-    margin-left: 5%;
+    background-color: var(--color-boton) !important;
+    color: white !important; 
+    height: 55px;
+    margin-bottom: 22px;
+    margin-left: -10px;
 }
 
 /* Estilos específicos para escritorio */
 @media (min-width: 769px) {
-    .search-and-add-container {
-        padding: 0 12rem;
-        justify-content: center;
+    .buscadorFiltroAdd {
+        margin-left: 16%;
+        margin-right: 16%;
     }
 
     .buscador {
-        margin-left: 16%; 
+        margin-left: 15%;
     }
 
     .botonAgregar {
-        margin-right: 16%; 
-    }
-}
-
-/* Estilos específicos para móvil */
-@media (max-width: 768px) {
-    .search-and-add-container {
-        justify-content: center;
-        flex-wrap: nowrap; 
-    }
-
-    .buscador, .botonAgregar {
-        width: auto; 
-        margin: 0.5rem; 
+        margin-right: 15%;
     }
 }

@@ -1,6 +1,6 @@
 
   <mat-sidenav-container class="main-container">
-    <mat-sidenav class="sidebar" #sidevar mode="side">
+    <mat-sidenav class="sidebar" #sidevar mode="side" class="sidebar">
       <mat-nav-list>
         <!-- Elementos dentro de la sidebar -->
         <a mat-list-item href="ingredientes">
@@ -12,7 +12,7 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <mat-toolbar color="primary">
+      <mat-toolbar class="toolbar">
         <!-- Elementos dentro de la toolbar -->
         <i class="material-icons" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
         <div class="centered-text">

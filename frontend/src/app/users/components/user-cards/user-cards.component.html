@@ -1,6 +1,4 @@
-<br />
-
-<div class="card-container" *ngFor="let user of users">
+<div class="card-container" *ngFor="let user of paginatedUsers">
     <div class="cards-buttons">
         <button mat-icon-button (click)="openEditUserDialog(user)">
             <mat-icon>edit</mat-icon>
@@ -9,13 +7,11 @@
             <mat-icon>delete</mat-icon>
         </button>
     </div>
-
     <mat-card>
         <mat-card-header>
             <mat-card-title>{{ user.username }}</mat-card-title>
-            <mat-card-subtitle>{{ getUserRoles(user) }}</mat-card-subtitle>
             <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+            <mat-card-subtitle>{{ getUserRoles(user) }}</mat-card-subtitle>
         </mat-card-header>
-
     </mat-card>
 </div>

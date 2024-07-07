@@ -1,15 +1,16 @@
 #miCuadroEditarUsuario {
-    width: auto;
-    max-width: 90%;
+    width: 25rem;
     margin: 0 auto;
     padding: 16px;
     background-color: white;
     box-sizing: border-box;
     text-align: center;
+    overflow-x: hidden;
 }
 
 mat-form-field {
     display: block;
+    margin-bottom: 0;
     width: 100%;
 }
 

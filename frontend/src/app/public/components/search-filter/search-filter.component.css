@@ -1,13 +1,22 @@
 .search-container {
     position: relative;
-    width: 50%;
+    width: 60%;
 }
 
 input {
-    width: 100%;
-    padding: 8px 40px 8px 16px;
-    border-radius: 999px;
-    border: 1px solid #ccc;
+    width: 80%;
+    padding: 17.5px 40px 15px 10px;
+    border-radius: 5px;
+    border: 1px solid #9b9b9b;
+    font-size: 18px; 
+    margin-top: -23px;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+input:hover,
+input:focus {
+    border: 1px solid black;
 }
 
 .search-button {
@@ -17,6 +26,12 @@ input {
     border: none;
     background: transparent;
     padding: 0;
-    right: -58px;
-    margin-top: 2px;
+    right: -40px;
+    margin-top: -7px;
+}
+
+@media (min-width: 769px) {
+    .search-button{
+        margin-right: 15%;
+    }
 }

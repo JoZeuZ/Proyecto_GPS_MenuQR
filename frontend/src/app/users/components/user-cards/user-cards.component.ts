@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
 import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dialog.component';
+import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
 
 @Component({
   selector: 'app-user-cards',
@@ -15,18 +16,42 @@ import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dia
     MatCardModule,
     MatButtonModule,
     MatIconModule,
+    PaginatorComponent
   ],
   templateUrl: './user-cards.component.html',
   styleUrls: ['./user-cards.component.css']
 })
-export class UserCardsComponent implements OnInit {
+export class UserCardsComponent implements OnInit, OnChanges {
   @Input() users: any[] = [];
+  @Input() currentPage: number = 1;
   @Output() userEdited = new EventEmitter<any>();
   @Output() userDeleted = new EventEmitter<string>();
+  @Output() pageChange = new EventEmitter<number>();
+
+  public itemsPerPage: number = 10;
+  public paginatedUsers: any[] = [];
 
   constructor(private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.applyPagination();
+  }
+
+  ngOnChanges(): void {
+    this.applyPagination();
+  }
+
+  applyPagination() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedUsers = this.users.slice(startIndex, endIndex);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.pageChange.emit(page);
+    this.applyPagination();
+  }
 
   getUserRoles(user: any): string {
     if (Array.isArray(user.roles)) {
@@ -59,6 +84,7 @@ export class UserCardsComponent implements OnInit {
     dialogRef.componentInstance.userDeleted.subscribe((id: string) => {
       this.users = this.users.filter(u => u._id !== id);
       this.userDeleted.emit(id);
+      this.applyPagination();
     });
   }
 }

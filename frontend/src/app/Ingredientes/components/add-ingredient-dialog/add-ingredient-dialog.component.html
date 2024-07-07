@@ -1,31 +1,37 @@
 <div id="miCuadroAgregar">
     <h2 mat-dialog-title>Agregar Ingrediente</h2>
     <div mat-dialog-content class="content">
-        <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input matInput [(ngModel)]="newIngrediente.nombre">
-        </mat-form-field>
+        <form [formGroup]="ingredientForm">
+            <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+                <mat-error *ngIf="ingredientForm.get('nombre')?.invalid">{{ getErrorMessage('nombre') }}</mat-error>
+            </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Disponibilidad</mat-label>
-            <mat-select [(ngModel)]="newIngrediente.disponible" name="disponible">
-                <mat-option [value]="true">Disponible</mat-option>
-                <mat-option [value]="false">No disponible</mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field>
+                <mat-label>Disponibilidad</mat-label>
+                <mat-select formControlName="disponible">
+                    <mat-option [value]="true">Disponible</mat-option>
+                    <mat-option [value]="false">No disponible</mat-option>
+                </mat-select>
+                <mat-error *ngIf="ingredientForm.get('disponible')?.invalid">{{ getErrorMessage('disponible')
+                    }}</mat-error>
+            </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Imagen</mat-label>
-            <input matInput [(ngModel)]="newIngrediente.img" disabled>
-            <button class="select-file-button" mat-button matSuffix (click)="fileInput.click()">Seleccionar Archivo</button>
-            <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" style="display:none;">
-        </mat-form-field>
+            <mat-form-field>
+                <mat-label>Imagen</mat-label>
+                <input matInput formControlName="img">
+                <button class="select-file-button" mat-button matSuffix (click)="fileInput.click()">Seleccionar
+                    Archivo</button>
+                <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png"
+                    style="display:none;">
+            </mat-form-field>
 
-        <img *ngIf="imagePreview" [src]="imagePreview" alt="Imagen del ingrediente" class="image-preview">
-
+            <img *ngIf="imagePreview" [src]="imagePreview" alt="Imagen del ingrediente" class="image-preview">
+        </form>
     </div>
-    <div mat-dialog-actions class="botonesAgregar">
-        <button mat-button (click)="onNoClick()">Cancelar</button>
-        <button mat-button color="primary" (click)="addIngrediente()">Agregar</button>
+    <div mat-dialog-actions class="botonCancelAceptar">
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button (click)="addIngrediente()">Agregar</button>
     </div>
 </div>

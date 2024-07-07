@@ -1,7 +1,9 @@
+@import '../../../../styles.css';
+
 .footer-container {
   width: 100%;
   box-sizing: border-box;
-  background: #673ab7;
+  background: var(--color-principal);
   color: white;
   text-align: center;
   margin: 0;

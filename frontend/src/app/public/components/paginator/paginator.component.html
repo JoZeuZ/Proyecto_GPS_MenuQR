@@ -1,0 +1,11 @@
+<div class="paginator">
+    <button mat-raised-button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+        Anterior
+    </button>
+    <button *ngFor="let page of pages" mat-button [class.active]="currentPage === page" (click)="changePage(page)">
+        {{ page }}
+    </button>
+    <button mat-raised-button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Siguiente
+    </button>
+</div>
