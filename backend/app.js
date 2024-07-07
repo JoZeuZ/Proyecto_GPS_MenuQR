@@ -20,6 +20,12 @@ async function setupServer() {
         server.use(morgan("dev"));
         server.use(express.urlencoded({ extended: true }));
 
+        // Middleware para configurar Content-Type
+        server.use((req, res, next) => {
+            res.setHeader('Content-Type', 'application/json');
+            next();
+        });
+
         // Sirve archivos estáticos
         server.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
         server.use("/api", indexRoutes);
@@ -30,7 +36,6 @@ async function setupServer() {
             }
             res.status(500).json({ message: 'Internal Server Error', error: err.message });
         });
-        
 
         server.listen(PORT, () => {
             console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);

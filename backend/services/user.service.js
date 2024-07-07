@@ -101,10 +101,31 @@ async function deleteUser(id) {
     }
 }
 
+// async function validatePassword(userId, password) {
+//     try {
+//         const user = await User.findById(userId);
+
+//         if (!user) {
+//             return [false, "El usuario no existe"];
+//         }
+
+//         const isMatch = await User.comparePassword(password, user.password);
+
+//         if (!isMatch) {
+//             return [false, "La contraseña no coincide"];
+//         }
+
+//         return [true, null];
+//     } catch (error) {
+//         return [false, error.message];
+//     }
+// }
+
 module.exports = {
     getUsers,
     createUser,
     getUserById,
     updateUser,
     deleteUser,
+    // validatePassword,
 };
