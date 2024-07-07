@@ -10,7 +10,6 @@ export const routes: Routes = [
     { path: 'ingredientes', component: IngredientPageComponent },
     { path: 'users', component: UserPageComponent },
     { path: 'pedidos', component: PedidoPageComponent},
-    { path: '**', redirectTo: '' } // Redirige a la página principal si la ruta no existe
     { path: 'login', component: LoginComponent},
     { path: '**', redirectTo: '' } // Redirige a la página principal para ruta inexistente, posicionar sus rutas arriba de esta
     
