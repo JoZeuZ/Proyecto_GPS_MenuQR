@@ -1,31 +1,33 @@
-
-  <mat-sidenav-container class="main-container">
-    <mat-sidenav class="sidebar" #sidevar mode="side" class="sidebar">
-      <mat-nav-list>
-        <!-- Elementos dentro de la sidebar -->
-        <a mat-list-item href="ingredientes">
-          <span class="text">Ir a Ingredientes</span>
-        </a>
-        <a mat-list-item href="users">
-          <span class="text">Ir a Usuarios</span>
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar class="toolbar">
-        <!-- Elementos dentro de la toolbar -->
-        <i class="material-icons" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
-        <div class="centered-text">
-          <a class="text" href="/">AppEat</a>
-        </div>
-      </mat-toolbar>
-      <!-- Contenido de la página -->
-      <div class="content-container">
-        <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
-        <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
-        <app-login-page *ngIf="isLoginRouteActive()"></app-login-page>
+<mat-sidenav-container class="main-container">
+  <mat-sidenav class="sidebar" #sidevar mode="side" class="sidebar">
+    <mat-nav-list>
+      <!-- Elementos dentro de la sidebar -->
+      <a mat-list-item href="ingredientes">
+        <span class="text">Ir a Ingredientes</span>
+      </a>
+      <a mat-list-item href="users">
+        <span class="text">Ir a Usuarios</span>
+      </a>
+      <a mat-list-item href="pedidos">
+        <span class="text">Ir a Pedidos</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="toolbar">
+      <!-- Elementos dentro de la toolbar -->
+      <i class="material-icons" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
+      <div class="centered-text">
+        <a class="text" href="/">AppEat</a>
       </div>
-      <app-footer-component></app-footer-component>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+    </mat-toolbar>
+    <!-- Contenido de la página -->
+    <div class="content-container">
+      <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
+      <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
+      <app-login-page *ngIf="isLoginRouteActive()"></app-login-page>
+      <app-pedido-page *ngIf="isPedidosRouteActive()"></app-pedido-page>
+    </div>
+    <app-footer-component></app-footer-component>
+  </mat-sidenav-content>
+</mat-sidenav-container>

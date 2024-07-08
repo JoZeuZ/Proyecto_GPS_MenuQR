@@ -1,32 +1,29 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoApiService {
-  private apiUrl = 'http://localhost:3000/api/pedidos';
+  baseURL = 'http://localhost:3000/api/pedidos';
 
   constructor(private http: HttpClient) {}
 
-  getPedidos(): Observable<any> {
-    return this.http.get(this.apiUrl);
-  }
-
-  getPedidoById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  getPedidos(): Observable<any[]> {
+    return this.http.get<any>(this.baseURL).pipe(map((data) => data.pedidos));
   }
 
   createPedido(pedido: any): Observable<any> {
-    return this.http.post(this.apiUrl, pedido);
+    return this.http.post(this.baseURL, pedido);
   }
 
   updatePedido(id: string, pedido: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, pedido);
+    return this.http.put(`${this.baseURL}/${id}`, pedido);
   }
 
   deletePedido(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.baseURL}/${id}`);
   }
 }

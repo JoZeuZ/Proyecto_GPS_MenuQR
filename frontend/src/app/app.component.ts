@@ -58,6 +58,14 @@ export class AppComponent {
     this.router.navigate(['/ingredientes']);
   }
 
+  navigateToPedidos() {
+    this.router.navigate(['/pedidos']);
+  }
+
+  isPedidosRouteActive(): boolean {
+    return this.currentRoute === '/pedidos';
+  }
+
   navigateToUsers() {
     this.router.navigate(['/users']);
   }

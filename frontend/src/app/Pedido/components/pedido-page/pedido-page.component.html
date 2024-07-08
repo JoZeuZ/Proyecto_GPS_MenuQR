@@ -1,35 +1,31 @@
-<div class="pedido-container">
-  <div class="pedido-header">
-    <h1>Pedidos</h1>
-    <button class='botonAgregar' mat-raised-button color="primary" (click)="openAddPedidoDialog()">Agregar Pedido</button>
-    <input type="text" placeholder="Buscar por cliente..." [(ngModel)]="searchTerm" (input)="onSearch(searchTerm)">
-  </div>
-
-  <div *ngFor="let pedido of filteredPedidos" class="pedido-card">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>{{ pedido.cliente }}</mat-card-title>
-        <mat-card-subtitle>{{ pedido.estado }}</mat-card-subtitle>
-        <button mat-icon-button color="warn" (click)="onPedidoDeleted(pedido._id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" (click)="openEditPedidoDialog(pedido)">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </mat-card-header>
-      <mat-card-content>
-        <p><strong>Mesa:</strong> {{ pedido.mesa }}</p>
-        <p><strong>Total:</strong> {{ pedido.total }}</p>
-        <p><strong>Propina:</strong> {{ pedido.propina }}</p>
-        <p><strong>Método de Pago:</strong> {{ pedido.metodoPago }}</p>
-        <div *ngFor="let producto of pedido.productos">
-          <p>Producto: {{ producto.productoId.nombre }}</p>
-          <p>Cantidad: {{ producto.cantidad }}</p>
-          <p>Extras: {{ producto.extras }}</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <app-paginator [totalItems]="totalFilteredItems" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-paginator>
+<div class="title-cards">
+  <p>Listado de pedidos</p>
+  <button class="botonAgregar" mat-raised-button color="primary" (click)="openAddPedidoDialog()">Agregar Pedido</button>
 </div>
+
+<div>
+  <input type="text" placeholder="Buscar por cliente..." [(ngModel)]="searchTerm" (input)="onSearch(searchTerm)">
+</div>
+
+<div *ngFor="let pedido of filteredPedidos" class="pedido-card">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ pedido.cliente }}</mat-card-title>
+      <mat-card-subtitle>{{ pedido.estado }}</mat-card-subtitle>
+      <button mat-icon-button color="warn" (click)="onPedidoDeleted(pedido._id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="openEditPedidoDialog(pedido)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Productos:</p>
+      <ul>
+        <li *ngFor="let producto of pedido.productos">{{ producto.nombre }} - {{ producto.cantidad }}</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<app-paginator [totalItems]="totalFilteredItems" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-paginator>
