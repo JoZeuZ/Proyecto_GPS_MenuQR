@@ -1,0 +1,46 @@
+.pedido-container {
+    padding: 16px;
+  }
+  
+  .pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .pedido-card {
+    margin-bottom: 16px;
+  }
+  
+  mat-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+  }
+  
+  mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  mat-card-title {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  mat-card-subtitle {
+    font-size: 0.9em;
+    color: #888888;
+  }
+  
+  .botonAgregar {
+    margin-right: 16px;
+  }
+  
+  input[type="text"] {
+    padding: 8px;
+    margin-left: 16px;
+    width: 200px;
+  }
+  

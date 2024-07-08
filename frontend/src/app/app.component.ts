@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponentComponent } from './public/components/footer-component/footer-component.component';
 import { IngredientPageComponent } from './Ingredientes/components/ingredient-page/ingredient-page.component';
+import { PedidoPageComponent } from './Pedido/components/pedido-page/pedido-page.component';
 import { UserPageComponent } from './users/components/user-page/user-page.component'; 
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -23,6 +24,7 @@ import { LoginComponent } from './auth/components/login/login.component';
     CommonModule,
     FooterComponentComponent,
     IngredientPageComponent,
+    PedidoPageComponent,
     UserPageComponent,
     LoginComponent,
     MatSidenavModule,
