@@ -20,8 +20,8 @@
           placeholder="Ingrese contraseña"
         />
       </mat-form-field>
+      <div *ngIf="errorMessage" class ="errorMessage"> {{errorMessage}}</div>
       <button mat-button class="boton" >Iniciar Sesion</button>
     </form>
-
   </div>
 </div>

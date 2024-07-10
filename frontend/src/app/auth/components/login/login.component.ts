@@ -47,7 +47,7 @@ export class LoginComponent {
       try {
         const response = await this.loginService.login(this.loginForm.value);
         console.log(response);
-        this.dialogRef.close(true); // Cierra el diálogo y pasa true como resultado
+        this.dialogRef.close(true); 
         this.router.navigate(['/']); // Navegar a la página principal o alguna otra página protegida
       } catch (error) {
         this.errorMessage = 'El usuario y/o contraseña son incorrectos';

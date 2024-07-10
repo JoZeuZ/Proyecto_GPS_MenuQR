@@ -17,10 +17,12 @@
       <div class="centered-text">
         <a class="material-icons bigicon" href="/">flatware</a>
       </div>
-      <button mat-icon-button (click)="openLoginDialog()"> <i class="material-icons">person_outline</i> </button>
+      <button mat-icon-button *ngIf="!isLoggedIn" (click)="openLoginDialog()"> <i class="material-icons">person_outline</i></button>
+      <button mat-icon-button  (click)="onLogout()"><i class="material-icons">person_off</i></button>
     </mat-toolbar>
     <!-- Contenido de la pagina -->
     <div class="content-container">
+      <button (click)="checkCookie()">Check Cookie</button>
       <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
       <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
     </div>
