@@ -5,7 +5,7 @@
 
 <div class="buscadorFiltroAdd">
     <app-search-filter class="buscador" (search)="onSearch($event)"></app-search-filter>
-    <app-filter [options]="roles" (filterChange)="onFilterChange($event)"></app-filter>
+    <app-filter class="filtro" [options]="roles" (filterChange)="onFilterChange($event)"></app-filter>
     <button class='botonAgregar' mat-raised-button (click)="addUser()">
         <span class="material-icons">add</span>
     </button>
