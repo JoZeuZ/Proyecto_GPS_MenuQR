@@ -1,37 +1,62 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   private apiUrl = 'http://localhost:3000/api/auth'; // Cambia esta URL por la de tu backend
+  private authState = new BehaviorSubject<boolean>(this.isAuthenticated());
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
-  login(formValue: any) {
-    return firstValueFrom(
-      this.http.post(`${this.apiUrl}/login`, formValue, { withCredentials: true })
-    );
-    
+  login(formValue: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, formValue, { withCredentials: true })
+      .pipe(
+        tap(response => {
+          this.cookieService.set('awa', response.data.accessToken);
+          console.log(response.data.accessToken);
+          console.log(this.cookieService.get('jwt'));
+          console.log(this.getUserRole());
+          this.authState.next(true); // Emitir nuevo estado de autenticación
+        })
+      );
   }
 
-  logout() {
-    return firstValueFrom(
-      this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true })
-    );
+  logout(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/logout`, {}, { withCredentials: true })
+      .pipe(
+        tap(() => {
+          this.cookieService.delete('awa');
+          this.authState.next(false); // Emitir nuevo estado de autenticación
+        })
+      );
+  }
+  isAuthenticated(): boolean {
+    // Comprobar si hay una cookie con el token
+    const token = this.cookieService.get('awa');
+    return !!token;  // Devuelve true si existe el token, false si no
   }
 
-  cookieExists(cookieName: string): boolean {
-    console.log('Revisando cookie:', cookieName);
-    return this.cookieService.check(cookieName);
+  getAuthState(): Observable<boolean> {
+    return this.authState.asObservable();
   }
 
-  getAuthStatus(): boolean {
-    const exists = this.cookieExists('jwt');
-    console.log('Existe?:', exists);
-    return exists;
+  getToken(tkn: string): string {
+    return this.cookieService.get(tkn);
+  }
+
+  getUserRole(): string[] {
+    const token = this.getToken('awa');
+    if (!token) {
+      return [];
+    }
+    const decodedToken: any = jwtDecode(token);
+    console.log(decodedToken);
+    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
   }
 }

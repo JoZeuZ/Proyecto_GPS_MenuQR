@@ -39,7 +39,7 @@ import { LoginService } from './auth/services/login.service';
 export class AppComponent implements OnInit {
   title = 'frontend';
   currentRoute: string = '';
-  isLoggedIn: boolean = false;
+  isAuthenticated: boolean = false;
 
   constructor(
     private router: Router,
@@ -51,11 +51,15 @@ export class AppComponent implements OnInit {
       .subscribe((event) => {
         this.currentRoute = this.router.url;
       });
+    
   }
 
-  async ngOnInit() {
-    // Verifica si el usuario está autenticado al iniciar el componente
-    this.isLoggedIn = this.loginService.getAuthStatus();
+  ngOnInit() {
+    this.isAuthenticated = this.loginService.isAuthenticated();
+    // Suscribirse al estado de autenticación
+    this.loginService.getAuthState().subscribe(authState => {
+      this.isAuthenticated = authState;
+    });
   }
 
   navigateToHome() {
@@ -87,26 +91,20 @@ export class AppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.isLoggedIn = this.loginService.getAuthStatus();;// Actualiza el estado de autenticación
-        console.log(this.isLoggedIn);
         console.log('Login Correcto!');
       }
     });
   }
 
-  async onLogout() {
-    try {
-      await this.loginService.logout();
-      this.isLoggedIn = false;  // Actualiza el estado de autenticación
-      this.router.navigate(['/']);
-      console.log('Sesión cerrada correctamente');
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-    }
+  onLogout() {
+    this.loginService.logout().subscribe({
+      next: () => {
+        this.isAuthenticated = false;
+        this.router.navigate(['/']);  // Navegar a la página principal o alguna otra página después de cerrar sesión
+      },
+      error: (error) => {
+        console.error('Error al cerrar sesión:', error);
+      }
+    });
   }
-
-  checkCookie() {
-    console.log(this.loginService.getAuthStatus());
-  }
-  
 }
