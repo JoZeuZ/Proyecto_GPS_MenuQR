@@ -19,10 +19,16 @@ async function setupServer() {
         const httpServer = http.createServer(server);
 
         server.use(express.json());
-        server.use(cors({ origin: "*" }));
+        server.use(cors({ origin: "http://localhost:4200", credentials: true }));
         server.use(cookieParser());
         server.use(morgan("dev"));
         server.use(express.urlencoded({ extended: true }));
+
+        // Middleware para configurar Content-Type
+        server.use((req, res, next) => {
+            res.setHeader('Content-Type', 'application/json');
+            next();
+        });
 
         // Sirve archivos estáticos
         server.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
@@ -35,15 +41,26 @@ async function setupServer() {
             next(err); // Pasa otros errores a los manejadores de errores siguientes
         });
 
-        httpServer.on('upgrade', (request, socket, head) => {
-            wss.handleUpgrade(request, socket, head, (ws) => {
-                wss.emit('connection', ws, request);
+        // WebSocket configuration
+        if (wss) {
+            httpServer.on('upgrade', (request, socket, head) => {
+                wss.handleUpgrade(request, socket, head, (ws) => {
+                    wss.emit('connection', ws, request);
+                });
             });
-        });
+        }
 
-        httpServer.listen(PORT, () => {
-            console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
-        });
+        // Check if WebSockets are needed
+        if (wss) {
+            httpServer.listen(PORT, () => {
+                console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+            });
+        } else {
+            server.listen(PORT, () => {
+                console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+            });
+        }
+
     } catch (err) {
         handleError(err, "/app.js -> setupServer");
     }
@@ -62,4 +79,6 @@ async function setupAPI() {
 setupAPI()
     .then(() => console.log("=> API Iniciada exitosamente"))
     .catch((err) => handleFatalError(err, "/server.js -> setupAPI"));
+
+
 
