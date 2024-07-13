@@ -1,30 +1,40 @@
 <div id="miCuadroEditarUsuario">
     <h2 mat-dialog-title>Editar Usuario</h2>
     <div mat-dialog-content class="content">
-        <mat-form-field appearance="fill">
-            <mat-label>Nombre de Usuario</mat-label>
-            <input matInput [(ngModel)]="user.username">
-        </mat-form-field>
+        <form [formGroup]="userForm">
+            <mat-form-field appearance="fill">
+                <mat-label>Nombre de Usuario</mat-label>
+                <input matInput formControlName="username">
+                <mat-error *ngIf="userForm.get('username')?.invalid">{{ getErrorMessage('username') }}</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput [(ngModel)]="user.email">
-        </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+                <mat-error *ngIf="userForm.get('email')?.invalid">{{ getErrorMessage('email') }}</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Contraseña</mat-label>
-            <input matInput type="password" [(ngModel)]="user.currentPassword">
-        </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" formControlName="currentPassword">
+                <mat-error
+                    *ngIf="userForm.get('currentPassword')?.invalid && (userForm.get('currentPassword')?.touched || userForm.get('currentPassword')?.dirty)">{{
+                    getErrorMessage('currentPassword') }}</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Rol</mat-label>
-            <mat-select [(ngModel)]="selectedRole">
-                <mat-option *ngFor="let role of availableRoles" [value]="role">{{ role }}</mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Rol</mat-label>
+                <mat-select formControlName="roles">
+                    <mat-option *ngFor="let role of availableRoles" [value]="role">
+                        {{ role }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.get('roles')?.invalid">{{ getErrorMessage('roles') }}</mat-error>
+            </mat-form-field>
+        </form>
     </div>
     <div mat-dialog-actions class="botonesGuardarCancelar">
-        <button mat-button (click)="onNoClick()">Cancelar</button>
-        <button mat-button color="primary" (click)="onSaveClick()">Guardar</button>
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button (click)="onSaveClick()">Guardar</button>
     </div>
 </div>

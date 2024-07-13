@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IngredientesApiService } from '../../services/ingredientes-api.service';
 import { DecimalPipe, NgForOf, CommonModule } from "@angular/common";
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DeleteIngredientDialog } from '../delete-ingredient-dialog/delete-ingredient-dialog.component';
 import { EditIngredientDialogComponent } from '../edit-ingredient-dialog/edit-ingredient-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
 
 @Component({
   selector: 'app-ingredient-cards',
@@ -21,17 +22,43 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatButtonModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    PaginatorComponent
   ],
   templateUrl: './ingredient-cards.component.html',
   styleUrls: ['./ingredient-cards.component.css']
 })
-export class IngredientCardsComponent {
+export class IngredientCardsComponent implements OnInit, OnChanges {
   @Input() ingredientes: any[] = [];
+  @Input() currentPage: number = 1;
   @Output() ingredientEdited = new EventEmitter<any>();
   @Output() ingredientDeleted = new EventEmitter<any>();
+  @Output() pageChange = new EventEmitter<number>();
+
+  public itemsPerPage: number = 10;
+  public paginatedIngredientes: any[] = [];
 
   constructor(private service: IngredientesApiService, private dialog: MatDialog) { }
+
+  ngOnInit(): void {
+    this.applyPagination();
+  }
+
+  ngOnChanges(): void {
+    this.applyPagination();
+  }
+
+  applyPagination() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedIngredientes = this.ingredientes.slice(startIndex, endIndex);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.pageChange.emit(page);
+    this.applyPagination();
+  }
 
   getBackgroundImage(imgPath: any): string {
     if (typeof imgPath !== 'string') {
@@ -40,9 +67,7 @@ export class IngredientCardsComponent {
     }
 
     let imageUrl: string;
-
     imageUrl = `http://localhost:3000/api/${imgPath}`;
-
     return `url(${imageUrl})`;
   }
 
@@ -71,7 +96,7 @@ export class IngredientCardsComponent {
     dialogRef.componentInstance.ingredientDeleted.subscribe((id: string) => {
       this.ingredientes = this.ingredientes.filter(i => i._id !== id);
       this.ingredientDeleted.emit(id);
+      this.applyPagination();
     });
-
   }
 }

@@ -1,0 +1,8 @@
+<div class="filter-container">
+  <mat-form-field appearance="outline" class="custom-form-field">
+    <mat-label>Filtrar</mat-label>
+    <mat-select [(value)]="selectedValues" (selectionChange)="onSelectionChange()" multiple>
+      <mat-option *ngFor="let option of options" [value]="option">{{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

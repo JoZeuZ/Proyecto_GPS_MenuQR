@@ -1,16 +1,15 @@
-.footer-container {
+@import '../../../../styles.css';
 
-    width: 100%;
-    height: 90px;
-    box-sizing: border-box;
-    background: #673ab7;
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 10px;
-    position: relative;
-    top: 5%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+.footer-container {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--color-principal);
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  position: relative;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

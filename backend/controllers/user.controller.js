@@ -3,6 +3,7 @@ const UserService = require("../services/user.service");
 const { handleError } = require("../utils/errorHandler");
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const { userBodySchema, userIdSchema } = require("../schema/user.schema");
+const User = require('../models/user.model');
 
 async function getUsers(req, res) {
     try {
@@ -61,7 +62,6 @@ async function updateUser(req, res) {
 
         const { error: bodyError } = userBodySchema.validate(body);
         if (bodyError) {
-            console.log(body)
             console.log(bodyError)
             console.log(bodyError.details)
             return respondError(req, res, 400, "Error de validación del cuerpo de la solicitud", bodyError.details);
@@ -101,6 +101,28 @@ async function deleteUser(req, res) {
     }
 }
 
+// async function validatePassword(req, res) {
+//     try {
+//         const { userId, password } = req.body;
+
+//         const user = await User.findById(userId);
+//         if (!user) {
+//             return res.status(404).json({ valid: false, message: 'User not found' });
+//         }
+
+//         const isValid = await User.comparePassword(password, user.password);
+//         if (!isValid) {
+//             return res.status(401).json({ valid: false, message: 'Invalid password' });
+//         }
+
+//         return res.status(200).json({ valid: true });
+//     } catch (error) {
+//         console.error('Error validating password:', error);
+//         return res.status(500).json({ valid: false, message: 'Internal server error' });
+//     }
+// }
+
+
 function handleMissingId(req, res) {
     respondError(req, res, 400, 'El ID es requerido en la ruta');
 }
@@ -109,14 +131,13 @@ function handleId(req, res) {
     respondError(req, res, 400, 'No se debe proporcionar un ID en la ruta');
 }
 
-
-
 module.exports = {
     getUsers,
     createUser,
     getUserById,
     updateUser,
     deleteUser,
+    // validatePassword,
     handleMissingId,
     handleId
 };
