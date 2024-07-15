@@ -9,6 +9,9 @@
         <a mat-list-item href="users">
           <span class="text">Ir a Usuarios</span>
         </a>
+        <a mat-list-item href="resenas">
+          <span class="text">Ir a Reseñas</span>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -24,6 +27,7 @@
         <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
         <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
         <app-login-page *ngIf="isLoginRouteActive()"></app-login-page>
+        <app-review-page *ngIf="isReviewRouteActive()"></app-review-page>
       </div>
       <app-footer-component></app-footer-component>
     </mat-sidenav-content>

@@ -13,6 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './auth/components/login/login.component';
+import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,8 @@ import { LoginComponent } from './auth/components/login/login.component';
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    ReviewPageComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -66,5 +68,11 @@ export class AppComponent {
 
   isLoginRouteActive(): boolean {
     return this.currentRoute === '/login';
+  }
+  isReviewRouteActive(): boolean {
+    return this.currentRoute === '/resenas';
+  }
+  navigateToReview() {
+    this.router.navigate(['/resenas']);
   }
 }
