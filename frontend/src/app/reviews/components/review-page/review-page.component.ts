@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AddReviewComponent } from '../add-review/add-review.component';
 
 @Component({
   selector: 'app-review-page',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, AddReviewComponent],
   templateUrl: './review-page.component.html',
-  styleUrl: './review-page.component.css'
+  styleUrls: ['./review-page.component.css']
 })
-export class ReviewPageComponent {
+export class ReviewPageComponent {}
 
-}

@@ -1,1 +1,49 @@
-<p>add-review works!</p>
+<div id="reviewFormContainer">
+  <h2 id="reviewTitle">Reseñas</h2>
+  <form [formGroup]="reviewForm" (ngSubmit)="addReview()">
+    <mat-form-field appearance="fill">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" placeholder="Título de la reseña">
+      <mat-error *ngIf="reviewForm.get('titulo')?.hasError('required')">
+        El título es obligatorio.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripción" placeholder="Descripción de la reseña"></textarea>
+      <mat-error *ngIf="reviewForm.get('descripción')?.hasError('required')">
+        La descripción es obligatoria.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Estrellas</mat-label>
+      <input matInput type="number" formControlName="estrellas" placeholder="Estrellas (0.5 - 5)" min="0.5" max="5" step="0.5">
+      <mat-error *ngIf="reviewForm.get('estrellas')?.hasError('required')">
+        La cantidad de estrellas es obligatoria.
+      </mat-error>
+      <mat-error *ngIf="reviewForm.get('estrellas')?.hasError('min') || reviewForm.get('estrellas')?.hasError('max')">
+        El valor debe estar entre 0.5 y 5.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="categoria">
+        <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="reviewForm.get('categoria')?.hasError('required')">
+        La categoría es obligatoria.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="botonCancelAceptar">
+      <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">Agregar Reseña</button>
+    </div>
+  </form>
+</div>
+
+
+
+  

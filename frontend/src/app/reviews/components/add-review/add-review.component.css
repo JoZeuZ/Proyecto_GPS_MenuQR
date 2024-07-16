@@ -1,0 +1,44 @@
+#reviewFormContainer {
+    width: auto;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: white;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#reviewTitle {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+mat-form-field {
+    display: block;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.dialog-auto-size {
+    max-height: none !important;
+    overflow: auto !important;
+}
+
+.botonCancelAceptar {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.image-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 16px 0;
+}
+
+
+
