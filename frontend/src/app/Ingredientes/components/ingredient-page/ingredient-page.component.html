@@ -1,0 +1,20 @@
+<div class="title-cards">
+    <p>Listado de ingredientes de The Kingdoms of Panes</p>
+</div>
+
+<br />
+<div class="buscadorFiltroAdd">
+    <app-search-filter class="buscador" (search)="onSearch($event)"></app-search-filter>
+    <app-filter [options]="availabilityOptions" (filterChange)="onFilterChange($event)"></app-filter>
+    <button class='botonAgregar' mat-raised-button (click)="openAddIngredientDialog()">
+        <span class="material-icons">add</span>
+    </button>
+</div>
+
+<app-ingredient-cards [ingredientes]="filteredIngredientes" [currentPage]="currentPage"
+    (ingredientEdited)="onIngredientEdited($event)" (ingredientDeleted)="onIngredientDeleted($event)"
+    (pageChange)="onPageChange($event)"></app-ingredient-cards>
+
+<app-paginator [currentPage]="currentPage" [totalItems]="totalFilteredItems" [itemsPerPage]="itemsPerPage"
+    (pageChange)="onPageChange($event)">
+</app-paginator>

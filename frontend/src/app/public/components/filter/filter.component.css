@@ -1,0 +1,10 @@
+.custom-form-field {
+    width: 100%;
+    margin-right: -30px;
+}
+
+@media (max-width: 768px) {
+    .filter-container {
+        margin-right: 18%;
+    }
+}

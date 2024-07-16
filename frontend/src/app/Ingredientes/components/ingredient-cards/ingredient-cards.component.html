@@ -1,0 +1,19 @@
+<div class="card-container" *ngFor="let ingrediente of paginatedIngredientes">
+    <div class="cards-buttons">
+        <button id="edit" mat-icon-button (click)="openEditIngredientDialog(ingrediente)">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button id="delete" mat-icon-button color="warn" (click)="openDeleteIngredientDialog(ingrediente)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar class="ingrediente-img" [style.background-image]="getBackgroundImage(ingrediente.img)">
+            </div>
+            <mat-card-title>{{ ingrediente.nombre }}</mat-card-title>
+            <mat-card-subtitle class="mat-card">Disponibilidad: {{ ingrediente.disponible ? 'sí' : 'no'
+                }}</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+</div>

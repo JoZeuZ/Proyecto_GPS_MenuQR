@@ -1,0 +1,26 @@
+.card-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.cards-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+mat-card {
+    flex: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 10px;
+}
+
+mat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}

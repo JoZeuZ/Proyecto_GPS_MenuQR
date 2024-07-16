@@ -1,0 +1,54 @@
+@import '../styles.css';
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+mat-sidenav-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.content-container {
+    flex: 1;
+}
+
+.text {
+    color: white;
+    text-decoration: none;
+}
+
+.centered-text {
+    width: 100%;
+    text-align: center;
+}
+
+.big-icon {
+    font-size: 40px;
+}
+
+.toolbar {
+    background-color: var(--color-principal) !important;
+    color:white
+}
+
+.sidebar{
+    background-color: var(--color-principal) !important;
+    color:white
+}
+
+/* Ajustes adicionales para dispositivos móviles */
+@media (max-width: 768px) {
+    .footer-container {
+        padding: 5px;
+    }
+}

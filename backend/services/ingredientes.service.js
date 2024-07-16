@@ -1,11 +1,12 @@
 "use strict";
-const {handleError} = require('../utils/errorHandler');
+const { handleError } = require('../utils/errorHandler');
 const Ingrediente = require('../models/ingredientes.model');
+const fs = require('fs');
+const path = require('path');
 
 async function getIngredientes() {
     try {
         const ingredientes = await Ingrediente.find().exec();
-
         if (!ingredientes) return [null, "No hay ingredientes"];
         return [ingredientes, null];
     } catch (error) {
@@ -16,7 +17,6 @@ async function getIngredientes() {
 async function getIngredienteById(id) {
     try {
         const ingrediente = await Ingrediente.findById(id).exec();
-
         if (!ingrediente) return [null, "No existe el ingrediente"];
         return [ingrediente, null];
     } catch (error) {
@@ -27,7 +27,6 @@ async function getIngredienteById(id) {
 async function createIngrediente(ingrediente) {
     try {
         const existingIngrediente = await Ingrediente.findOne({ nombre: ingrediente.nombre }).exec();
-
         if (existingIngrediente) return [null, "Ya existe un ingrediente con ese nombre"];
         const newIngrediente = new Ingrediente(ingrediente);
         const ingredienteGuardado = await newIngrediente.save();
@@ -52,15 +51,27 @@ async function updateIngrediente(id, ingrediente) {
     }
 }
 
-
 async function deleteIngrediente(id) {
     try {
-        const ingredienteEliminado = await Ingrediente.findByIdAndDelete(id).exec();
+        const ingrediente = await Ingrediente.findById(id).exec();
+        if (!ingrediente) return [null, "No se encontró el ingrediente"];
 
+        // Verificar la ruta de la imagen
+        const imagePath = path.join(__dirname, '..', ingrediente.img);
+        
+        // Eliminar la imagen asociada
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+        } else {
+            console.log(`Imagen no encontrada: ${imagePath}`);
+        }
+
+        const ingredienteEliminado = await Ingrediente.findByIdAndDelete(id).exec();
         if (!ingredienteEliminado) return [null, "No se encontró el ingrediente"];
         return [ingredienteEliminado, null];
     } catch (error) {
         handleError(error, "ingredientes.service -> deleteIngrediente");
+        return [null, "Error al eliminar el ingrediente"];
     }
 }
 

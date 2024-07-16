@@ -1,0 +1,39 @@
+<div id="miCuadroAgregarUsuario">
+    <h2 mat-dialog-title>Agregar Usuario</h2>
+    <div mat-dialog-content class="content">
+      <form [formGroup]="userForm">
+        <mat-form-field>
+          <mat-label>Nombre de Usuario</mat-label>
+          <input matInput formControlName="username">
+          <mat-error *ngIf="userForm.get('username')?.invalid">{{ getErrorMessage('username') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+          <mat-error *ngIf="userForm.get('email')?.invalid">{{ getErrorMessage('email') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" type="password">
+          <mat-error *ngIf="userForm.get('password')?.invalid">{{ getErrorMessage('password') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Rol</mat-label>
+          <mat-select (selectionChange)="selectRole($event.value)">
+            <mat-option *ngFor="let role of availableRoles" [value]="role">
+              {{ role }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="roles.controls[0].invalid">{{ getErrorMessage('roles') }}</mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions class="botonesAgregar">
+      <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+      <button mat-button (click)="onSaveClick()">Guardar</button>
+    </div>
+  </div>
+  

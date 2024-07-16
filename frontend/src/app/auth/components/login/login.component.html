@@ -1,0 +1,26 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label> Email </label>
+    <input
+      type="email"
+      formControlName="email"
+      class="form-control"
+      placeholder="Ingrese email"
+    />
+  </div>
+  <div class="mb-3">
+    <label> Contraseña </label>
+    <input
+      type="password"
+      formControlName="password"
+      class="form-control"
+      placeholder="Ingrese contraseña"
+    />
+  </div>
+  <input
+    type="submit"
+    class="btn btn-primary"
+    value="Iniciar sesión"
+    [disabled]="!loginForm.valid"
+    />
+</form>
