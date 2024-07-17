@@ -18,13 +18,13 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Estrellas</mat-label>
+      <mat-label>Calificación</mat-label>
       <input matInput type="number" formControlName="estrellas" placeholder="Estrellas (0.5 - 5)" min="0.5" max="5" step="0.5">
       <mat-error *ngIf="reviewForm.get('estrellas')?.hasError('required')">
-        La cantidad de estrellas es obligatoria.
+        La calificación es obligatoria.
       </mat-error>
       <mat-error *ngIf="reviewForm.get('estrellas')?.hasError('min') || reviewForm.get('estrellas')?.hasError('max')">
-        El valor debe estar entre 0.5 y 5.
+        El valor de la calificación debe estar entre 0.5 y 5.
       </mat-error>
     </mat-form-field>
 
@@ -39,7 +39,7 @@
     </mat-form-field>
 
     <div class="botonCancelAceptar">
-      <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">Agregar Reseña</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">Listo</button>
     </div>
   </form>
 </div>

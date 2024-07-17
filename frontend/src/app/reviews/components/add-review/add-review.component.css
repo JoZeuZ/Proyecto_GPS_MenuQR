@@ -1,6 +1,6 @@
 #reviewFormContainer {
     width: auto;
-    max-width: 90%;
+    max-width: 60%;
     margin: 0 auto;
     padding: 16px;
     background-color: white;
@@ -31,14 +31,7 @@ mat-form-field {
     margin-top: 16px;
 }
 
-.image-preview {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin: 16px 0;
-}
+
 
 
 
