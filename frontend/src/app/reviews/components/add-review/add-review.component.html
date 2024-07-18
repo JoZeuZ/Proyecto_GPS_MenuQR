@@ -41,8 +41,14 @@
     <div class="botonCancelAceptar">
       <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">Listo</button>
     </div>
+    
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
   </form>
 </div>
+
+
 
 
 

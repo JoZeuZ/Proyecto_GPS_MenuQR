@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { ReviewService } from '../../services/review.service';
 
 @Component({
   selector: 'app-add-review',
@@ -23,10 +24,11 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class AddReviewComponent implements OnInit {
   public reviewForm!: FormGroup;
+  public errorMessage: string | null = null; // Variable para almacenar mensajes de error
 
   categories = ['Comida', 'Servicio', 'Ambiente', 'General'];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private reviewService: ReviewService) {}
 
   ngOnInit(): void {
     this.reviewForm = new FormGroup({
@@ -48,13 +50,14 @@ export class AddReviewComponent implements OnInit {
       estrellas: Number(this.reviewForm.value.estrellas)  // Ensure it's a number
     };
 
-    this.http.post('http://localhost:3000/api/resenas', newReview).subscribe({
+    this.reviewService.addReview(newReview).subscribe({
       next: (response: any) => {
         alert('Review added successfully');
         this.reviewForm.reset({ estrellas: 0.5, categoria: 'General' });
+        this.errorMessage = null;
       },
       error: (error: any) => {
-        alert('An error occurred while adding the review');
+        this.errorMessage = error.message;
       }
     });
   }
@@ -83,6 +86,8 @@ export class AddReviewComponent implements OnInit {
     return '';
   }
 }
+
+
 
 
 
