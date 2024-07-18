@@ -10,7 +10,10 @@
           <span class="text">Ir a Usuarios</span>
         </a>
         <a mat-list-item href="reviews">
-          <span class="text">Ir a Reseñas</span>
+          <span class="text">Crear Reseña</span>
+        </a>
+        <a mat-list-item href="reviewsCard">
+          <span class="text">Ver Reseñas</span>
         </a>
       </mat-nav-list>
     </mat-sidenav>
@@ -28,6 +31,7 @@
         <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
         <app-login-page *ngIf="isLoginRouteActive()"></app-login-page>
         <app-review-page *ngIf="isReviewRouteActive()"></app-review-page>
+        <app-review-card *ngIf="isReviewCardRouteActive()"></app-review-card>
       </div>
       <app-footer-component></app-footer-component>
     </mat-sidenav-content>

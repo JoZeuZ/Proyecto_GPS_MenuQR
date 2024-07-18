@@ -14,6 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './auth/components/login/login.component';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
+import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,8 @@ import { ReviewPageComponent } from './reviews/components/review-page/review-pag
     MatToolbarModule,
     MatListModule,
     MatIconModule,
-    ReviewPageComponent
+    ReviewPageComponent,
+    ReviewCardComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -74,5 +76,11 @@ export class AppComponent {
   }
   navigateToReview() {
     this.router.navigate(['/reviews']);
+  }
+  isReviewCardRouteActive(): boolean {
+    return this.currentRoute === '/reviewsCard';
+  }
+  navigateToReviewCard() {
+    this.router.navigate(['/reviewsCard']);
   }
 }
