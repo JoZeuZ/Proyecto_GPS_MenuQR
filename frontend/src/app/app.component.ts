@@ -70,9 +70,9 @@ export class AppComponent {
     return this.currentRoute === '/login';
   }
   isReviewRouteActive(): boolean {
-    return this.currentRoute === '/resenas';
+    return this.currentRoute === '/reviews';
   }
   navigateToReview() {
-    this.router.navigate(['/resenas']);
+    this.router.navigate(['/reviews']);
   }
 }

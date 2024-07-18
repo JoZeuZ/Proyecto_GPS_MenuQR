@@ -52,7 +52,7 @@ export class AddReviewComponent implements OnInit {
 
     this.reviewService.addReview(newReview).subscribe({
       next: (response: any) => {
-        alert('Review added successfully');
+        alert('Reseña añadida con exito!');
         this.reviewForm.reset({ estrellas: 0.5, categoria: 'General' });
         this.errorMessage = null;
       },
