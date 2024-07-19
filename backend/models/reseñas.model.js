@@ -7,7 +7,7 @@ const reseñaSchema = new Schema({
         type: String,
         required: true
     },
-    descripción: {
+    descripcion: {
         type: String,
         required: true
     },

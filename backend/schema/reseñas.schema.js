@@ -10,7 +10,7 @@ const reseñaBodySchema = Joi.object({
         "string.min": "El título de la reseña debe tener al menos 3 caracteres.",
         "string.max": "El título de la reseña no puede exceder los 50 caracteres."
     }),
-    descripción: Joi.string().trim().min(10).max(500).required().messages({
+    descripcion: Joi.string().trim().min(10).max(500).required().messages({
         "string.empty": "La descripción de la reseña no puede estar vacía.",
         "any.required": "La descripción de la reseña es obligatoria.",
         "string.base": "La descripción de la reseña debe ser de tipo string.",
