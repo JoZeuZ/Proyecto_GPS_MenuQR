@@ -33,7 +33,7 @@ export class AddReviewComponent implements OnInit {
   ngOnInit(): void {
     this.reviewForm = new FormGroup({
       titulo: new FormControl('', [Validators.required]),
-      descripción: new FormControl('', [Validators.required]),
+      descripcion: new FormControl('', [Validators.required]),
       estrellas: new FormControl(0.5, [Validators.required, Validators.min(0.5), Validators.max(5)]),
       categoria: new FormControl('General', [Validators.required])
     });

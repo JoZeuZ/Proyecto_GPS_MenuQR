@@ -1,1 +1,16 @@
-<p>review-card works!</p>
+<div class="card-container" *ngFor="let review of paginatedReviews">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{ review.titulo }}</mat-card-title>
+            <mat-card-subtitle>Estrellas: {{ review.estrellas }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ review.descripcion }}</p>
+            <p>Categoría: {{ review.categoria }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+
+
+
