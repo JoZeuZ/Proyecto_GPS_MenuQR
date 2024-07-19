@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './auth/components/login/login.component';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
+import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,8 @@ import { ReviewCardComponent } from './reviews/components/review-card/review-car
     MatListModule,
     MatIconModule,
     ReviewPageComponent,
-    ReviewCardComponent
+    ReviewCardComponent,
+    CallWaiterComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -82,5 +84,11 @@ export class AppComponent {
   }
   navigateToReviewCard() {
     this.router.navigate(['/reviewsCard']);
+  }
+  isWaiterCallRouteActive(): boolean {
+    return this.currentRoute === '/call-waiter';
+  }
+  navigateToWaiterCall() {
+    this.router.navigate(['/call-waiter']);
   }
 }

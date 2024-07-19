@@ -5,6 +5,7 @@ import { UserPageComponent } from './users/components/user-page/user-page.compon
 import { LoginComponent } from './auth/components/login/login.component';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
+import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
 
 export const routes: Routes = [
     { path: '', component: AppComponent },
@@ -13,6 +14,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent},
     { path: 'reviews', component: ReviewPageComponent},
     { path: 'reviewsCard', component: ReviewCardComponent},
+    {path: 'call-waiter', component: CallWaiterComponent},
     { path: '**', redirectTo: '' } // Redirige a la página principal para ruta inexistente, posicionar sus rutas arriba de esta
     
 ];
