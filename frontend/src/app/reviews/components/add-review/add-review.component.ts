@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { ReviewService } from '../../services/review.service';
+import { StarRatingComponent } from '../../../star-rating/star-rating.component';
 
 @Component({
   selector: 'app-add-review',
@@ -17,14 +18,15 @@ import { ReviewService } from '../../services/review.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    StarRatingComponent
   ],
   templateUrl: './add-review.component.html',
   styleUrls: ['./add-review.component.css']
 })
 export class AddReviewComponent implements OnInit {
   public reviewForm!: FormGroup;
-  public errorMessage: string | null = null; // Variable para almacenar mensajes de error
+  public errorMessage: string | null = null;
 
   categories = ['Comida', 'Servicio', 'Ambiente', 'General'];
 
@@ -47,12 +49,12 @@ export class AddReviewComponent implements OnInit {
 
     const newReview = {
       ...this.reviewForm.value,
-      estrellas: Number(this.reviewForm.value.estrellas)  // Ensure it's a number
+      estrellas: Number(this.reviewForm.value.estrellas)
     };
 
     this.reviewService.addReview(newReview).subscribe({
       next: (response: any) => {
-        alert('Reseña añadida con exito!');
+        alert('Reseña añadida con éxito!');
         this.reviewForm.reset({ estrellas: 0.5, categoria: 'General' });
         this.errorMessage = null;
       },
@@ -76,16 +78,21 @@ export class AddReviewComponent implements OnInit {
     const control = this.reviewForm.get(formControlName);
 
     if (control && control.hasError('required')) {
-      return 'This field is required.';
+      return 'Este campo es obligatorio.';
     } else if (control && control.hasError('min')) {
-      return 'Minimum value is 0.5.';
+      return 'El valor mínimo es 0.5.';
     } else if (control && control.hasError('max')) {
-      return 'Maximum value is 5.';
+      return 'El valor máximo es 5.';
     }
 
     return '';
   }
 }
+
+
+
+
+
 
 
 

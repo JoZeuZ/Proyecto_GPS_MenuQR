@@ -61,7 +61,22 @@ button[disabled] {
 .error-message {
     color: red;
     margin-top: 16px;
-  }
+}
+
+.star-rating {
+    display: flex;
+    cursor: pointer;
+}
+
+.star-rating mat-icon {
+    font-size: 24px;
+    color: #d3d3d3;
+}
+
+.star-rating mat-icon.filled {
+    color: #ffd700;
+}
+
   
   
 
