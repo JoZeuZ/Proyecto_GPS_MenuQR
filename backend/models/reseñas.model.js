@@ -14,14 +14,14 @@ const reseñaSchema = new Schema({
     estrellas: {
         type: Number,
         required: true,
-        min: 0.5,
+        min: 1,
         max: 5,
         validate: {
             validator: function(v) {
-                return Number.isInteger(v * 2);
+                return Number.isInteger(v) && v >= 1 && v <= 5;
             },
-            message: props => `${props.value} no es un valor de estrellas válido. Debe ser un múltiplo de 0.5. Con maximo valor de 5.`
-        }
+            message: props => `${props.value} no es un valor de estrellas válido. Debe ser un entero entre 1 y 5.`
+    }
     },
     categoria: {
         type: String,

@@ -17,17 +17,13 @@ const reseñaBodySchema = Joi.object({
         "string.min": "La descripción de la reseña debe tener al menos 10 caracteres.",
         "string.max": "La descripción de la reseña no puede exceder los 500 caracteres."
     }),
-    estrellas: Joi.number().required().min(0.5).max(5).custom((value, helpers) => {
-        if (!Number.isInteger(value * 2)) {
-            return helpers.message('La puntuación debe ser un múltiplo de 0.5');
-        }
-        return value;
-    }).messages({
+    estrellas: Joi.number().required().integer().min(1).max(5).messages({
         "number.base": "La puntuación debe ser de tipo numérico.",
         "number.empty": "La puntuación no puede estar vacía.",
         "any.required": "La puntuación es obligatoria.",
-        "number.min": "La puntuación mínima es 0.5.",
-        "number.max": "La puntuación máxima es 5."
+        "number.min": "La puntuación mínima es 1.",
+        "number.max": "La puntuación máxima es 5.",
+        "number.integer": "La puntuación debe ser un número entero."
     }),
     categoria: Joi.string().valid('Comida', 'Servicio', 'Ambiente', 'General').default('General').messages({
         "string.base": "La categoría debe ser de tipo string.",
