@@ -24,7 +24,7 @@
         La calificación es obligatoria.
       </mat-error>
       <mat-error *ngIf="reviewForm.get('estrellas')?.hasError('min') || reviewForm.get('estrellas')?.hasError('max')">
-        El valor de la calificación debe estar entre 0.5 y 5.
+        El valor de la calificación debe estar entre 1 y 5.
       </mat-error>
     </div>
 

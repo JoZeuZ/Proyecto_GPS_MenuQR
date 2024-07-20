@@ -36,7 +36,7 @@ export class AddReviewComponent implements OnInit {
     this.reviewForm = new FormGroup({
       titulo: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', [Validators.required]),
-      estrellas: new FormControl(0.5, [Validators.required, Validators.min(0.5), Validators.max(5)]),
+      estrellas: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(5)]),
       categoria: new FormControl('General', [Validators.required])
     });
   }
@@ -55,7 +55,7 @@ export class AddReviewComponent implements OnInit {
     this.reviewService.addReview(newReview).subscribe({
       next: (response: any) => {
         alert('Reseña añadida con éxito!');
-        this.reviewForm.reset({ estrellas: 0.5, categoria: 'General' });
+        this.reviewForm.reset({ estrellas: 1, categoria: 'General' });
         this.errorMessage = null;
       },
       error: (error: any) => {
@@ -80,7 +80,7 @@ export class AddReviewComponent implements OnInit {
     if (control && control.hasError('required')) {
       return 'Este campo es obligatorio.';
     } else if (control && control.hasError('min')) {
-      return 'El valor mínimo es 0.5.';
+      return 'El valor mínimo es 1.';
     } else if (control && control.hasError('max')) {
       return 'El valor máximo es 5.';
     }
