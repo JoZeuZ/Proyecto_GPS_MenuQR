@@ -63,19 +63,51 @@ button[disabled] {
     margin-top: 16px;
 }
 
+.star-rating-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
 .star-rating {
     display: flex;
+    justify-content: center;
     cursor: pointer;
 }
 
+.star-container {
+    position: relative;
+    margin: 0 5px;
+}
+
 .star-rating mat-icon {
-    font-size: 24px;
+    font-size: 27px;
     color: #d3d3d3;
+    transition: font-size 0.2s;
 }
 
 .star-rating mat-icon.filled {
     color: #ffd700;
 }
+
+.hover-message {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    display: none;
+}
+
+.star-container:hover .hover-message {
+    display: block;
+}
+
 
   
   

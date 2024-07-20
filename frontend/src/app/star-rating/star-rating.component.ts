@@ -7,15 +7,17 @@ import { CommonModule } from '@angular/common';
   selector: 'app-star-rating',
   template: `
     <div class="star-rating">
-      <mat-icon
-        *ngFor="let star of halfStarsArray; let i = index"
-        (click)="rate(i + 1)"
-        (mouseenter)="hover(i + 1)"
-        (mouseleave)="leave()"
-        [class.filled]="(i + 1) <= rating || (i + 1) <= hoverState"
-      >
-        star
-      </mat-icon>
+      <div class="star-container" *ngFor="let star of starsArray; let i = index">
+        <mat-icon
+          (click)="rate(i + 1)"
+          (mouseenter)="hover(i + 1)"
+          (mouseleave)="leave()"
+          [class.filled]="(i + 1) <= rating || (i + 1) <= hoverState"
+        >
+          star
+        </mat-icon>
+        <div class="hover-message" *ngIf="hoverState === i + 1">{{ hoverMessages[i] }}</div>
+      </div>
     </div>
   `,
   styles: [`
@@ -24,11 +26,32 @@ import { CommonModule } from '@angular/common';
       cursor: pointer;
     }
     .star-rating mat-icon {
-      font-size: 24px;
+      font-size: 27px;
       color: #d3d3d3;
+      transition: font-size 0.2s;
     }
     .star-rating mat-icon.filled {
       color: #ffd700;
+    }
+    .star-container {
+      position: relative;
+      margin: 0 5px;
+    }
+    .hover-message {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 12px;
+      white-space: nowrap;
+      display: none;
+    }
+    .star-container:hover .hover-message {
+      display: block;
     }
   `],
   providers: [
@@ -45,8 +68,9 @@ export class StarRatingComponent implements ControlValueAccessor {
   @Input() rating: number = 0;
   @Output() ratingChange: EventEmitter<number> = new EventEmitter<number>();
 
-  halfStarsArray: boolean[] = Array(5).fill(false);  // 5 elementos para 5 estrellas con incrementos de 0.5
+  starsArray: boolean[] = Array(5).fill(false);  // 5 elementos para 5 estrellas
   hoverState: number = 0;
+  hoverMessages: string[] = ['Muy malo', 'Malo', 'Meh', 'Bien', 'Muy bien'];
 
   private onChange = (rating: number) => {};
   private onTouched = () => {};
@@ -81,6 +105,9 @@ export class StarRatingComponent implements ControlValueAccessor {
     // Optionally handle the disabled state
   }
 }
+
+
+
 
 
 
