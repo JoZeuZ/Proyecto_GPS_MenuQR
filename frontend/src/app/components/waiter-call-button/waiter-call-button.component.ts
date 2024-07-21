@@ -4,15 +4,14 @@ import { CallWaiterService } from '../websocket.service';
 @Component({
   standalone: true,
   selector: 'app-call-waiter',
-  template: `
-    <button (click)="callWaiter()">Call Waiter</button>
-  `
+  templateUrl: './waiter-call-button.component.html',
+  styleUrls: ['./waiter-call-button.component.css']
 })
 export class CallWaiterComponent {
   constructor(private waiterService: CallWaiterService) {}
 
   callWaiter() {
-    const data = { tableNumber: 1, customerName: 'Estebaby' }; // Esto puede ser dinámico
+    const data = { tableNumber: 1, customerName: 'Estebaby' };
     this.waiterService.callWaiter(data).subscribe(response => {
       console.log('Waiter called:', response);
     }, error => {
@@ -20,5 +19,6 @@ export class CallWaiterComponent {
     });
   }
 }
+
 
 
