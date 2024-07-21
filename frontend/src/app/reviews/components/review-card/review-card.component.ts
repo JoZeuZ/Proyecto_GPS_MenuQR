@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
+import { StarRatingComponent } from '../../../star-rating/star-rating.component';
 
 @Component({
   selector: 'app-review-card',
@@ -20,7 +21,8 @@ import { PaginatorComponent } from '../../../public/components/paginator/paginat
     MatButtonModule,
     FormsModule,
     MatDialogModule,
-    PaginatorComponent
+    PaginatorComponent,
+    StarRatingComponent
   ],
   templateUrl: './review-card.component.html',
   styleUrls: ['./review-card.component.css']
@@ -31,6 +33,8 @@ export class ReviewCardComponent implements OnInit, OnChanges {
 
   public itemsPerPage: number = 10;
   public paginatedReviews: any[] = [];
+  public categories: string[] = [];
+  public selectedCategory: string = '';
 
   constructor(private service: ReviewService) { }
 
@@ -47,6 +51,7 @@ export class ReviewCardComponent implements OnInit, OnChanges {
       next: (response: any) => {
         if (response && response.data && Array.isArray(response.data[1])) {
           this.reviews = response.data[1];
+          this.extractCategories();
         } else {
           console.error('Unexpected response format:', response);
           this.reviews = [];
@@ -59,17 +64,38 @@ export class ReviewCardComponent implements OnInit, OnChanges {
     });
   }
 
-  applyPagination() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedReviews = this.reviews.slice(startIndex, endIndex);
+  extractCategories(): void {
+    const uniqueCategories = new Set(this.reviews.map(review => review.categoria));
+    this.categories = Array.from(uniqueCategories);
   }
 
-  onPageChange(page: number) {
+  applyPagination(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+
+    const filteredReviews = this.selectedCategory
+      ? this.reviews.filter(review => review.categoria === this.selectedCategory)
+      : this.reviews;
+
+    this.paginatedReviews = filteredReviews.slice(startIndex, endIndex);
+  }
+
+  onPageChange(page: number): void {
     this.currentPage = page;
     this.applyPagination();
   }
+
+  onCategoryChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.selectedCategory = target.value;
+    this.applyPagination();
+  }
 }
+
+
+
+
+
 
 
 

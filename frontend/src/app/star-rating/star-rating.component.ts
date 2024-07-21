@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
           (mouseenter)="hover(i + 1)"
           (mouseleave)="leave()"
           [class.filled]="(i + 1) <= rating || (i + 1) <= hoverState"
+          [class.read-only]="readOnly"
         >
           star
         </mat-icon>
@@ -23,7 +24,6 @@ import { CommonModule } from '@angular/common';
   styles: [`
     .star-rating {
       display: flex;
-      cursor: pointer;
     }
     .star-rating mat-icon {
       font-size: 27px;
@@ -36,6 +36,7 @@ import { CommonModule } from '@angular/common';
     .star-container {
       position: relative;
       margin: 0 5px;
+      cursor: pointer;
     }
     .hover-message {
       position: absolute;
@@ -53,6 +54,9 @@ import { CommonModule } from '@angular/common';
     .star-container:hover .hover-message {
       display: block;
     }
+    .read-only {
+      pointer-events: none;
+    }
   `],
   providers: [
     {
@@ -66,6 +70,7 @@ import { CommonModule } from '@angular/common';
 })
 export class StarRatingComponent implements ControlValueAccessor {
   @Input() rating: number = 0;
+  @Input() readOnly: boolean = false; // Nuevo @Input para readOnly
   @Output() ratingChange: EventEmitter<number> = new EventEmitter<number>();
 
   starsArray: boolean[] = Array(5).fill(false);  // 5 elementos para 5 estrellas
@@ -76,17 +81,23 @@ export class StarRatingComponent implements ControlValueAccessor {
   private onTouched = () => {};
 
   rate(rating: number): void {
-    this.rating = rating;
-    this.ratingChange.emit(this.rating);
-    this.onChange(this.rating);
+    if (!this.readOnly) {
+      this.rating = rating;
+      this.ratingChange.emit(this.rating);
+      this.onChange(this.rating);
+    }
   }
 
   hover(index: number): void {
-    this.hoverState = index;
+    if (!this.readOnly) {
+      this.hoverState = index;
+    }
   }
 
   leave(): void {
-    this.hoverState = 0;
+    if (!this.readOnly) {
+      this.hoverState = 0;
+    }
   }
 
   writeValue(rating: number): void {
@@ -105,6 +116,7 @@ export class StarRatingComponent implements ControlValueAccessor {
     // Optionally handle the disabled state
   }
 }
+
 
 
 
