@@ -33,7 +33,7 @@ export class UserPageComponent implements OnInit {
   filteredUsers: any[] = [];
   isSaveButtonEnabled: boolean = false;
   editedUsers: { [key: string]: any } = {};
-  roles: string[] = ['Administrador', 'Cliente', 'Mesero'];
+  roles: string[] = ['Administrador', 'Mesero'];
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
   public searchTerm: string = '';
@@ -78,7 +78,6 @@ export class UserPageComponent implements OnInit {
       if (result) {
         this.userService.createUser(result).subscribe(
           (newUser: any) => {
-            console.log('Usuario creado:', newUser);
             this.fetchUsers();
             this.showNotification('Usuario creado');
           },
@@ -98,8 +97,6 @@ export class UserPageComponent implements OnInit {
       console.error('Datos de usuario inválidos recibidos:', user);
       return;
     }
-
-    console.log('Usuario editado:', user);
 
     const sanitizedData = {
       _id: user._id,
@@ -123,7 +120,6 @@ export class UserPageComponent implements OnInit {
   onUserDeleted(userId: string): void {
     this.userService.deleteUser(userId).subscribe(
       () => {
-        console.log('Usuario eliminado');
         this.fetchUsers();
         this.showNotification('Usuario eliminado');
       },
@@ -146,13 +142,11 @@ export class UserPageComponent implements OnInit {
   }
 
   saveChanges(): void {
-    console.log('Guardar cambios');
     const updates = Object.values(this.editedUsers);
 
     updates.forEach(user => {
       this.userService.updateUser(user._id, user).subscribe(
         updatedUser => {
-          console.log('Usuario actualizado en la API:', updatedUser);
           this.fetchUsers();
         },
         error => {
