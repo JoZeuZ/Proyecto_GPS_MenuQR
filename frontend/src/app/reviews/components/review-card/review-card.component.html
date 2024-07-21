@@ -16,7 +16,9 @@
   <mat-card *ngFor="let review of paginatedReviews">
     <mat-card-content>
       <mat-card-title>{{ review.titulo }}</mat-card-title>
-      <p>{{ review.descripcion }}</p>
+      <div class="description-container">
+        <p>{{ review.descripcion }}</p>
+      </div>
       <div class="card-footer">
         <p class="category">Categoría: {{ review.categoria }}</p>
         <app-star-rating class="star-rating" [rating]="review.estrellas" [readOnly]="true"></app-star-rating>
