@@ -33,8 +33,12 @@ import { CallWaiterComponent } from './components/waiter-call-button/waiter-call
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    ReviewPageComponent,
+    ReviewCardComponent,
+    CallWaiterComponent
   ],
+
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
