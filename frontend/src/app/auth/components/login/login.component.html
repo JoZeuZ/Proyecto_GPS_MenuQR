@@ -1,26 +1,27 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div class="mb-3">
-    <label> Email </label>
-    <input
-      type="email"
-      formControlName="email"
-      class="form-control"
-      placeholder="Ingrese email"
-    />
+<div class="size2">
+  <h2 mat-dialog-title>Login Funcionarios</h2>
+  <div mat-dialog-content class="size">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label> Email </mat-label>
+        <input matInput
+          type="email"
+          formControlName="email"
+          class="form-control"
+          placeholder="Ingrese email"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label> Contraseña </mat-label>
+        <input matInput
+          type="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="Ingrese contraseña"
+        />
+      </mat-form-field>
+      <div *ngIf="errorMessage" class ="errorMessage">{{errorMessage}}</div>
+      <button mat-button class="boton" >Iniciar Sesion</button>
+    </form>
   </div>
-  <div class="mb-3">
-    <label> Contraseña </label>
-    <input
-      type="password"
-      formControlName="password"
-      class="form-control"
-      placeholder="Ingrese contraseña"
-    />
-  </div>
-  <input
-    type="submit"
-    class="btn btn-primary"
-    value="Iniciar sesión"
-    [disabled]="!loginForm.valid"
-    />
-</form>
+</div>

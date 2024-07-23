@@ -1,3 +1,33 @@
+<mat-sidenav-container class="main-container">
+  <mat-sidenav class="sidebar" #sidevar mode="over">
+    <mat-nav-list>
+      <!-- Elementos dentro de la sidebar -->
+      <a mat-list-item href="ingredientes">
+        <span class="text">Ingredientes</span>
+      </a>
+      <a mat-list-item href="users">
+        <span class="text">Usuarios</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="toolbar">
+      <!-- Elementos dentro de la toolbar -->
+      <i class="material-icons margin" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
+      <div class="centered-text">
+        <a class="material-icons bigicon" href="/">flatware</a>
+      </div>
+      <button mat-icon-button *ngIf="!isAuthenticated" (click)="openLoginDialog()"> <i class="material-icons">person_outline</i></button>
+      <button mat-icon-button *ngIf="isAuthenticated" (click)="onLogout()"><i class="material-icons">person_off</i></button>
+    </mat-toolbar>
+    <!-- Contenido de la pagina -->
+    <div class="content-container">
+      <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
+      <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
+    </div>
+    <app-footer-component></app-footer-component>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
   <mat-sidenav-container class="main-container">
     <mat-sidenav class="sidebar" #sidevar mode="side" class="sidebar">
