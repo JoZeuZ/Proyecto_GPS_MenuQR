@@ -15,6 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './auth/components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from './auth/services/login.service';
+import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
+import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
+import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +34,11 @@ import { LoginService } from './auth/services/login.service';
     MatToolbarModule,
     MatListModule,
     MatIconModule,
+    ReviewPageComponent,
+    ReviewCardComponent,
+    CallWaiterComponent
   ],
+
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -106,5 +113,23 @@ export class AppComponent implements OnInit {
         console.error('Error al cerrar sesión:', error);
       }
     });
+  }
+  isReviewRouteActive(): boolean {
+    return this.currentRoute === '/reviews';
+  }
+  navigateToReview() {
+    this.router.navigate(['/reviews']);
+  }
+  isReviewCardRouteActive(): boolean {
+    return this.currentRoute === '/reviewsCard';
+  }
+  navigateToReviewCard() {
+    this.router.navigate(['/reviewsCard']);
+  }
+  isWaiterCallRouteActive(): boolean {
+    return this.currentRoute === '/call-waiter';
+  }
+  navigateToWaiterCall() {
+    this.router.navigate(['/call-waiter']);
   }
 }

@@ -8,6 +8,15 @@
       <a mat-list-item href="users">
         <span class="text">Usuarios</span>
       </a>
+      <a mat-list-item href="reviews">
+        <span class="text">Crear Reseña</span>
+      </a>
+      <a mat-list-item href="reviewsCard">
+        <span class="text">Ver Reseñas</span>
+      </a>
+      <a mat-list-item href="call-waiter">
+        <span class="text">Llamar</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -17,13 +26,18 @@
       <div class="centered-text">
         <a class="material-icons bigicon" href="/">flatware</a>
       </div>
-      <button mat-icon-button *ngIf="!isAuthenticated" (click)="openLoginDialog()"> <i class="material-icons">person_outline</i></button>
-      <button mat-icon-button *ngIf="isAuthenticated" (click)="onLogout()"><i class="material-icons">person_off</i></button>
+      <button mat-icon-button *ngIf="!isAuthenticated" (click)="openLoginDialog()"> <i
+          class="material-icons">person_outline</i></button>
+      <button mat-icon-button *ngIf="isAuthenticated" (click)="onLogout()"><i
+          class="material-icons">person_off</i></button>
     </mat-toolbar>
     <!-- Contenido de la pagina -->
     <div class="content-container">
       <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
       <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
+      <app-review-page *ngIf="isReviewRouteActive()"></app-review-page>
+      <app-review-card *ngIf="isReviewCardRouteActive()"></app-review-card>
+      <app-call-waiter *ngIf="isWaiterCallRouteActive()"></app-call-waiter>
     </div>
     <app-footer-component></app-footer-component>
   </mat-sidenav-content>
