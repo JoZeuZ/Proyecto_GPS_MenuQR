@@ -50,8 +50,10 @@ async function updatePedido(req, res) {
         const { error: paramsError } = pedidoIdSchema.validate(params);
         if (paramsError) return respondError(req, res, 400, paramsError.message);
 
-        const { error: bodyError } = pedidoBodySchema.validate(body);
-        if (bodyError) return respondError(req, res, 400, bodyError.message);
+        if (!body.estado) {
+            const { error: bodyError } = pedidoBodySchema.validate(body);
+            if (bodyError) return respondError(req, res, 400, bodyError.message);
+        }
 
         const [pedido, error] = await pedidoService.updatePedido(params.id, body);
         if (error) return respondError(req, res, 500, error.message);

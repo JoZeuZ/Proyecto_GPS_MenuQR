@@ -19,6 +19,8 @@ import { LoginService } from './auth/services/login.service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
+import { CartIconComponent } from './components/cart-icon/cart-icon.component';
+import { CartPageComponent } from './components/cart-page/cart-page.component';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +40,9 @@ import { CallWaiterComponent } from './components/waiter-call-button/waiter-call
     MatIconModule,
     ReviewPageComponent,
     ReviewCardComponent,
-    CallWaiterComponent
+    CallWaiterComponent,
+    CartIconComponent,
+    CartPageComponent
   ],
 
   templateUrl: './app.component.html',
@@ -79,6 +83,38 @@ export class AppComponent implements OnInit {
     return this.currentRoute === '/ingredientes';
   }
 
+  isUsersRouteActive(): boolean {
+    return this.currentRoute === '/users';
+  }
+
+  isReviewRouteActive(): boolean {
+    return this.currentRoute === '/reviews';
+  }
+
+  isReviewCardRouteActive(): boolean {
+    return this.currentRoute === '/reviewsCard';
+  }
+
+  isWaiterCallRouteActive(): boolean {
+    return this.currentRoute === '/call-waiter';
+  }
+
+  isCartRouteActive(): boolean {
+    return this.currentRoute === '/cart';
+  }
+
+  isRootRouteActive(): boolean {
+    return this.currentRoute === '/';
+  }
+
+  isPedidosRouteActive(): boolean {
+    return this.currentRoute === '/pedidos';
+  }
+
+  isLoginRouteActive(): boolean {
+    return this.currentRoute === '/login';
+  }
+
   navigateToIngredientes() {
     this.router.navigate(['/ingredientes']);
   }
@@ -87,16 +123,20 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/pedidos']);
   }
 
-  isPedidosRouteActive(): boolean {
-    return this.currentRoute === '/pedidos';
-  }
-
   navigateToUsers() {
     this.router.navigate(['/users']);
   }
 
-  isUsersRouteActive(): boolean {
-    return this.currentRoute === '/users';
+  navigateToReview() {
+    this.router.navigate(['/reviews']);
+  }
+
+  navigateToReviewCard() {
+    this.router.navigate(['/reviewsCard']);
+  }
+
+  navigateToWaiterCall() {
+    this.router.navigate(['/call-waiter']);
   }
 
   openLoginDialog(): void {
@@ -123,23 +163,5 @@ export class AppComponent implements OnInit {
         console.error('Error al cerrar sesión:', error);
       }
     });
-  }
-  isReviewRouteActive(): boolean {
-    return this.currentRoute === '/reviews';
-  }
-  navigateToReview() {
-    this.router.navigate(['/reviews']);
-  }
-  isReviewCardRouteActive(): boolean {
-    return this.currentRoute === '/reviewsCard';
-  }
-  navigateToReviewCard() {
-    this.router.navigate(['/reviewsCard']);
-  }
-  isWaiterCallRouteActive(): boolean {
-    return this.currentRoute === '/call-waiter';
-  }
-  navigateToWaiterCall() {
-    this.router.navigate(['/call-waiter']);
   }
 }

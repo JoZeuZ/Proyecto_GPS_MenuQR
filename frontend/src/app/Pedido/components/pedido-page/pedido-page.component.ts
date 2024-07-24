@@ -8,6 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { PedidoApiService } from '../../services/pedido-api.service';
 import { PedidoDialogComponent } from '../pedido-dialog/pedido-dialog.component';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
+import { PedidoDetailDialogComponent } from '../pedido-detail-dialog/pedido-detail-dialog.component';
+import { FilterComponent } from '../../../public/components/filter/filter.component';
+import { SearchFilterComponent } from '../../../public/components/search-filter/search-filter.component';
 
 @Component({
   selector: 'app-pedido-page',
@@ -21,7 +24,9 @@ import { PaginatorComponent } from '../../../public/components/paginator/paginat
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    PaginatorComponent
+    PaginatorComponent,
+    FilterComponent,
+    SearchFilterComponent
   ]
 })
 export class PedidoPageComponent implements OnInit {
@@ -31,6 +36,8 @@ export class PedidoPageComponent implements OnInit {
   public totalFilteredItems: number = 0;
   public itemsPerPage: number = 10;
   public currentPage: number = 1;
+  public availabilityOptions: string[] = ['Pendiente', 'Preparación', 'Completado', 'Entregado'];
+  public selectedStatuses: string[] = [];
 
   constructor(private pedidoService: PedidoApiService, public dialog: MatDialog) {}
 
@@ -39,9 +46,15 @@ export class PedidoPageComponent implements OnInit {
   }
 
   loadPedidos(): void {
-    this.pedidoService.getPedidos().subscribe((data: any) => {
-      this.pedidos = data;
-      this.applyFilters();
+    this.pedidoService.getPedidos().subscribe({
+      next: (data: any[]) => {
+        this.pedidos = data || [];
+        this.applyFilters();
+      },
+      error: (err) => {
+        this.pedidos = [];
+        this.applyFilters();
+      }
     });
   }
 
@@ -81,6 +94,16 @@ export class PedidoPageComponent implements OnInit {
     });
   }
 
+  openPedidoDetailDialog(pedido: any): void {
+    this.dialog.open(PedidoDetailDialogComponent, { data: pedido });
+  }
+
+  updatePedidoStatus(pedido: any, status: string): void {
+    this.pedidoService.updatePedidoStatus(pedido._id, status).subscribe(() => {
+      this.loadPedidos();
+    });
+  }
+
   onSearch(searchTerm: string): void {
     this.searchTerm = searchTerm;
     this.currentPage = 1;
@@ -96,9 +119,15 @@ export class PedidoPageComponent implements OnInit {
     this.deletePedido(id);
   }
 
+  onFilterChange(selectedStatuses: string[]): void {
+    this.selectedStatuses = selectedStatuses;
+    this.applyFilters();
+  }
+
   applyFilters(): void {
     this.filteredPedidos = this.pedidos.filter(pedido => 
-      pedido.cliente && pedido.cliente.toLowerCase().includes(this.searchTerm.toLowerCase())
+      pedido.mesa.Nmesa.toString().includes(this.searchTerm) &&
+      (this.selectedStatuses.length === 0 || this.selectedStatuses.includes(pedido.estado))
     );
     this.totalFilteredItems = this.filteredPedidos.length;
   }
