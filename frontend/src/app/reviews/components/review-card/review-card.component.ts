@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ReviewService } from '../../services/review.service';
+import { CallWaiterWebSocketService } from '../../../components/call-waiter-websocket.service';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
 import { DecimalPipe, NgForOf, CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
@@ -37,10 +38,16 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   public selectedCategory: string = '';
   public selectedRating: number | null = null;
 
-  constructor(private service: ReviewService) { }
+  public notifications: any[] = []; // Array para las notificaciones
+
+  constructor(
+    private reviewService: ReviewService,
+    private callWaiterWebSocketService: CallWaiterWebSocketService
+  ) {}
 
   ngOnInit(): void {
     this.loadReviews();
+    this.listenForCallWaiterNotifications();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,7 +57,7 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   }
 
   loadReviews(): void {
-    this.service.getReviews().subscribe({
+    this.reviewService.getReviews().subscribe({
       next: (response: any) => {
         if (response && response.data && Array.isArray(response.data[1])) {
           this.reviews = response.data[1];
@@ -101,7 +108,20 @@ export class ReviewCardComponent implements OnInit, OnChanges {
     this.currentPage = 1; // Reset to first page on rating change
     this.applyPagination();
   }
+
+  listenForCallWaiterNotifications(): void {
+    this.callWaiterWebSocketService.getCallWaiterObservable().subscribe(call => {
+      this.notifications.push(call);
+      this.displayNotification(call);
+    });
+  }
+
+  displayNotification(call: any): void {
+    alert(`Mesa ${call.tableNumber} está llamando. Cliente: ${call.customerName}`);
+  }
 }
+
+
 
 
 
