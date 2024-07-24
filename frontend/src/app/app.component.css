@@ -46,6 +46,24 @@ mat-sidenav-content {
     color:white
 }
 
+.material-icons.margin{
+    display: flex;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+}
+
+.material-icons.bigicon{
+    font-size: 37px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+
 /* Ajustes adicionales para dispositivos móviles */
 @media (max-width: 768px) {
     .footer-container {
