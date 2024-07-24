@@ -33,11 +33,6 @@ const userBodySchema = Joi.object({
             "string.base": "El rol debe ser de tipo string.",
             "any.only": "El rol proporcionado no es válido.",
         }),
-    newPassword: Joi.string().min(5).messages({
-        "string.empty": "La contraseña no puede estar vacía.",
-        "string.base": "La contraseña debe ser de tipo string.",
-        "string.min": "La contraseña debe tener al menos 5 caracteres.",
-    }),
 }).messages({
     "object.unknown": "No se permiten propiedades adicionales.",
 });
