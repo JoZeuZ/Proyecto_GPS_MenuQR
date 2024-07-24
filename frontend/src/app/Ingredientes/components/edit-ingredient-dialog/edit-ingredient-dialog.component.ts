@@ -66,7 +66,6 @@ export class EditIngredientDialogComponent implements OnInit {
   updateIngredient() {
     this.http.put(`http://localhost:3000/api/ingredientes/${this.data.ingredient._id}`, this.ingredientForm.value)
       .subscribe((response: any) => {
-        console.log('Ingrediente actualizado:', response);
         this.dialogRef.close({ ...this.ingredientForm.value, _id: this.data.ingredient._id, img: this.data.ingredient.img });
       });
   }
@@ -75,11 +74,9 @@ export class EditIngredientDialogComponent implements OnInit {
     return new Promise((resolve, reject) => {
       if (this.data.ingredient.img) {
         const deleteUrl = `http://localhost:3000/api/${this.data.ingredient.img}`;
-        console.log('URL de eliminación de imagen:', deleteUrl);
 
         this.http.delete(deleteUrl).subscribe({
           next: (response: any) => {
-            console.log('Imagen anterior eliminada:', response);
             resolve();
           },
           error: (error) => {
@@ -103,9 +100,7 @@ export class EditIngredientDialogComponent implements OnInit {
         if (this.selectedFile) {
           formData.append('img', this.selectedFile);
         }
-        console.log('Subiendo nueva imagen con datos:', formData);
         this.http.post('http://localhost:3000/api/upload', formData).subscribe((response: any) => {
-          console.log('Respuesta de la subida de la imagen:', response);
           this.ingredientForm.value.img = response.imgPath;
           this.updateIngredient();
         });

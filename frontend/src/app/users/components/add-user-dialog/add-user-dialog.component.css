@@ -1,11 +1,11 @@
 #miCuadroAgregarUsuario {
-    width: 25rem;
+    width: auto;
+    max-width: 90%;
     margin: 0 auto;
     padding: 16px;
     background-color: white;
     box-sizing: border-box;
     text-align: center;
-    overflow-x: hidden;
 }
 
 mat-form-field {
@@ -35,7 +35,7 @@ mat-form-field {
 
 .mat-dialog-content {
     width: 100%;
-    max-width: 100%;
+    max-width: 90%;
     padding: 0;
     margin: 0;
     display: flex;
@@ -43,4 +43,32 @@ mat-form-field {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+}
+
+mat-error {
+    font-size: 10px; 
+    width: 120%;
+}
+
+@media (max-width: 768px) {
+    #miCuadroAgregarUsuario {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .botonesAgregar {
+        align-items: stretch;
+    }
+
+    .botonesAgregar button {
+        margin-bottom: 8px;
+    }
+
+    mat-form-field {
+        font-size: 14px;
+    }
+
+    .mat-dialog-title {
+        font-size: 18px;
+    }
 }

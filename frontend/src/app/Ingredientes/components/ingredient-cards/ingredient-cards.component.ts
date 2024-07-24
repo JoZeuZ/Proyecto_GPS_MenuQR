@@ -60,14 +60,21 @@ export class IngredientCardsComponent implements OnInit, OnChanges {
     this.applyPagination();
   }
 
-  getBackgroundImage(imgPath: any): string {
+  getBackgroundImage(imgPath: any): string { 
     if (typeof imgPath !== 'string') {
       console.error('imgPath is not a string:', imgPath);
       return '';
     }
 
-    let imageUrl: string;
-    imageUrl = `http://localhost:3000/api/${imgPath}`;
+    // Detectar si está ejecutándose en localhost o en otra IP
+    const hostname = window.location.hostname;
+    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+
+    // Ajustar la URL de la imagen según el caso
+    const imageUrl = isLocalhost
+      ? `http://localhost:3000/api/${imgPath}`
+      : `http://${hostname}:3000/api/${imgPath}`;
+
     return `url(${imageUrl})`;
   }
 

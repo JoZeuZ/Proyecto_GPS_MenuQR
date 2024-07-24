@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray  } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -24,7 +24,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 })
 export class EditUserDialogComponent implements OnInit {
   public userForm!: FormGroup;
-  public availableRoles: string[] = ["Cliente", "Administrador", "Mesero"];
+  public availableRoles: string[] = ["Administrador", "Mesero"];
   public originalPassword: string;
 
   constructor(
@@ -50,12 +50,13 @@ export class EditUserDialogComponent implements OnInit {
         Validators.required,
         Validators.minLength(4)
       ]),
-      newPassword: new FormControl(''),
       roles: new FormControl(initialRole, Validators.required)
     });
   }
 
   onSaveClick(): void {
+    this.markAllAsTouched(this.userForm);
+
     if (this.userForm.invalid) {
       return;
     }
@@ -65,12 +66,21 @@ export class EditUserDialogComponent implements OnInit {
       username: this.userForm.value.username,
       email: this.userForm.value.email,
       password: this.userForm.value.currentPassword,
-      newPassword: this.userForm.value.newPassword || this.userForm.value.currentPassword,
       roles: [{ name: this.userForm.value.roles }]
     };
 
     this.dialogRef.close(updatedUser);
   }
+
+  markAllAsTouched(group: FormGroup | FormArray): void {
+    Object.values(group.controls).forEach(control => {
+      if (control instanceof FormControl) {
+        control.markAsTouched();
+      } else if (control instanceof FormGroup || control instanceof FormArray) {
+        this.markAllAsTouched(control);
+      }
+    });
+  }  
 
   onNoClick(): void {
     this.dialogRef.close();
