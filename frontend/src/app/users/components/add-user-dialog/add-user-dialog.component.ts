@@ -18,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class AddUserDialog implements OnInit {
   public userForm!: FormGroup;
 
-  public availableRoles: string[] = ['Cliente', 'Administrador', 'Mesero'];
+  public availableRoles: string[] = ['Administrador', 'Mesero'];
 
   constructor(public dialogRef: MatDialogRef<AddUserDialog>) { }
 
@@ -94,13 +94,13 @@ export class AddUserDialog implements OnInit {
       }
     } else if (control && control.hasError('pattern')) {
       if (formControlName === 'username') {
-        return 'El nombre solo debe tener letras y espacios.';
+        return 'El nombre solo debe tener letras.';
       }
     } else if (control && control.hasError('email')) {
       return 'El email debe tener un formato válido.';
     } else if (control && control.hasError('minlength')) {
       if (formControlName === 'password') {
-        return 'La contraseña al menos 4 caracteres.';
+        return 'La contraseña debe tener al menos 4 caracteres.';
       }
     }
 

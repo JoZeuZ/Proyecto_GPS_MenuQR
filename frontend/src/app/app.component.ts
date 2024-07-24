@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './auth/components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from './auth/services/login.service';
+import { jwtDecode } from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
@@ -38,7 +40,6 @@ import { CallWaiterComponent } from './components/waiter-call-button/waiter-call
     ReviewCardComponent,
     CallWaiterComponent
   ],
-
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -48,17 +49,33 @@ export class AppComponent implements OnInit {
   currentRoute: string = '';
   isAuthenticated: boolean = false;
 
+  private routeRoles: { [key: string]: string[] } = {
+    '/users': ['Administrador'],
+    '/ingredientes': ['Administrador', 'Mesero'],
+    // Añadir otras rutas y roles requeridos aquí
+  };
+
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private cookieService: CookieService
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         this.currentRoute = this.router.url;
+        this.checkUserRouteAccess();
       });
-    
+  }
+
+  getUserRole(): string[] {
+    const token = this.cookieService.get('awa');
+    if (!token) {
+      return [];
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
   }
 
   ngOnInit() {
@@ -67,6 +84,8 @@ export class AppComponent implements OnInit {
     this.loginService.getAuthState().subscribe(authState => {
       this.isAuthenticated = authState;
     });
+    const rol = this.getUserRole()
+    console.log(rol + "");
   }
 
   navigateToHome() {
@@ -87,6 +106,15 @@ export class AppComponent implements OnInit {
 
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
+  }
+
+  checkUserRouteAccess() {
+    const roles = this.getUserRole();
+    const requiredRoles = this.routeRoles[this.currentRoute];
+
+    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
+      this.router.navigate(['/']);
+    }
   }
 
   openLoginDialog(): void {
@@ -114,6 +142,7 @@ export class AppComponent implements OnInit {
       }
     });
   }
+  
   isReviewRouteActive(): boolean {
     return this.currentRoute === '/reviews';
   }

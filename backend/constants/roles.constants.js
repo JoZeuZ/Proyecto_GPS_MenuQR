@@ -1,4 +1,4 @@
 "use strict";
-const ROLES = ["Cliente", "Administrador", "Mesero"];
+const ROLES = ["Administrador", "Mesero"];
 
 module.exports = ROLES;

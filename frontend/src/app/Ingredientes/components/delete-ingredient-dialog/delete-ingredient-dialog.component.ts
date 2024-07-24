@@ -36,7 +36,6 @@ export class DeleteIngredientDialog {
   deleteIngredient(id: string) {
     this.http.delete(`http://localhost:3000/api/ingredientes/${id}`).subscribe({
       next: (response: any) => {
-        console.log('Ingrediente eliminado del servidor:', response);
         this.ingredientDeleted.emit(id); 
         this.dialogRef.close(true); 
       },
