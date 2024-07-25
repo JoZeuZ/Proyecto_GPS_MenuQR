@@ -3,17 +3,21 @@ require('dotenv').config();
 const cors = require("cors");
 const morgan = require("morgan");
 const express = require('express');
+const http = require('http');
 const cookieParser = require("cookie-parser");
 const { setupDB } = require("./config/db.js");
 const indexRoutes = require("./routes/index.routes.js");
 const { PORT, HOST } = require("./config/configEnv.js");
 const { createRoles } = require('./config/initialSetup.js');
+const { wss } = require('./config/websocket.js');
 const { handleFatalError, handleError } = require("./utils/errorHandler.js");
 const path = require('path');
 
 async function setupServer() {
     try {
         const server = express();
+        const httpServer = http.createServer(server);
+
         server.use(express.json());
         server.use(cors({ origin: "http://localhost:4200", credentials: true }));
         server.use(cookieParser());
@@ -34,14 +38,31 @@ async function setupServer() {
             if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
                 return res.status(400).json({ message: "Error en formato de JSON" });
             }
-            res.status(500).json({ message: 'Internal Server Error', error: err.message });
+            next(err); // Pasa otros errores a los manejadores de errores siguientes
         });
 
-        server.listen(PORT, () => {
-            console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
-        });
+        // WebSocket configuration
+        if (wss) {
+            httpServer.on('upgrade', (request, socket, head) => {
+                wss.handleUpgrade(request, socket, head, (ws) => {
+                    wss.emit('connection', ws, request);
+                });
+            });
+        }
+
+        // Check if WebSockets are needed
+        if (wss) {
+            httpServer.listen(PORT, () => {
+                console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+            });
+        } else {
+            server.listen(PORT, () => {
+                console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
+            });
+        }
+
     } catch (err) {
-        handleError(err, "/server.js -> setupServer");
+        handleError(err, "/app.js -> setupServer");
     }
 }
 
@@ -51,10 +72,13 @@ async function setupAPI() {
         await setupServer();
         await createRoles();
     } catch (err) {
-        handleFatalError(err, "/server.js -> setupAPI");
+        handleFatalError(err, "/app.js -> setupAPI");
     }
 }
 
 setupAPI()
     .then(() => console.log("=> API Iniciada exitosamente"))
     .catch((err) => handleFatalError(err, "/server.js -> setupAPI"));
+
+
+

@@ -8,8 +8,8 @@ async function isAdmin(req, res, next) {
     try {
         const user = await User.findOne({ email: req.email });
         const roles = await Role.find({ _id: { $in: user.roles } });
-
         for (const role of roles) {
+            console.log(roles);
             if (role.name === "Administrador") {
                 next();
                 return;
@@ -48,35 +48,13 @@ async function isMesero(req, res, next) {
     }
 }
 
-async function isCliente(req, res, next) {
-    try {
-        const user = await User.findOne({ email: req.email });
-        const roles = await Role.find({ _id: { $in: user.roles } });
-
-        for (const role of roles) {
-            if (role.name === "Cliente") {
-                next();
-                return;
-            }
-        }
-        return respondError(
-            req,
-            res,
-            401,
-            "Se requiere un rol de cliente para realizar esta acción"
-        );
-    } catch (error) {
-        handleError(error, "authorization.middleware -> isCliente");
-    }
-}
-
 async function isAny(req, res, next) {
     try {
         const user = await User.findOne({ email: req.email });
         const roles = await Role.find({ _id: { $in: user.roles } });
 
         for (const role of roles) {
-            if (role.name === "Administrador" || role.name === "Cliente" || role.name === "Mesero") {
+            if (role.name === "Administrador" || role.name === "Mesero") {
                 next();
                 return;
             }
@@ -96,5 +74,4 @@ module.exports = {
     isAny,
     isAdmin,
     isMesero,
-    isCliente,
 };
