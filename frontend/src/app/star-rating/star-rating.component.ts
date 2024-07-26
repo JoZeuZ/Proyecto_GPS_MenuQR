@@ -73,7 +73,7 @@ export class StarRatingComponent implements ControlValueAccessor {
   @Input() readOnly: boolean = false; // Nuevo @Input para readOnly
   @Output() ratingChange: EventEmitter<number> = new EventEmitter<number>();
 
-  starsArray: boolean[] = Array(5).fill(false);  // 5 elementos para 5 estrellas
+  starsArray: boolean[] = Array(5).fill(false);  
   hoverState: number = 0;
   hoverMessages: string[] = ['Muy malo', 'Malo', 'Meh', 'Bien', 'Muy bien'];
 
