@@ -31,10 +31,11 @@
                 </mat-select>
                 <mat-error *ngIf="userForm.get('roles')?.invalid">{{ getErrorMessage('roles') }}</mat-error>
             </mat-form-field>
+            <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
         </form>
     </div>
     <div mat-dialog-actions class="botonesGuardarCancelar">
         <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
-        <button mat-button (click)="onSaveClick()">Guardar</button>
+        <button mat-button (click)="onSaveClick()" [disabled]="userForm.invalid">Guardar</button>
     </div>
 </div>

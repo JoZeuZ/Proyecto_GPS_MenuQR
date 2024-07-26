@@ -6,32 +6,34 @@
     background-color: white;
     box-sizing: border-box;
     text-align: center;
-    position: fixed;  
-    top: 50%;  
-    left: 50%;  
-    transform: translate(-50%, -50%);  
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 4px;
 }
 
 mat-form-field {
     display: block;
     width: 100%;
-    margin-bottom: 16px;  
+    margin-bottom: 16px;
 }
 
 mat-error {
-    font-size: 11px;
-    line-height: 1.2;
-    display: block; 
-    white-space: normal;  
-    width: 120%;  
-    margin-left: -8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: red;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin-top: -10px;
 }
 
 .botonesGuardarCancelar {
     display: flex;
     justify-content: space-evenly;
-    position: relative;  /* Cambiado a relative */
+    position: relative;
     bottom: 7px;
     padding-bottom: 13px;
 }
@@ -39,9 +41,9 @@ mat-error {
 .mat-dialog-container {
     display: flex;
     justify-content: center;
-    align-items: center;  /* Cambiado a center */
+    align-items: center;
     padding: 0;
-    height: auto;  
+    height: auto;
 }
 
 .mat-dialog-content {
@@ -51,7 +53,7 @@ mat-error {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     box-sizing: border-box;
 }
 
