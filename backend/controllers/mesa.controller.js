@@ -44,7 +44,6 @@ async function getMesa(req, res) {
 }
 
 
-// Agregar función de QR al update también ************
 async function updateMesa(req, res) {
     try {
         const { params, body } = req;
@@ -53,6 +52,10 @@ async function updateMesa(req, res) {
 
         const { error: bodyError } = mesaBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
+
+        const qrData = `https://mi-restaurante.com/menu?mesaId=${body.Nmesa}`;
+        const codigoQR = await QRCode.toDataURL(qrData);
+        body.codigoQR = codigoQR;
 
         const [mesa, error] = await mesaService.updateMesa(params.id, body);
         if (error) return respondError(req, res, 500, error.message);

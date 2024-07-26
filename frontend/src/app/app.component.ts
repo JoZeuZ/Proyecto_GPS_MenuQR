@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponentComponent } from './public/components/footer-component/footer-component.component';
 import { IngredientPageComponent } from './Ingredientes/components/ingredient-page/ingredient-page.component';
@@ -21,6 +21,7 @@ import { ReviewCardComponent } from './reviews/components/review-card/review-car
 import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { CartService } from './services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -57,14 +58,17 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private route: ActivatedRoute,
+    private cartService: CartService
+
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         this.currentRoute = this.router.url;
       });
-    
+
   }
 
   ngOnInit() {
@@ -72,6 +76,15 @@ export class AppComponent implements OnInit {
     // Suscribirse al estado de autenticación
     this.loginService.getAuthState().subscribe(authState => {
       this.isAuthenticated = authState;
+    });
+
+    // Manejo de query params para QR
+    this.route.queryParams.subscribe(params => {
+      const mesaId = params['mesaId'];
+      if (mesaId) {
+        this.cartService.setMesa(parseInt(mesaId, 10));
+        this.router.navigate(['/menu']);
+      }
     });
   }
 

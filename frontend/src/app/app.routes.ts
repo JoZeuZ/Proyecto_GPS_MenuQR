@@ -8,6 +8,7 @@ import { ReviewPageComponent } from './reviews/components/review-page/review-pag
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { PagoPageComponent } from './Pago/components/pago-page/pago-page.component';
 
 export const routes: Routes = [
     { path: '', component: AppComponent },
@@ -19,6 +20,7 @@ export const routes: Routes = [
     { path: 'reviewsCard', component: ReviewCardComponent},
     {path: 'call-waiter', component: CallWaiterComponent},
     { path: 'cart', component: CartPageComponent },
+    { path: 'pago', component: PagoPageComponent },
     { path: '**', redirectTo: '' } // Redirige a la página principal para ruta inexistente, posicionar sus rutas arriba de esta
     
 ];

@@ -3,7 +3,8 @@ import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-cart-page',
@@ -19,28 +20,32 @@ import { RouterModule } from '@angular/router';
 })
 export class CartPageComponent implements OnInit {
   cart: any[] = [];
+  mesa: number | null = null;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private router: Router) {}
 
   ngOnInit(): void {
-    this.cartService.cartItems$.subscribe(items => {
-      this.cart = items;
-    });
+    this.cartService.cart$.subscribe(cart => this.cart = cart);
+    this.cartService.mesa$.subscribe(mesa => this.mesa = mesa);
   }
 
   removeItem(index: number): void {
     this.cartService.removeFromCart(index);
   }
 
-  clearCart(): void {
-    this.cartService.clearCart();
+  goToMenu(): void {
+    this.router.navigate(['/']);
   }
 
-  goToMenu() {
-    // Navegar al menú
-  }
-
-  realizarPedido() {
-    // Navegar a la página de pedido
+  realizarPedido(): void {
+    const orderDetails = {
+      cliente: 'Nombre del Cliente',  // Aquí puedes obtener el nombre real del cliente
+      metodoPago: 'Tarjeta',  // Puedes obtener este valor dinámicamente
+      propina: 0  // Puedes obtener este valor dinámicamente
+    };
+    this.cartService.confirmOrder(orderDetails).subscribe(() => {
+      this.cartService.clearCart();
+      this.router.navigate(['/']);
+    });
   }
 }

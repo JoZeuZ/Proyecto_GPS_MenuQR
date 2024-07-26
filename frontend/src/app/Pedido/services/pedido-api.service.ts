@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+
 export class PedidoApiService {
   baseURL = 'http://localhost:3000/api/pedidos';
 

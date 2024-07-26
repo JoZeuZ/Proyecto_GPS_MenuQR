@@ -1,44 +1,61 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
 export class CartService {
-  private cartItemsSubject = new BehaviorSubject<any[]>(this.getCartItemsFromLocalStorage());
-  cartItems$ = this.cartItemsSubject.asObservable();
+  private cart = new BehaviorSubject<any[]>([]);
+  private mesa = new BehaviorSubject<number | null>(null);
+  cart$ = this.cart.asObservable();
+  mesa$ = this.mesa.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
-  private getCartItemsFromLocalStorage(): any[] {
-    if (typeof window !== 'undefined' && localStorage.getItem('cartItems')) {
-      return JSON.parse(localStorage.getItem('cartItems') || '[]');
-    }
-    return [];
+  getCart() {
+    return this.cart.value;
   }
 
-  private setCartItemsToLocalStorage(items: any[]): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cartItems', JSON.stringify(items));
-    }
+  addToCart(product: any) {
+    const currentCart = this.cart.value;
+    currentCart.push(product);
+    this.cart.next(currentCart);
   }
 
-  addToCart(item: any): void {
-    const currentItems = this.cartItemsSubject.value;
-    currentItems.push(item);
-    this.setCartItemsToLocalStorage(currentItems);
-    this.cartItemsSubject.next(currentItems);
+  removeFromCart(index: number) {
+    const currentCart = this.cart.value;
+    currentCart.splice(index, 1);
+    this.cart.next(currentCart);
   }
 
-  removeFromCart(index: number): void {
-    const currentItems = this.cartItemsSubject.value;
-    currentItems.splice(index, 1);
-    this.setCartItemsToLocalStorage(currentItems);
-    this.cartItemsSubject.next(currentItems);
+  setMesa(nMesa: number) {
+    this.mesa.next(nMesa);
   }
 
-  clearCart(): void {
-    this.setCartItemsToLocalStorage([]);
-    this.cartItemsSubject.next([]);
+  getMesa() {
+    return this.mesa.value;
+  }
+
+  clearCart() {
+    this.cart.next([]);
+    this.mesa.next(null);
+  }
+
+  confirmOrder(orderDetails: any) {
+    const pedido = {
+      cliente: orderDetails.cliente,
+      mesa: this.getMesa(),
+      productos: this.getCart(),
+      metodoPago: orderDetails.metodoPago,
+      propina: orderDetails.propina,
+      total: this.calculateTotal()
+    };
+    return this.http.post('/api/pedidos', pedido);
+  }
+
+  private calculateTotal() {
+    return this.getCart().reduce((total, product) => total + product.price * product.quantity, 0);
   }
 }
