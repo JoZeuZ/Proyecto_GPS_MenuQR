@@ -7,8 +7,9 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { StarRatingComponent } from '../../../star-rating/star-rating.component';
+import { ReviewDetailDialogComponent } from '../review-detail-dialog/review-detail-dialog.component';
 
 @Component({
   selector: 'app-review-card',
@@ -32,17 +33,18 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   @Input() reviews: any[] = [];
   @Input() currentPage: number = 1;
 
-  public itemsPerPage: number = 10; // Número de reseñas por página
+  public itemsPerPage: number = 10;
   public paginatedReviews: any[] = [];
   public categories: string[] = [];
   public selectedCategory: string = '';
   public selectedRating: number | null = null;
 
-  public notifications: any[] = []; // Array para las notificaciones
+  public notifications: any[] = [];
 
   constructor(
     private reviewService: ReviewService,
-    private callWaiterWebSocketService: CallWaiterWebSocketService
+    private callWaiterWebSocketService: CallWaiterWebSocketService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -98,14 +100,14 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   onCategoryChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     this.selectedCategory = target.value;
-    this.currentPage = 1; // Reset to first page on category change
+    this.currentPage = 1;
     this.applyPagination();
   }
 
   onRatingChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     this.selectedRating = target.value ? +target.value : null;
-    this.currentPage = 1; // Reset to first page on rating change
+    this.currentPage = 1;
     this.applyPagination();
   }
 
@@ -119,7 +121,14 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   displayNotification(call: any): void {
     alert(`Mesa ${call.tableNumber} está llamando. Cliente: ${call.customerName}`);
   }
+
+  openReviewDialog(review: any): void {
+    this.dialog.open(ReviewDetailDialogComponent, {
+      data: review
+    });
+  }
 }
+
 
 
 

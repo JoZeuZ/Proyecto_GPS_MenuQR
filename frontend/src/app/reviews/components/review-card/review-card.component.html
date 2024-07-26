@@ -1,3 +1,4 @@
+<!-- review-card.component.html -->
 <div class="filter-container">
   <label for="category-select">Filtrar por categoría:</label>
   <select id="category-select" (change)="onCategoryChange($event)">
@@ -13,12 +14,9 @@
 </div>
 
 <div class="card-container">
-  <mat-card *ngFor="let review of paginatedReviews">
+  <mat-card *ngFor="let review of paginatedReviews" (click)="openReviewDialog(review)">
     <mat-card-content>
       <mat-card-title>{{ review.titulo }}</mat-card-title>
-      <div class="description-container">
-        <p>{{ review.descripcion }}</p>
-      </div>
       <div class="card-footer">
         <p class="category">Categoría: {{ review.categoria }}</p>
         <app-star-rating class="star-rating" [rating]="review.estrellas" [readOnly]="true"></app-star-rating>
