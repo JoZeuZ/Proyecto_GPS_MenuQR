@@ -16,9 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './auth/components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from './auth/services/login.service';
+import { jwtDecode } from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
-import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
+import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { CartService } from './services/cart.service';
@@ -47,7 +49,6 @@ import { PagoPageComponent } from './Pago/components/pago-page/pago-page.compone
     CartPageComponent,
     PagoPageComponent
   ],
-
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -57,20 +58,24 @@ export class AppComponent implements OnInit {
   currentRoute: string = '';
   isAuthenticated: boolean = false;
 
+  private routeRoles: { [key: string]: string[] } = {
+    '/users': ['Administrador'],
+    '/ingredientes': ['Administrador', 'Mesero'],
+    '/reviewsCard': ['Administrador', 'Mesero']
+    // Añadir otras rutas y roles requeridos aquí
+  };
+
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private loginService: LoginService,
-    private route: ActivatedRoute,
-    private cartService: CartService
-
+    private loginService: LoginService
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         this.currentRoute = this.router.url;
       });
-
+    
   }
 
   ngOnInit() {
@@ -78,15 +83,6 @@ export class AppComponent implements OnInit {
     // Suscribirse al estado de autenticación
     this.loginService.getAuthState().subscribe(authState => {
       this.isAuthenticated = authState;
-    });
-
-    // Manejo de query params para QR
-    this.route.queryParams.subscribe(params => {
-      const mesaId = params['mesaId'];
-      if (mesaId) {
-        this.cartService.setMesa(parseInt(mesaId, 10));
-        this.router.navigate(['/menu']);
-      }
     });
   }
 
@@ -162,6 +158,15 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/call-waiter']);
   }
 
+  checkUserRouteAccess() {
+    const roles = this.getUserRole();
+    const requiredRoles = this.routeRoles[this.currentRoute];
+
+    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
+      this.router.navigate(['/']);
+    }
+  }
+
   openLoginDialog(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '300px',
@@ -186,5 +191,23 @@ export class AppComponent implements OnInit {
         console.error('Error al cerrar sesión:', error);
       }
     });
+  }
+  isReviewRouteActive(): boolean {
+    return this.currentRoute === '/reviews';
+  }
+  navigateToReview() {
+    this.router.navigate(['/reviews']);
+  }
+  isReviewCardRouteActive(): boolean {
+    return this.currentRoute === '/reviewsCard';
+  }
+  navigateToReviewCard() {
+    this.router.navigate(['/reviewsCard']);
+  }
+  isWaiterCallRouteActive(): boolean {
+    return this.currentRoute === '/call-waiter';
+  }
+  navigateToWaiterCall() {
+    this.router.navigate(['/call-waiter']);
   }
 }

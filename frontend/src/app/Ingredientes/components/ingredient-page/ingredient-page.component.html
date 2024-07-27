@@ -5,7 +5,7 @@
 <br />
 <div class="buscadorFiltroAdd">
     <app-search-filter class="buscador" (search)="onSearch($event)"></app-search-filter>
-    <app-filter [options]="availabilityOptions" (filterChange)="onFilterChange($event)"></app-filter>
+    <app-filter class="filtro" [options]="availabilityOptions" (filterChange)="onFilterChange($event)"></app-filter>
     <button class='botonAgregar' mat-raised-button (click)="openAddIngredientDialog()">
         <span class="material-icons">add</span>
     </button>

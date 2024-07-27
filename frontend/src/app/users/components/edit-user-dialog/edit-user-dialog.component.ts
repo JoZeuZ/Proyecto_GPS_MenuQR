@@ -5,7 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { UsersApiService } from '../../services/users-api.service';
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -23,26 +24,21 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
   styleUrls: ['./edit-user-dialog.component.css']
 })
 export class EditUserDialogComponent implements OnInit {
-  public userForm!: FormGroup;
-  public availableRoles: string[] = ["Cliente", "Administrador", "Mesero"];
-  public originalPassword: string;
+  public userForm: FormGroup;
+  public availableRoles: string[] = ["Administrador", "Mesero"];
+  public errorMessage: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<EditUserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private userService: UsersApiService
   ) {
-    this.originalPassword = this.data.user.currentPassword;
-  }
-
-  ngOnInit(): void {
-    const initialRole = this.data.user.roles[0]?.name || this.data.user.roles[0] || '';
-
     this.userForm = new FormGroup({
-      username: new FormControl(this.data.user.username, [
+      username: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[A-Za-záéíóúüñÁÉÍÓÚÜÑ\s]+$/)
       ]),
-      email: new FormControl(this.data.user.email, [
+      email: new FormControl('', [
         Validators.required,
         Validators.email
       ]),
@@ -50,31 +46,64 @@ export class EditUserDialogComponent implements OnInit {
         Validators.required,
         Validators.minLength(4)
       ]),
-      newPassword: new FormControl(''),
-      roles: new FormControl(initialRole, Validators.required)
+      roles: new FormControl('', Validators.required)
+    });
+  }
+
+  ngOnInit(): void {
+    const initialRole = this.data.user.roles && this.data.user.roles[0] ? 
+      (this.data.user.roles[0].name || this.data.user.roles[0]) : '';
+  
+    this.userForm.patchValue({
+      username: this.data.user.username,
+      email: this.data.user.email,
+      roles: initialRole
     });
   }
 
   onSaveClick(): void {
+    this.markAllAsTouched(this.userForm);
+    this.errorMessage = '';
+  
     if (this.userForm.invalid) {
       return;
     }
-
+  
     const updatedUser = {
       _id: this.data.user._id,
       username: this.userForm.value.username,
       email: this.userForm.value.email,
       password: this.userForm.value.currentPassword,
-      newPassword: this.userForm.value.newPassword || this.userForm.value.currentPassword,
-      roles: [{ name: this.userForm.value.roles }]
+      roles: [this.userForm.value.roles]
     };
+  
+    this.userService.updateUser(updatedUser._id, updatedUser).subscribe(
+      response => {
+        this.dialogRef.close(updatedUser);
+      },
+      error => {
+        if (error.status === 400 && error.error && error.error.message === 'Contraseña incorrecta') {
+          this.errorMessage = 'Contraseña incorrecta';
+        } else {
+          this.errorMessage = 'Contraseña incorrecta';
+        }
+      }
+    );
+  }
 
-    this.dialogRef.close(updatedUser);
+  markAllAsTouched(group: FormGroup | FormArray): void {
+    Object.values(group.controls).forEach(control => {
+      if (control instanceof FormControl) {
+        control.markAsTouched();
+      } else if (control instanceof FormGroup || control instanceof FormArray) {
+        this.markAllAsTouched(control);
+      }
+    });
   }
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
+  }  
 
   getErrorMessage(formControlName: string): string {
     const control = this.userForm.get(formControlName);
@@ -101,10 +130,6 @@ export class EditUserDialogComponent implements OnInit {
     } else if (control && control.hasError('minlength')) {
       if (formControlName === 'currentPassword') {
         return 'La contraseña debe tener al menos 4 caracteres.';
-      }
-    } else if (control && control.hasError('mismatch')) {
-      if (formControlName === 'currentPassword') {
-        return 'La contraseña no coincide.';
       }
     }
 

@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class FilterComponent {
   @Input() options: string[] = [];
+  @Input() placeholder: string = 'Filtrar';
   @Output() filterChange = new EventEmitter<string[]>();
   selectedValues: string[] = [];
   showOptions = false;

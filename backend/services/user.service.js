@@ -60,7 +60,7 @@ async function updateUser(id, user) {
         const userFound = await User.findById(id);
         if (!userFound) return [null, "El usuario no existe"];
 
-        const { username, email, password, newPassword, roles } = user;
+        const { username, email, password, roles } = user;
 
         const matchPassword = await User.comparePassword(password, userFound.password);
         if (!matchPassword) {
@@ -76,7 +76,7 @@ async function updateUser(id, user) {
             {
                 username,
                 email,
-                password: await User.encryptPassword(newPassword || password),
+                password: await User.encryptPassword(password),
                 roles: myRole,
             },
             { new: true }
@@ -101,31 +101,10 @@ async function deleteUser(id) {
     }
 }
 
-// async function validatePassword(userId, password) {
-//     try {
-//         const user = await User.findById(userId);
-
-//         if (!user) {
-//             return [false, "El usuario no existe"];
-//         }
-
-//         const isMatch = await User.comparePassword(password, user.password);
-
-//         if (!isMatch) {
-//             return [false, "La contraseña no coincide"];
-//         }
-
-//         return [true, null];
-//     } catch (error) {
-//         return [false, error.message];
-//     }
-// }
-
 module.exports = {
     getUsers,
     createUser,
     getUserById,
     updateUser,
     deleteUser,
-    // validatePassword,
 };

@@ -31,7 +31,9 @@ export class UserCardsComponent implements OnInit, OnChanges {
   public itemsPerPage: number = 10;
   public paginatedUsers: any[] = [];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.applyPagination();
@@ -65,7 +67,7 @@ export class UserCardsComponent implements OnInit, OnChanges {
 
   openEditUserDialog(user: any): void {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
-      data: { user }
+      data: { user: { ...user } }
     });
 
     dialogRef.afterClosed().subscribe(result => {

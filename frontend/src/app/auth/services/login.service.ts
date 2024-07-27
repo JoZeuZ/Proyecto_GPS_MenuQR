@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
-import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,6 @@ export class LoginService {
           this.cookieService.set('awa', response.data.accessToken);
           console.log(response.data.accessToken);
           console.log(this.cookieService.get('jwt'));
-          console.log(this.getUserRole());
           this.authState.next(true); // Emitir nuevo estado de autenticación
         })
       );
@@ -46,17 +44,5 @@ export class LoginService {
     return this.authState.asObservable();
   }
 
-  getToken(tkn: string): string {
-    return this.cookieService.get(tkn);
-  }
 
-  getUserRole(): string[] {
-    const token = this.getToken('awa');
-    if (!token) {
-      return [];
-    }
-    const decodedToken: any = jwtDecode(token);
-    console.log(decodedToken);
-    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
-  }
 }
