@@ -20,7 +20,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
-import { ProductosPageComponent } from './Menu/components/productos-page/productos-page.component';
+import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +40,7 @@ import { ProductosPageComponent } from './Menu/components/productos-page/product
     ReviewPageComponent,
     ReviewCardComponent,
     CallWaiterComponent,
-    ProductosPageComponent
+    ProductosFormComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

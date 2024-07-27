@@ -1,2 +1,4 @@
-<p>Jose Rodrigo</p>
-
+<app-productos-cards [productos]="filteredProductos" 
+[currentPage]="currentPage" 
+(pageChange)="onPageChange($event)"
+></app-productos-cards>

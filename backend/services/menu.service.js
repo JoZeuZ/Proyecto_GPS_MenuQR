@@ -32,9 +32,38 @@ async function createMenu(req, res) {
     }
 }
 
+async function updateMenu(req, res) {
+    try {
+        const { id } = req.params;
+        const { productos } = req.body;
+
+        if (!productos) {
+            return respondError(req, res, 400, "Faltan datos");
+        }
+        const [updatedMenu, errorMenu] = await MenuService.updateMenu(id, { productos });
+        if (errorMenu) return respondError(req, res, 400, errorMenu);
+        respondSuccess(req, res, 200, ["Menu actualizado: ", updatedMenu]);
+    } catch (error) {
+        handleError(error, "menu.controller -> updateMenu");
+    }
+}
+
+async function deleteMenu(req, res) {
+    try {
+        const { id } = req.params;
+        const [deletedMenu, errorMenu] = await MenuService.deleteMenu(id);
+        if (errorMenu) return respondError(req, res, 400, errorMenu);
+        respondSuccess(req, res, 200, ["Menu eliminado: ", deletedMenu]);
+    } catch (error) {
+        handleError(error, "menu.controller -> deleteMenu");
+    }
+}
+
 module.exports = {
     getMenu,
     createMenu,
+    updateMenu,
+    deleteMenu
 };
 
 
