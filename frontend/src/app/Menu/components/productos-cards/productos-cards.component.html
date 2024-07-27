@@ -15,7 +15,11 @@
             <mat-card-subtitle>{{ productos.precio | currency }}</mat-card-subtitle>
             <mat-card-subtitle>{{ productos.descripcion }}</mat-card-subtitle>
             <mat-card-subtitle>{{ productos.categoria }}</mat-card-subtitle>
-            <mat-card-subtitle>{{ productos.ingredientes }}</mat-card-subtitle> 
+            <mat-card-subtitle>
+                <ng-container *ngFor="let ingrediente of productos.ingredientes">
+                    {{ ingrediente.nombre }}<span *ngIf="!isLast(ingrediente, productos.ingredientes)">, </span>
+                </ng-container>
+            </mat-card-subtitle> 
         </mat-card-header>
     </mat-card>
 </div>

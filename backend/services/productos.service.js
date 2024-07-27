@@ -4,7 +4,7 @@ const {handleError} = require('../utils/errorHandler');
 
 async function getProductos() {
     try {
-        const productos = await Producto.find().exec();
+        const productos = await Producto.find().populate('ingredientes').exec();
 
         if (!productos) return [null, "No hay productos"];
         return [productos, null];
@@ -17,6 +17,7 @@ async function getProductobyId(id) {
     try {
         const producto = await Producto
             .findById(id)
+            .populate('ingredientes')
             .exec();
 
         if (!producto) return [null, "No se encontró el producto"];

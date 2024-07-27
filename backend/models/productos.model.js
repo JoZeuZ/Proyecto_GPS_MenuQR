@@ -1,5 +1,6 @@
 "use strict";
 const { model, Schema } = require('mongoose');
+const { ingredientesSchema } = require('./ingredientes.model');
 
 const productoSchema = new Schema({
     nombre: {
@@ -25,7 +26,7 @@ const productoSchema = new Schema({
     ingredientes: [
         { // mongoose.Schema.Types.ObjectId
             type: String,
-            ref: "ingredientes"
+            ref: "ingrediente"
         }
     ]
 });

@@ -55,6 +55,10 @@ export class ProductosCardsComponent {
     this.paginatedProductos = this.productos.slice(startIndex, endIndex);
   }
 
+  isLast(ingrediente: any, ingredientes: any[]): boolean {
+    return ingredientes.indexOf(ingrediente) === ingredientes.length - 1;
+  }
+
   onPageChange(page: number) {
     this.currentPage = page;
     this.pageChange.emit(page);
