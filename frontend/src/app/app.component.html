@@ -23,6 +23,9 @@
       <a mat-list-item href="cart">
         <span class="text">Carrito</span>
       </a>
+      <a mat-list-item href="pago">
+        <span class="text">Pagar</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -48,6 +51,7 @@
       <app-call-waiter *ngIf="isWaiterCallRouteActive()"></app-call-waiter>
       <app-pedido-page *ngIf="isPedidosRouteActive()"></app-pedido-page>
       <app-cart-page *ngIf="isCartRouteActive()"></app-cart-page>
+      <app-pago-page *ngIf="isPagoRouteActive()"></app-pago-page>
     </div>
     <div class="floating-cart-icon">
       <app-cart-icon *ngIf="isRootRouteActive()"></app-cart-icon>

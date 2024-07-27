@@ -1,1 +1,21 @@
-<p>pago-page works!</p>
+<div class="pago-container">
+    <h1>Confirmar Pedido</h1>
+    <div>
+      <label for="nombreCliente">Nombre:</label>
+      <input id="nombreCliente" [(ngModel)]="nombreCliente" placeholder="Ingrese su nombre" disabled>
+    </div>
+    <div>
+      <label for="metodoPago">Método de Pago:</label>
+      <select id="metodoPago" [(ngModel)]="metodoPago">
+        <option value="Efectivo">Efectivo</option>
+        <option value="Tarjeta">Tarjeta</option>
+        <option value="Transferencia">Transferencia</option>
+      </select>
+    </div>
+    <div>
+      <label for="propina">Propina:</label>
+      <input id="propina" type="number" [(ngModel)]="propina" placeholder="Ingrese la propina">
+    </div>
+    <button (click)="confirmPayment()">Confirmar y Pagar</button>
+  </div>
+  

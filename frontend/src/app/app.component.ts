@@ -22,6 +22,7 @@ import { CallWaiterComponent } from './components/waiter-call-button/waiter-call
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { CartService } from './services/cart.service';
+import { PagoPageComponent } from './Pago/components/pago-page/pago-page.component';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +44,8 @@ import { CartService } from './services/cart.service';
     ReviewCardComponent,
     CallWaiterComponent,
     CartIconComponent,
-    CartPageComponent
+    CartPageComponent,
+    PagoPageComponent
   ],
 
   templateUrl: './app.component.html',
@@ -124,6 +126,10 @@ export class AppComponent implements OnInit {
     return this.currentRoute === '/pedidos';
   }
 
+  isPagoRouteActive(): boolean {
+    return this.currentRoute === '/pago';
+  }
+
   isLoginRouteActive(): boolean {
     return this.currentRoute === '/login';
   }
@@ -134,6 +140,10 @@ export class AppComponent implements OnInit {
 
   navigateToPedidos() {
     this.router.navigate(['/pedidos']);
+  }
+
+  navigateToPago() {
+    this.router.navigate(['/pago']);
   }
 
   navigateToUsers() {

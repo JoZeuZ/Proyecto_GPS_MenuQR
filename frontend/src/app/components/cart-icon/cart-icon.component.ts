@@ -24,7 +24,7 @@ export class CartIconComponent implements OnInit {
   constructor(private cartService: CartService, private router: Router) { }
 
   ngOnInit() {
-    this.cartService.cartItems$.subscribe(items => {
+    this.cartService.cart$.subscribe(items => {
       this.cartItemCount = items.length;
     });
   }

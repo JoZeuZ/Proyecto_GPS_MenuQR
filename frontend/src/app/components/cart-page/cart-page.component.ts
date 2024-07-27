@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router, RouterModule } from '@angular/router';
-import { AppComponent } from '../../app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cart-page',
@@ -15,18 +15,22 @@ import { AppComponent } from '../../app.component';
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class CartPageComponent implements OnInit {
   cart: any[] = [];
   mesa: number | null = null;
+  nombreCliente: string = '';
 
   constructor(private cartService: CartService, private router: Router) {}
 
   ngOnInit(): void {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
     this.cartService.mesa$.subscribe(mesa => this.mesa = mesa);
+    this.cartService.nombreCliente$.subscribe(nombre => this.nombreCliente = nombre);
   }
 
   removeItem(index: number): void {
@@ -34,18 +38,11 @@ export class CartPageComponent implements OnInit {
   }
 
   goToMenu(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/menu']);
   }
 
-  realizarPedido(): void {
-    const orderDetails = {
-      cliente: 'Nombre del Cliente',  // Aquí puedes obtener el nombre real del cliente
-      metodoPago: 'Tarjeta',  // Puedes obtener este valor dinámicamente
-      propina: 0  // Puedes obtener este valor dinámicamente
-    };
-    this.cartService.confirmOrder(orderDetails).subscribe(() => {
-      this.cartService.clearCart();
-      this.router.navigate(['/']);
-    });
+  goToPayment(): void {
+    this.cartService.setNombreCliente(this.nombreCliente);
+    this.router.navigate(['/pago']);
   }
 }

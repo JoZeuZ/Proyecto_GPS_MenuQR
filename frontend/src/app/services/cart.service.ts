@@ -5,12 +5,17 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-
 export class CartService {
   private cart = new BehaviorSubject<any[]>([]);
   private mesa = new BehaviorSubject<number | null>(null);
+  private metodoPago = new BehaviorSubject<string | null>(null);
+  private propina = new BehaviorSubject<number>(0);
+  private nombreCliente = new BehaviorSubject<string>('');
   cart$ = this.cart.asObservable();
   mesa$ = this.mesa.asObservable();
+  metodoPago$ = this.metodoPago.asObservable();
+  propina$ = this.propina.asObservable();
+  nombreCliente$ = this.nombreCliente.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -38,24 +43,47 @@ export class CartService {
     return this.mesa.value;
   }
 
+  setMetodoPago(metodo: string) {
+    this.metodoPago.next(metodo);
+  }
+
+  getMetodoPago() {
+    return this.metodoPago.value;
+  }
+
+  setPropina(amount: number) {
+    this.propina.next(amount);
+  }
+
+  getPropina() {
+    return this.propina.value;
+  }
+
+  setNombreCliente(nombre: string) {
+    this.nombreCliente.next(nombre);
+  }
+
+  getNombreCliente() {
+    return this.nombreCliente.value;
+  }
+
   clearCart() {
     this.cart.next([]);
     this.mesa.next(null);
+    this.metodoPago.next(null);
+    this.propina.next(0);
+    this.nombreCliente.next('');
   }
 
-  confirmOrder(orderDetails: any) {
+  confirmOrder() {
     const pedido = {
-      cliente: orderDetails.cliente,
+      cliente: this.getNombreCliente(),
       mesa: this.getMesa(),
       productos: this.getCart(),
-      metodoPago: orderDetails.metodoPago,
-      propina: orderDetails.propina,
-      total: this.calculateTotal()
+      metodoPago: this.getMetodoPago(),
+      propina: this.getPropina()
     };
     return this.http.post('/api/pedidos', pedido);
   }
 
-  private calculateTotal() {
-    return this.getCart().reduce((total, product) => total + product.price * product.quantity, 0);
-  }
 }
