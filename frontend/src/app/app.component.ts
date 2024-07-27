@@ -21,9 +21,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
-import { CartIconComponent } from './components/cart-icon/cart-icon.component';
-import { CartPageComponent } from './components/cart-page/cart-page.component';
-import { CartService } from './services/cart.service';
+import { CartIconComponent } from './Cart/components/cart-icon/cart-icon.component';
+import { CartPageComponent } from './Cart/components/cart-page/cart-page.component';
+import { CartService } from './Cart/services/cart.service';
 import { PagoPageComponent } from './Pago/components/pago-page/pago-page.component';
 
 @Component({
@@ -49,6 +49,7 @@ import { PagoPageComponent } from './Pago/components/pago-page/pago-page.compone
     CartPageComponent,
     PagoPageComponent
   ],
+
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -68,21 +69,47 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private cookieService: CookieService,
+    private route: ActivatedRoute,
+    private cartService: CartService
+
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         this.currentRoute = this.router.url;
+        this.checkUserRouteAccess();
       });
-    
+
   }
+
+  getUserRole(): string[] {
+    const token = this.cookieService.get('awa');
+    if (!token) {
+      return [];
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
+  }
+
 
   ngOnInit() {
     this.isAuthenticated = this.loginService.isAuthenticated();
     // Suscribirse al estado de autenticación
     this.loginService.getAuthState().subscribe(authState => {
       this.isAuthenticated = authState;
+    });
+    const rol = this.getUserRole()
+    console.log(rol + "");
+
+    // Manejo de query params para QR
+    this.route.queryParams.subscribe(params => {
+      const mesaId = params['mesaId'];
+      if (mesaId) {
+        this.cartService.setMesa(parseInt(mesaId, 10));
+        this.router.navigate(['/menu']);
+      }
     });
   }
 
@@ -96,6 +123,15 @@ export class AppComponent implements OnInit {
 
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
+  }
+
+  checkUserRouteAccess() {
+    const roles = this.getUserRole();
+    const requiredRoles = this.routeRoles[this.currentRoute];
+
+    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
+      this.router.navigate(['/']);
+    }
   }
 
   isReviewRouteActive(): boolean {
@@ -158,13 +194,8 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/call-waiter']);
   }
 
-  checkUserRouteAccess() {
-    const roles = this.getUserRole();
-    const requiredRoles = this.routeRoles[this.currentRoute];
-
-    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
-      this.router.navigate(['/']);
-    }
+  navigateToCart() {
+    this.router.navigate(['/cart']);
   }
 
   openLoginDialog(): void {
@@ -191,23 +222,5 @@ export class AppComponent implements OnInit {
         console.error('Error al cerrar sesión:', error);
       }
     });
-  }
-  isReviewRouteActive(): boolean {
-    return this.currentRoute === '/reviews';
-  }
-  navigateToReview() {
-    this.router.navigate(['/reviews']);
-  }
-  isReviewCardRouteActive(): boolean {
-    return this.currentRoute === '/reviewsCard';
-  }
-  navigateToReviewCard() {
-    this.router.navigate(['/reviewsCard']);
-  }
-  isWaiterCallRouteActive(): boolean {
-    return this.currentRoute === '/call-waiter';
-  }
-  navigateToWaiterCall() {
-    this.router.navigate(['/call-waiter']);
   }
 }

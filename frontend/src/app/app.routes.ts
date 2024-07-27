@@ -7,7 +7,7 @@ import { LoginComponent } from './auth/components/login/login.component';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
-import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { CartPageComponent } from './Cart/components/cart-page/cart-page.component';
 import { PagoPageComponent } from './Pago/components/pago-page/pago-page.component';
 
 export const routes: Routes = [
