@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CallWaiterService {
-  private apiUrl = 'http://localhost:3000/api/llamadas'; // Asegúrate de que esta URL sea correcta
+  private apiUrl = 'http://localhost:3000/api/llamadas'; 
 
   constructor(private http: HttpClient) { }
 

@@ -70,10 +70,10 @@ import { CommonModule } from '@angular/common';
 })
 export class StarRatingComponent implements ControlValueAccessor {
   @Input() rating: number = 0;
-  @Input() readOnly: boolean = false; // Nuevo @Input para readOnly
+  @Input() readOnly: boolean = false; 
   @Output() ratingChange: EventEmitter<number> = new EventEmitter<number>();
 
-  starsArray: boolean[] = Array(5).fill(false);  // 5 elementos para 5 estrellas
+  starsArray: boolean[] = Array(5).fill(false);  
   hoverState: number = 0;
   hoverMessages: string[] = ['Muy malo', 'Malo', 'Meh', 'Bien', 'Muy bien'];
 
@@ -113,7 +113,6 @@ export class StarRatingComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Optionally handle the disabled state
   }
 }
 

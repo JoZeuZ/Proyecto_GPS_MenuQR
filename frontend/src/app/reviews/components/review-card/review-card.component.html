@@ -1,24 +1,20 @@
 <div class="filter-container">
-  <label for="category-select">Filtrar por categoría:</label>
-  <select id="category-select" (change)="onCategoryChange($event)">
-    <option value="">Todas las categorías</option>
-    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-  </select>
-
-  <label for="rating-select">Filtrar por estrellas:</label>
-  <select id="rating-select" (change)="onRatingChange($event)">
-    <option value="">Todas las calificaciones</option>
-    <option *ngFor="let rating of [1, 2, 3, 4, 5]" [value]="rating">{{ rating }} Estrella(s)</option>
-  </select>
+  <app-filter 
+    [options]="categories" 
+    (filterChange)="onCategoryChange($event)" 
+    placeholder="Categorías">
+  </app-filter>
+  <app-filter 
+    [options]="['1', '2', '3', '4', '5']" 
+    (filterChange)="onRatingChange($event)" 
+    placeholder="Calificación">
+  </app-filter>
 </div>
 
 <div class="card-container">
-  <mat-card *ngFor="let review of paginatedReviews">
+  <mat-card *ngFor="let review of paginatedReviews" (click)="openReviewDialog(review)">
     <mat-card-content>
       <mat-card-title>{{ review.titulo }}</mat-card-title>
-      <div class="description-container">
-        <p>{{ review.descripcion }}</p>
-      </div>
       <div class="card-footer">
         <p class="category">Categoría: {{ review.categoria }}</p>
         <app-star-rating class="star-rating" [rating]="review.estrellas" [readOnly]="true"></app-star-rating>
@@ -33,6 +29,8 @@
   [itemsPerPage]="itemsPerPage"
   (pageChange)="onPageChange($event)">
 </app-paginator>
+
+
 
 
 

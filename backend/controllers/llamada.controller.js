@@ -8,12 +8,12 @@ const { callWaiterSchema } = require("../schema/llamada.schema");
 
 async function callWaiter(req, res) {
     try {
-        const { tableNumber, customerName } = req.body;
+        const { tableNumber } = req.body;
 
-        const { error } = callWaiterSchema.validate({ tableNumber, customerName });
+        const { error } = callWaiterSchema.validate({ tableNumber });
         if (error) return respondError(req, res, 400, error.details[0].message);
 
-        const call = { tableNumber, customerName, time: new Date() };
+        const call = { tableNumber, time: new Date() };
         notifyWaiterCall(call);
 
         return respondSuccess(req, res, 200, ["Waiter called successfully", call]);
