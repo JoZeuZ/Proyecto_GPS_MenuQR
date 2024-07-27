@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponentComponent } from './public/components/footer-component/footer-component.component';
 import { IngredientPageComponent } from './Ingredientes/components/ingredient-page/ingredient-page.component';
+import { PedidoPageComponent } from './Pedido/components/pedido-page/pedido-page.component';
 import { UserPageComponent } from './users/components/user-page/user-page.component';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -20,6 +21,10 @@ import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
+import { CartIconComponent } from './components/cart-icon/cart-icon.component';
+import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { CartService } from './services/cart.service';
+
 
 @Component({
   selector: 'app-root',
@@ -30,6 +35,7 @@ import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-bu
     CommonModule,
     FooterComponentComponent,
     IngredientPageComponent,
+    PedidoPageComponent,
     UserPageComponent,
     LoginComponent,
     MatSidenavModule,
@@ -38,7 +44,9 @@ import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-bu
     MatIconModule,
     ReviewPageComponent,
     ReviewCardComponent,
-    CallWaiterComponent
+    CallWaiterComponent,
+    CartIconComponent,
+    CartPageComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -60,7 +68,10 @@ export class AppComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private loginService: LoginService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private route: ActivatedRoute,
+    private cartService: CartService
+
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -87,6 +98,15 @@ export class AppComponent implements OnInit {
     });
     const rol = this.getUserRole()
     console.log(rol + "");
+
+    // Manejo de query params para QR
+    this.route.queryParams.subscribe(params => {
+      const mesaId = params['mesaId'];
+      if (mesaId) {
+        this.cartService.setMesa(parseInt(mesaId, 10));
+        this.router.navigate(['/menu']);
+      }
+    });
   }
 
   navigateToHome() {
@@ -97,8 +117,44 @@ export class AppComponent implements OnInit {
     return this.currentRoute === '/ingredientes';
   }
 
+  isUsersRouteActive(): boolean {
+    return this.currentRoute === '/users';
+  }
+
+  isReviewRouteActive(): boolean {
+    return this.currentRoute === '/reviews';
+  }
+
+  isReviewCardRouteActive(): boolean {
+    return this.currentRoute === '/reviewsCard';
+  }
+
+  isWaiterCallRouteActive(): boolean {
+    return this.currentRoute === '/call-waiter';
+  }
+
+  isCartRouteActive(): boolean {
+    return this.currentRoute === '/cart';
+  }
+
+  isRootRouteActive(): boolean {
+    return this.currentRoute === '/';
+  }
+
+  isPedidosRouteActive(): boolean {
+    return this.currentRoute === '/pedidos';
+  }
+
+  isLoginRouteActive(): boolean {
+    return this.currentRoute === '/login';
+  }
+
   navigateToIngredientes() {
     this.router.navigate(['/ingredientes']);
+  }
+
+  navigateToPedidos() {
+    this.router.navigate(['/pedidos']);
   }
 
   navigateToUsers() {
@@ -107,6 +163,27 @@ export class AppComponent implements OnInit {
 
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
+  }
+
+  navigateToReview() {
+    this.router.navigate(['/reviews']);
+  }
+
+  navigateToReviewCard() {
+    this.router.navigate(['/reviewsCard']);
+  }
+
+  navigateToWaiterCall() {
+    this.router.navigate(['/call-waiter']);
+  }
+
+  checkUserRouteAccess() {
+    const roles = this.getUserRole();
+    const requiredRoles = this.routeRoles[this.currentRoute];
+
+    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
+      this.router.navigate(['/']);
+    }
   }
 
   checkUserRouteAccess() {
