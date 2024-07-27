@@ -2,7 +2,6 @@
 
 const Joi = require("joi");
 
-// Validación del esquema de llamada al mesero
 const callWaiterSchema = Joi.object({
     tableNumber: Joi.number().required().messages({
         "number.base": "El número de mesa debe ser un número.",
