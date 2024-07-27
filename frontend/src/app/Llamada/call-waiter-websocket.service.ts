@@ -15,9 +15,8 @@ export class CallWaiterWebSocketService {
   }
 
   private initializeWebSocket(): void {
-    // Verificar que estamos en un entorno de navegador
     if (typeof window !== 'undefined' && window.WebSocket) {
-      this.ws = new WebSocket('ws://localhost:3000'); // Asegúrate de que esta URL sea correcta
+      this.ws = new WebSocket('ws://localhost:3000'); 
 
       this.ws.onmessage = (event: MessageEvent) => {
         try {
@@ -45,12 +44,11 @@ export class CallWaiterWebSocketService {
   }
 
   public getCallWaiterObservable() {
-    // Asegúrate de que el método esté disponible
     if (typeof window !== 'undefined' && window.WebSocket) {
       return this.messages$;
     } else {
       console.error('WebSocket is not supported in this environment');
-      return new Subject<any>().asObservable(); // Retornar un Observable vacío en caso de error
+      return new Subject<any>().asObservable(); 
     }
   }
 }

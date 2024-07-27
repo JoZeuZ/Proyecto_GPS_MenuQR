@@ -1,13 +1,11 @@
-/* Estilo para el contenedor del componente */
 :host {
-    position: relative; /* Posicionamiento relativo para el contenedor */
+    position: relative; 
     width: 100%;
-    height: 100vh; /* Ajusta esto según el contenedor */
+    height: 100vh; 
   }
   
-  /* Estilo para el botón */
   button {
-    background-color: #4CAF50; /* Color de fondo verde */
+    background-color: #4CAF50; 
     border: none;
     color: white;
     padding: 15px 32px;
@@ -16,20 +14,20 @@
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     transition: background-color 0.3s, transform 0.3s;
     position: absolute;
-    top: 20px; /* Ajusta según tu diseño */
-    right: 20px; /* Ajusta según tu diseño */
+    top: 20px; 
+    right: 20px; 
   }
   
   button:hover {
-    background-color: #45a049; /* Color de fondo más oscuro en hover */
+    background-color: #45a049; 
   }
   
   button:active {
-    transform: scale(0.98); /* Efecto de clic */
+    transform: scale(0.98); 
   }
   
   

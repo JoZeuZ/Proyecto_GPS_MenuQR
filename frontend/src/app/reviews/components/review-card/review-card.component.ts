@@ -124,7 +124,9 @@ export class ReviewCardComponent implements OnInit, OnChanges {
 
   openReviewDialog(review: any): void {
     this.dialog.open(ReviewDetailDialogComponent, {
-      data: review
+      data: review,
+      width: '80vw',
+      maxHeight: '90vh'
     });
   }
 }

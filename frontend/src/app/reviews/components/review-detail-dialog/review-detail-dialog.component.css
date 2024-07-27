@@ -1,0 +1,32 @@
+.mat-dialog-container {
+  width: 80vw;
+  height: auto;
+  max-width: 800px; 
+  max-height: 90vh; 
+  overflow: hidden; 
+}
+
+mat-dialog-content {
+  max-width: 100%;
+  max-height: calc(90vh - 64px); 
+  overflow-y: auto; 
+  word-wrap: break-word; 
+}
+
+mat-dialog-actions.botonCancelAceptar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+mat-dialog-content h2 {
+  margin-top: 0;
+}
+
+mat-dialog-content p {
+  margin-bottom: 20px;
+}
+
+
+
+  

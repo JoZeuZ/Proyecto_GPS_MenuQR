@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
   private routeRoles: { [key: string]: string[] } = {
     '/users': ['Administrador'],
     '/ingredientes': ['Administrador', 'Mesero'],
-    '/reviewsCard': ['Administrador']
+    '/reviewsCard': ['Administrador', 'Mesero']
     // Añadir otras rutas y roles requeridos aquí
   };
 

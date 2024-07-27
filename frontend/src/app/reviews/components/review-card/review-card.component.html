@@ -1,7 +1,14 @@
-<!-- review-card.component.html -->
 <div class="filter-container">
-  <app-filter [options]="categories" (filterChange)="onCategoryChange($event)"></app-filter>
-  <app-filter [options]="['1', '2', '3', '4', '5']" (filterChange)="onRatingChange($event)"></app-filter>
+  <app-filter 
+    [options]="categories" 
+    (filterChange)="onCategoryChange($event)" 
+    placeholder="Categorías">
+  </app-filter>
+  <app-filter 
+    [options]="['1', '2', '3', '4', '5']" 
+    (filterChange)="onRatingChange($event)" 
+    placeholder="Calificación">
+  </app-filter>
 </div>
 
 <div class="card-container">
