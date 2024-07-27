@@ -1,16 +1,7 @@
 <!-- review-card.component.html -->
 <div class="filter-container">
-  <label for="category-select">Filtrar por categoría:</label>
-  <select id="category-select" (change)="onCategoryChange($event)">
-    <option value="">Todas las categorías</option>
-    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-  </select>
-
-  <label for="rating-select">Filtrar por estrellas:</label>
-  <select id="rating-select" (change)="onRatingChange($event)">
-    <option value="">Todas las calificaciones</option>
-    <option *ngFor="let rating of [1, 2, 3, 4, 5]" [value]="rating">{{ rating }} Estrella(s)</option>
-  </select>
+  <app-filter [options]="categories" (filterChange)="onCategoryChange($event)"></app-filter>
+  <app-filter [options]="['1', '2', '3', '4', '5']" (filterChange)="onRatingChange($event)"></app-filter>
 </div>
 
 <div class="card-container">
@@ -31,6 +22,8 @@
   [itemsPerPage]="itemsPerPage"
   (pageChange)="onPageChange($event)">
 </app-paginator>
+
+
 
 
 

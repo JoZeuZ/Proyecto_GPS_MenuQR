@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ReviewService } from '../../services/review.service';
-import { CallWaiterWebSocketService } from '../../../components/call-waiter-websocket.service';
+import { CallWaiterWebSocketService } from '../../../Llamada/call-waiter-websocket.service';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
 import { DecimalPipe, NgForOf, CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { StarRatingComponent } from '../../../star-rating/star-rating.component';
 import { ReviewDetailDialogComponent } from '../review-detail-dialog/review-detail-dialog.component';
+import { FilterComponent } from '../../../public/components/filter/filter.component';
 
 @Component({
   selector: 'app-review-card',
@@ -24,7 +25,8 @@ import { ReviewDetailDialogComponent } from '../review-detail-dialog/review-deta
     FormsModule,
     MatDialogModule,
     PaginatorComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    FilterComponent
   ],
   templateUrl: './review-card.component.html',
   styleUrls: ['./review-card.component.css']
@@ -97,16 +99,14 @@ export class ReviewCardComponent implements OnInit, OnChanges {
     this.applyPagination();
   }
 
-  onCategoryChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    this.selectedCategory = target.value;
+  onCategoryChange(selectedCategories: string[]): void {
+    this.selectedCategory = selectedCategories[0] || '';
     this.currentPage = 1;
     this.applyPagination();
   }
 
-  onRatingChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    this.selectedRating = target.value ? +target.value : null;
+  onRatingChange(selectedRatings: string[]): void {
+    this.selectedRating = selectedRatings[0] ? parseInt(selectedRatings[0], 10) : null;
     this.currentPage = 1;
     this.applyPagination();
   }
@@ -119,7 +119,7 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   }
 
   displayNotification(call: any): void {
-    alert(`Mesa ${call.tableNumber} está llamando. Cliente: ${call.customerName}`);
+    alert(`Mesa ${call.tableNumber} está llamando.`);
   }
 
   openReviewDialog(review: any): void {
@@ -128,10 +128,6 @@ export class ReviewCardComponent implements OnInit, OnChanges {
     });
   }
 }
-
-
-
-
 
 
 
