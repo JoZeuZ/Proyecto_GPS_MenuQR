@@ -117,22 +117,6 @@ export class AppComponent implements OnInit {
     return this.currentRoute === '/ingredientes';
   }
 
-  isUsersRouteActive(): boolean {
-    return this.currentRoute === '/users';
-  }
-
-  isReviewRouteActive(): boolean {
-    return this.currentRoute === '/reviews';
-  }
-
-  isReviewCardRouteActive(): boolean {
-    return this.currentRoute === '/reviewsCard';
-  }
-
-  isWaiterCallRouteActive(): boolean {
-    return this.currentRoute === '/call-waiter';
-  }
-
   isCartRouteActive(): boolean {
     return this.currentRoute === '/cart';
   }
@@ -164,28 +148,7 @@ export class AppComponent implements OnInit {
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
   }
-
-  navigateToReview() {
-    this.router.navigate(['/reviews']);
-  }
-
-  navigateToReviewCard() {
-    this.router.navigate(['/reviewsCard']);
-  }
-
-  navigateToWaiterCall() {
-    this.router.navigate(['/call-waiter']);
-  }
-
-  checkUserRouteAccess() {
-    const roles = this.getUserRole();
-    const requiredRoles = this.routeRoles[this.currentRoute];
-
-    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
-      this.router.navigate(['/']);
-    }
-  }
-
+  
   checkUserRouteAccess() {
     const roles = this.getUserRole();
     const requiredRoles = this.routeRoles[this.currentRoute];

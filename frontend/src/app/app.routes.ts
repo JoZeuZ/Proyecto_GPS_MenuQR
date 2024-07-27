@@ -21,6 +21,6 @@ export const routes: Routes = [
     {path: 'call-waiter', component: CallWaiterComponent},
     { path: 'cart', component: CartPageComponent },
     { path: 'pago', component: PagoPageComponent },
-    { path: '**', redirectTo: '' } // Redirige a la página principal para ruta inexistente, posicionar sus rutas arriba de esta
-    
+    { path: '**', redirectTo: '' }, // Redirige a la página principal para ruta inexistente, posicionar sus rutas arriba de esta
+    // { path: 'mesas'}
 ];
