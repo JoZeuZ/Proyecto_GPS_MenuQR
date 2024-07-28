@@ -1,1 +1,34 @@
-<p>edit-productos-dialog works!</p>
+<div id="miCuadroEditar">
+    <h1 mat-dialog-title>Editar Producto</h1>
+    <div mat-dialog-content>
+        <form [formGroup]="productoForm">
+            <mat-form-field appearance="fill">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+                <mat-error *ngIf="productoForm.get('nombre')?.invalid">{{ getErrorMessage('nombre') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Precio</mat-label>
+                <input matInput formControlName="precio" type="number">
+                <mat-error *ngIf="productoForm.get('precio')?.invalid">{{ getErrorMessage('precio') }}</mat-error>
+            </mat-form-field>
+
+            <div class="image-upload-container">
+                <h4 id="im">Imagen</h4>
+                <div class="file-input-container">
+                    <input type="file" id="file-input" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" hidden>
+                    <button mat-button class="botonSeleccionar" (click)="fileInput.click()">Seleccionar archivo</button>
+                    <p>{{ selectedFileName || 'Ningún archivo nuevo seleccionado' }}</p>
+                </div>
+            </div>
+            <div *ngIf="imagePreview" class="image-preview-container">
+                <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions class="botonesSaveCancel">
+        <button mat-button color="warn" (click)="onCancelClick()">Cancelar</button>
+        <button mat-button (click)="onSaveClick()">Guardar</button>
+    </div>
+</div>

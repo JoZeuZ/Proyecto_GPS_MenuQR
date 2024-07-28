@@ -75,7 +75,7 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     return `http://localhost:3000/api/uploads/productos/${imgPath.split('/').pop()}`;
   }
 
-  openEditDialog(producto: any): void {
+  openEditProductosDialog(producto: any): void {
     const dialogRef = this.dialog.open(EditProductosDialogComponent, {
       width: '400px',
       data: { producto: producto }

@@ -21,9 +21,9 @@ import { HttpClient } from '@angular/common/http';
     MatSelectModule,
   ],
   templateUrl: './edit-productos-dialog.component.html',
-  styleUrl: './edit-productos-dialog.component.css'
+  styleUrls: ['./edit-productos-dialog.component.css']
 })
-export class EditProductosDialogComponent {
+export class EditProductosDialogComponent implements OnInit {
 
   public productoForm!: FormGroup;
   public availableStatuses: string[] = ["Disponible", "No disponible"];
@@ -68,7 +68,8 @@ export class EditProductosDialogComponent {
       formData.append('img', this.selectedFile);
     }
 
-    this.http.put(`http://localhost:3000/api/productos/${this.data.producto._id}`, formData).subscribe((response: any) => {
+    this.http.put(`http://localhost:3000/api/uploads/productos/${this.data.productos._id}`, formData)
+    .subscribe((response: any) => {
       if (response.state === 'Success') {
         this.dialogRef.close(response.data);
       } else {
@@ -77,10 +78,17 @@ export class EditProductosDialogComponent {
     });
   }
 
+  // updateProducto() {
+  //   this.http.put(`http://localhost:3000/api/productos/${this.data.productos._id}`, this.productoForm.value)
+  //     .subscribe((response: any) => {
+  //       this.dialogRef.close({ ...this.productoForm.value, _id: this.data.productos._id, img: this.data.productos.img });
+  //     });
+  // }
+
   deleteOldImage(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.data.producto.img) {
-        const deleteUrl = `http://localhost:3000/api/${this.data.producto.img}`;
+        const deleteUrl = `http://localhost:3000/api/uploads/productos/${this.getFileNameFromPath(this.data.producto.img)}`;
 
         this.http.delete(deleteUrl).subscribe({
           next: (response: any) => {
@@ -95,6 +103,10 @@ export class EditProductosDialogComponent {
         resolve();
       }
     });
+  }
+
+  getFileNameFromPath(path: string): string {
+    return path.split('/').pop() || '';
   }
 
   onSaveClick(): void {
@@ -118,3 +130,4 @@ export class EditProductosDialogComponent {
     return '';
   }
 }
+
