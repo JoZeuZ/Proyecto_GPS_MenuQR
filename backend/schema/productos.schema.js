@@ -22,8 +22,7 @@ const productoBodySchema = Joi.object({
         "any.required": "La categoría es obligatoria.",
         "string.base": "La categoría debe ser de tipo string.",
     }),
-    img: Joi.string().required().messages({
-        "string.empty": "La imagen no puede estar vacía.",
+    img: Joi.string().messages({
         "any.required": "La imagen es obligatoria.",
         "string.base": "La imagen debe ser de tipo string.",
     }),

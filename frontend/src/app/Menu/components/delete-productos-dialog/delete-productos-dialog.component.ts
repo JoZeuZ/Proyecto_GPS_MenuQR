@@ -3,15 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
 
-
 @Component({
   selector: 'app-delete-productos-dialog',
-  standalone: true,
-  imports: [
-    MatButtonModule
-  ],
   templateUrl: './delete-productos-dialog.component.html',
-  styleUrl: './delete-productos-dialog.component.css'
+  styleUrls: ['./delete-productos-dialog.component.css'],
+  standalone: true,
+  imports: [MatButtonModule]
 })
 export class DeleteProductosDialogComponent {
   @Output() productoDeleted = new EventEmitter<string>();

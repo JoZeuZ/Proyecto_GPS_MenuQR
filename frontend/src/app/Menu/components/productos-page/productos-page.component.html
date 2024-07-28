@@ -1,4 +1,11 @@
-<app-productos-cards [productos]="filteredProductos" 
-[currentPage]="currentPage" 
-(pageChange)="onPageChange($event)"
-></app-productos-cards>
+<div id="miCuadroProd">
+    <h2>Productos</h2>
+    <button mat-button (click)="openAddProductoDialog()">Agregar Producto</button>
+    <app-productos-cards 
+        [productos]="filteredProductos"
+        [currentPage]="currentPage"
+        (productoEdited)="onProductoEdited($event)"
+        (productoDeleted)="onProductoDeleted($event)"
+        (pageChange)="onPageChange($event)">
+    </app-productos-cards>
+</div>

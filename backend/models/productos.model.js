@@ -21,7 +21,6 @@ const productoSchema = new Schema({
     },
     img: {
         type: String,
-        required: true
     },
     ingredientes: [
         { // mongoose.Schema.Types.ObjectId

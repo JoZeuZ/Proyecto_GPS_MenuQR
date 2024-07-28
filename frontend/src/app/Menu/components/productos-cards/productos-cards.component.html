@@ -2,15 +2,15 @@
     <div class="cards-buttons">
         <!-- <button id="edit" mat-icon-button (click)="openEditProductosDialog(productos)">
             <mat-icon>edit</mat-icon>
-        </button>
-        <button id="delete" mat-icon-button color="warn" (click)="openDeleteProductosDialog(productos)">
+        </button> -->
+        <!-- <button id="delete" mat-icon-button color="warn" (click)="openDeleteProductosDialog(productos)">
             <mat-icon>delete</mat-icon>
         </button> -->
     </div>
     <mat-card>
     <mat-card-header>
-            <!-- <div mat-card-avatar class="productos-img" [style.background-image]="getBackgroundImage(productos.img)">
-            </div> -->
+        <div mat-card-avatar class="producto-img" [style.background-image]="getBackgroundImage(productos.img)">
+        </div>
             <mat-card-title>{{ productos.nombre }}</mat-card-title>
             <mat-card-subtitle>{{ productos.precio | currency }}</mat-card-subtitle>
             <mat-card-subtitle>{{ productos.descripcion }}</mat-card-subtitle>

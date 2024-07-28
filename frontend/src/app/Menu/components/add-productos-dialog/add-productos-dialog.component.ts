@@ -1,53 +1,79 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { ProductosApiService } from '../../service/productos-api.service';
+import { IngredientesApiService } from '../../../Ingredientes/services/ingredientes-api.service';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray, FormControlName } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { HttpClient } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { catchError, switchMap } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
+
+interface Ingrediente {
+  _id: string;
+  nombre: string;
+}
 
 @Component({
-  selector: 'app-add-productos-dialog',
+  selector: 'app-agregar-producto',
   standalone: true,
+  templateUrl: './add-productos-dialog.component.html',
+  styleUrls: ['./add-productos-dialog.component.css'],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     MatButtonModule,
-    MatSelectModule
-  ],
-  templateUrl: './add-productos-dialog.component.html',
-  styleUrl: './add-productos-dialog.component.css'
+    MatDialogModule,
+    MatDialogContent,
+    MatDialogActions
+  ]
 })
-export class AddProductosDialogComponent {
+export class AgregarProductoComponent implements OnInit {
+  productoForm: FormGroup;
+  ingredientesList: Ingrediente[] = [];
+  imagePreview: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
 
-  public productoForm!: FormGroup;
-  public imagePreview: string | ArrayBuffer | null = null;
-  public selectedFileName: string | null = null;
-
-  constructor(public dialogRef: MatDialogRef<AddProductosDialogComponent>, private http: HttpClient) {}
-
-  ngOnInit(): void {
-    this.productoForm = new FormGroup({
-      nombre: new FormControl('', [Validators.required]),
-      precio: new FormControl('', [Validators.required]),
-      disponible: new FormControl(false, Validators.required),
-      img: new FormControl({ value: '', disabled: true })
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<AgregarProductoComponent>,
+    private productoService: ProductosApiService,
+    private ingredienteService: IngredientesApiService,
+    private http: HttpClient
+  ) {
+    this.productoForm = this.fb.group({
+      nombre: ['', Validators.required],
+      precio: [0, [Validators.required, Validators.min(0)]],
+      descripcion: ['', Validators.required],
+      categoria: ['', Validators.required],
+      disponible: [true, Validators.required],
+      img: [{ value: '', disabled: true }],
+      ingredientes: [[], Validators.required]
     });
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  ngOnInit(): void {
+    this.ingredienteService.getIngredientes().subscribe((response: any) => {
+      if (response.state === 'Success' && Array.isArray(response.data[1])) {
+        this.ingredientesList = response.data[1];
+      } else {
+        console.error('Error al obtener ingredientes:', response);
+      }
+    });
   }
 
   onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      this.selectedFileName = file.name;
-
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result;
@@ -57,33 +83,81 @@ export class AddProductosDialogComponent {
   }
 
   addProducto(): void {
-    const producto = this.productoForm.value;
-    const formData = new FormData();
-    formData.append('nombre', producto.nombre);
-    formData.append('precio', producto.precio);
-    formData.append('disponible', producto.disponible);
+    if (this.productoForm.valid) {
+      const formData = new FormData();
+      Object.keys(this.productoForm.controls).forEach(key => {
+        if (key !== 'img') {
+          formData.append(key, this.productoForm.get(key)?.value);
+        }
+      });
 
-    this.http.post('http://localhost:3000/api/productos', formData).subscribe({
-      next: (response: any) => {
-        this.dialogRef.close(response);
-      },
-      error: (error) => {
-        console.error('Error al agregar el producto:', error);
-        this.dialogRef.close();
+      if (this.selectedFile) {
+        formData.append('img', this.selectedFile);
       }
-    });
+
+      this.http.post('http://localhost:3000/api/upload/productos', formData)
+        .pipe(
+          switchMap((response: any) => {
+            console.log('Respuesta del servidor (subida de imagen):', response);
+            if (response && response.state === 'Success' && response.imgPath) {
+              const productoData = {
+                ...this.productoForm.value,
+                img: response.imgPath
+              };
+              return this.productoService.createProducto(productoData);
+            } else {
+              return throwError(() => new Error('La respuesta del servidor no contiene la ruta de la imagen'));
+            }
+          }),
+          catchError((error: HttpErrorResponse) => {
+            console.error('Error en el proceso:', error);
+            let errorMessage = 'Ocurrió un error desconocido';
+            if (error.error instanceof ErrorEvent) {
+              errorMessage = `Error: ${error.error.message}`;
+            } else {
+              errorMessage = `El servidor retornó el código ${error.status}: ${error.error.message || error.message}`;
+            }
+            return throwError(() => new Error(errorMessage));
+          })
+        )
+        .subscribe({
+          next: (createdProducto) => {
+            console.log('Producto creado:', createdProducto);
+            this.dialogRef.close(createdProducto);
+          },
+          error: (error) => {
+            console.error('Error al crear el producto:', error);
+            // Aquí puedes mostrar un mensaje de error al usuario
+          }
+        });
+    } else {
+      console.error('Formulario inválido');
+      this.markFormGroupTouched(this.productoForm);
+    }
   }
 
-  markAllAsTouched(formGroup: FormGroup): void {
+  markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
-      if (control instanceof FormControl) {
-        control.markAsTouched();
-      } else if (control instanceof FormGroup) {
-        this.markAllAsTouched(control);
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
       }
     });
   }
 
-// Aqui iran los get error
-}
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
+  getErrorMessage(field: string): string {
+    const control = this.productoForm.get(field);
+    if (control?.hasError('required')) {
+      return 'Este campo es requerido';
+    }
+    if (control?.hasError('min')) {
+      return 'El valor debe ser mayor o igual a 0';
+    }
+    return '';
+  }
+}

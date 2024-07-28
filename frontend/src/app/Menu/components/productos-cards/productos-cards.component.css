@@ -1,0 +1,28 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.cards-buttons {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 8px;
+}
+
+.mat-card {
+    position: relative;
+    width: 300px;
+    margin: 8px;
+}
+
+.producto-img {
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    background-position: center;
+}

@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductosApiService } from '../../service/productos-api.service';
 import { DecimalPipe, NgForOf, CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
@@ -10,8 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
 import { EditProductosDialogComponent } from '../edit-productos-dialog/edit-productos-dialog.component';
 import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delete-productos-dialog.component';
-
-
+import { ProductosApiService } from '../../service/productos-api.service';
 @Component({
   selector: 'app-productos-cards',
   standalone: true,
@@ -27,9 +25,9 @@ import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delet
     PaginatorComponent
   ],
   templateUrl: './productos-cards.component.html',
-  styleUrl: './productos-cards.component.css'
+  styleUrls: ['./productos-cards.component.css']  // Corregido `styleUrl` a `styleUrls`
 })
-export class ProductosCardsComponent {
+export class ProductosCardsComponent implements OnInit, OnChanges {
   @Input() productos: any[] = [];
   @Input() currentPage: number = 1;
   @Output() productoEdited = new EventEmitter<any>();
@@ -50,6 +48,10 @@ export class ProductosCardsComponent {
   }
 
   applyPagination() {
+    if (!Array.isArray(this.productos)) {
+      this.productos = [];
+    }
+
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedProductos = this.productos.slice(startIndex, endIndex);
@@ -65,10 +67,26 @@ export class ProductosCardsComponent {
     this.applyPagination();
   }
 
+  getBackgroundImage(imgPath: any): string {
+    if (typeof imgPath !== 'string') {
+      console.error('imgPath is not a string:', imgPath);
+      return '';
+    }
+
+    const hostname = window.location.hostname;
+    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+
+    const imageUrl = isLocalhost
+      ? `http://localhost:3000/api/${imgPath}`
+      : `http://${hostname}:3000/api/${imgPath}`;
+
+    return `url(${imageUrl})`;
+  }
+
   openEditDialog(producto: any): void {
     const dialogRef = this.dialog.open(EditProductosDialogComponent, {
       width: '400px',
-      data: producto
+      data: { producto: producto }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -80,15 +98,14 @@ export class ProductosCardsComponent {
 
   openDeleteDialog(producto: any): void {
     const dialogRef = this.dialog.open(DeleteProductosDialogComponent, {
-      width: '400px',
+      width: '250px',
       data: producto
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.productoDeleted.emit(result);
-      }
+    dialogRef.componentInstance.productoDeleted.subscribe((id: string) => {
+      this.productos = this.productos.filter(p => p._id !== id);
+      this.productoDeleted.emit(id);
+      this.applyPagination();
     });
   }
-
 }

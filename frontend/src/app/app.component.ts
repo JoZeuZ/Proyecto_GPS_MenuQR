@@ -21,7 +21,6 @@ import { ReviewPageComponent } from './reviews/components/review-page/review-pag
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
 import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
-
 @Component({
   selector: 'app-root',
   standalone: true,
