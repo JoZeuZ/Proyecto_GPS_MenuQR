@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PedidoApiService } from '../../Pedido/services/pedido-api.service';
 import { CommonModule } from '@angular/common';
 import { MesasService } from '../../mesas/mesas.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mesapedido',
@@ -13,7 +14,9 @@ import { MesasService } from '../../mesas/mesas.service';
 export class MesapedidoComponent implements OnInit {
   pedido: any;
 
-  constructor(private mesasService: MesasService ,private pedidoService: PedidoApiService) {}
+  constructor(private mesasService: MesasService ,
+    private pedidoService: PedidoApiService,
+    private router: Router) {}
 
   ngOnInit(): void {
     const Nmesa = this.mesasService.getMesaNumber();
@@ -37,5 +40,9 @@ export class MesapedidoComponent implements OnInit {
         console.error('Error fetching data:', error);
       }
     );
+  }
+
+  goBack(): void {
+    this.router.navigate(['/mesas']);
   }
 }

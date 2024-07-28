@@ -1,4 +1,5 @@
-<div *ngIf="pedido">
+<div class="cosas">
+<div *ngIf="pedido; else noPedidos">
   <h1>Detalle del Pedido</h1>
   <p><strong>Cliente:</strong> {{ pedido.cliente }}</p>
   <p><strong>Mesa:</strong> {{ pedido.mesa.Nmesa }}</p>
@@ -15,4 +16,10 @@
       <ng-template #noExtras>Sin extras</ng-template>
     </li>
   </ul>
+  <button mat-raised-button (click)="goBack()">Volver atrás</button>
+</div>
+<ng-template #noPedidos>
+  <h1>No hay pedidos activos para esta mesa</h1>
+  <button mat-raised-button (click)="goBack()">Volver atrás</button>
+</ng-template>
 </div>
