@@ -1,0 +1,27 @@
+@import '../../../../styles.css';
+
+.title-cards {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.botonAgregar {
+    background-color: var(--color-boton) !important;
+    color: white !important;
+    height: 55px;
+    margin-bottom: 22px;
+    display: block;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+/* Estilos específicos para escritorio */
+@media (min-width: 960px) {
+    .buscadorFiltroAdd {
+        margin-left: 22%;
+        margin-right: 22%;
+    }
+}

@@ -20,6 +20,7 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
+import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
 import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
@@ -46,6 +47,7 @@ import { MesapedidoComponent } from './mesapedido/components/mesapedido.componen
     ReviewPageComponent,
     ReviewCardComponent,
     CallWaiterComponent,
+    ProductosFormComponent,
     CartIconComponent,
     CartPageComponent,
     MesasComponent,
@@ -152,7 +154,11 @@ export class AppComponent implements OnInit {
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
   }
-  
+
+  isHomeRouteActive(): boolean {
+    return this.currentRoute === '/';
+  }
+
   checkUserRouteAccess() {
     const roles = this.getUserRole();
     const requiredRoles = this.routeRoles[this.currentRoute];
