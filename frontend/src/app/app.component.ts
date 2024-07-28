@@ -20,6 +20,7 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
+import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
 import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
 import { CartIconComponent } from './Cart/components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './Cart/components/cart-page/cart-page.component';
@@ -45,6 +46,7 @@ import { PagoPageComponent } from './Pago/components/pago-page/pago-page.compone
     ReviewPageComponent,
     ReviewCardComponent,
     CallWaiterComponent,
+    ProductosFormComponent,
     CartIconComponent,
     CartPageComponent,
     PagoPageComponent
@@ -123,6 +125,10 @@ export class AppComponent implements OnInit {
 
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
+  }
+
+  isHomeRouteActive(): boolean {
+    return this.currentRoute === '/';
   }
 
   checkUserRouteAccess() {

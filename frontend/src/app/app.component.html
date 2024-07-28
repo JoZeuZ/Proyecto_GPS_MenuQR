@@ -44,6 +44,7 @@
     </mat-toolbar>
     <!-- Contenido de la página -->
     <div class="content-container">
+      <app-productos-page *ngIf="isHomeRouteActive()"></app-productos-page>
       <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
       <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
       <app-review-page *ngIf="isReviewRouteActive()"></app-review-page>
