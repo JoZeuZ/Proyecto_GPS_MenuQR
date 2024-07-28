@@ -19,6 +19,7 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
+import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
 import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
 
 @Component({
@@ -38,7 +39,8 @@ import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-bu
     MatIconModule,
     ReviewPageComponent,
     ReviewCardComponent,
-    CallWaiterComponent
+    CallWaiterComponent,
+    ProductosFormComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -107,6 +109,10 @@ export class AppComponent implements OnInit {
 
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
+  }
+
+  isHomeRouteActive(): boolean {
+    return this.currentRoute === '/';
   }
 
   checkUserRouteAccess() {

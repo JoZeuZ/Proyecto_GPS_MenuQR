@@ -1,0 +1,45 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
+    position: relative;
+    flex-direction: row-reverse;
+}
+
+.cards-buttons {
+    display: flex;
+    margin-top: 315px;
+    margin-left: -3.5rem;
+    z-index: 1;
+}
+
+.producto-card {
+    width: 300px;
+    height: 370px;
+    margin: 8px;
+    position: relative;
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+mat-card-title.mat-mdc-card-title {
+    margin-top: -8px;
+}
+
+.mat-mdc-card-title,
+.mat-mdc-card-subtitle {
+    display: block;
+    margin-bottom: 5px;
+}
