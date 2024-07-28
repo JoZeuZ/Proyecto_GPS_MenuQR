@@ -39,10 +39,8 @@ export class ReviewService {
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Un error desconocido ha ocurrido';
     if (error.error instanceof ErrorEvent) {
-      // Client-side errors
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Server-side errors
       if (error.error && error.error.message) {
         errorMessage = error.error.message;
       } else {

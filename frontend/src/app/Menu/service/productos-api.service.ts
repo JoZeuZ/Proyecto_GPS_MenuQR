@@ -34,4 +34,8 @@ export class ProductosApiService {
     return this.http.delete(`${this.url}/${id}`);
   }
 
+  uploadImage(image: FormData): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/uploads/productos', image);
+  }
+
 }

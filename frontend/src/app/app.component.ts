@@ -19,8 +19,9 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
-import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
 import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
+import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit {
   private routeRoles: { [key: string]: string[] } = {
     '/users': ['Administrador'],
     '/ingredientes': ['Administrador', 'Mesero'],
+    '/reviewsCard': ['Administrador', 'Mesero']
     // Añadir otras rutas y roles requeridos aquí
   };
 

@@ -1,35 +1,33 @@
-/* Contenedor de los filtros */
 .filter-container {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  gap: 20px; /* Espacio entre los filtros */
+  gap: 20px; 
 }
 
 .filter-container label {
-  margin-right: 10px; /* Espacio entre la etiqueta y el campo de selección */
+  margin-right: 10px; 
 }
 
-/* Contenedor de las tarjetas */
+
 .card-container {
   display: flex;
-  flex-direction: column; /* Cambiar la dirección de los elementos a columna */
-  align-items: center; /* Centrar las tarjetas horizontalmente */
-  max-width: 1000px; /* Puedes ajustar este valor según sea necesario */
+  flex-direction: column; 
+  align-items: center; 
+  max-width: 1000px; 
   margin: 0 auto;
   margin-bottom: 20px;
 }
 
-/* Estilo de las tarjetas */
 mat-card {
-  width: 100%; /* Asegura que las tarjetas ocupen el ancho completo del contenedor */
-  max-width: 800px; /* Ajusta el ancho máximo de las tarjetas si es necesario */
+  width: 100%; 
+  max-width: 800px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  margin: 10px 0; /* Añade margen superior e inferior para espaciado vertical */
+  margin: 10px 0; 
   transition: transform 0.3s, box-shadow 0.3s;
-  padding: 15px; /* Añade un poco de padding para aumentar el espacio interno */
+  padding: 15px; 
 }
 
 mat-card:hover {
@@ -37,15 +35,15 @@ mat-card:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilo del contenido de la tarjeta */
+
 mat-card-content {
   display: flex;
   flex-direction: column;
 }
 
 .description-container {
-  max-height: 200px; /* Limita la altura del contenedor de la descripción */
-  overflow-y: auto; /* Añade scroll vertical si es necesario */
+  max-height: 200px; 
+  overflow-y: auto; 
   margin-bottom: 10px;
 }
 
@@ -67,7 +65,7 @@ mat-card-content {
 }
 
 .star-rating mat-icon {
-  font-size: 18px; /* Ajusta el tamaño de las estrellas aquí */
+  font-size: 18px; 
   color: #d3d3d3;
 }
 

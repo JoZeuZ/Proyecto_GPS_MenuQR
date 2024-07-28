@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { ReviewService } from '../../services/review.service';
 import { StarRatingComponent } from '../../../star-rating/star-rating.component';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-review',
@@ -30,7 +32,7 @@ export class AddReviewComponent implements OnInit {
 
   categories = ['Comida', 'Servicio', 'Ambiente', 'General'];
 
-  constructor(private http: HttpClient, private reviewService: ReviewService) {}
+  constructor(private http: HttpClient, private reviewService: ReviewService, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.reviewForm = new FormGroup({
@@ -54,9 +56,12 @@ export class AddReviewComponent implements OnInit {
 
     this.reviewService.addReview(newReview).subscribe({
       next: (response: any) => {
-        alert('Reseña añadida con éxito!');
+        this.snackBar.open('Reseña añadida con éxito!', 'Cerrar', {
+          duration: 3000, 
+        });
         this.reviewForm.reset({ estrellas: 1, categoria: 'General' });
         this.errorMessage = null;
+        this.router.navigate(['/']);
       },
       error: (error: any) => {
         this.errorMessage = error.message;

@@ -10,6 +10,7 @@ import { PaginatorComponent } from '../../../public/components/paginator/paginat
 import { EditProductosDialogComponent } from '../edit-productos-dialog/edit-productos-dialog.component';
 import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delete-productos-dialog.component';
 import { ProductosApiService } from '../../service/productos-api.service';
+
 @Component({
   selector: 'app-productos-cards',
   standalone: true,
@@ -25,7 +26,7 @@ import { ProductosApiService } from '../../service/productos-api.service';
     PaginatorComponent
   ],
   templateUrl: './productos-cards.component.html',
-  styleUrls: ['./productos-cards.component.css']  // Corregido `styleUrl` a `styleUrls`
+  styleUrls: ['./productos-cards.component.css']  
 })
 export class ProductosCardsComponent implements OnInit, OnChanges {
   @Input() productos: any[] = [];
@@ -67,20 +68,11 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     this.applyPagination();
   }
 
-  getBackgroundImage(imgPath: any): string {
-    if (typeof imgPath !== 'string') {
-      console.error('imgPath is not a string:', imgPath);
-      return '';
+  getImageUrl(imgPath: string): string {
+    if (!imgPath) {
+        return '';
     }
-
-    const hostname = window.location.hostname;
-    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
-
-    const imageUrl = isLocalhost
-      ? `http://localhost:3000/api/${imgPath}`
-      : `http://${hostname}:3000/api/${imgPath}`;
-
-    return `url(${imageUrl})`;
+    return `http://localhost:3000/api/uploads/productos/${imgPath.split('/').pop()}`;
   }
 
   openEditDialog(producto: any): void {
@@ -109,3 +101,4 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     });
   }
 }
+

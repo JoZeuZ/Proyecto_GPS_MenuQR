@@ -5,7 +5,7 @@ import { UserPageComponent } from './users/components/user-page/user-page.compon
 import { LoginComponent } from './auth/components/login/login.component';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
-import { CallWaiterComponent } from './components/waiter-call-button/waiter-call-button.component';
+import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
 import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
 
 export const routes: Routes = [

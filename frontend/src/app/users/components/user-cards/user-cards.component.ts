@@ -7,8 +7,6 @@ import { CommonModule } from '@angular/common';
 import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
 import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dialog.component';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
-import { UsersApiService } from '../../services/users-api.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-cards',
@@ -35,8 +33,6 @@ export class UserCardsComponent implements OnInit, OnChanges {
 
   constructor(
     private dialog: MatDialog,
-    private userService : UsersApiService,
-    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +67,7 @@ export class UserCardsComponent implements OnInit, OnChanges {
 
   openEditUserDialog(user: any): void {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
-      data: { user }
+      data: { user: { ...user } }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -93,5 +89,4 @@ export class UserCardsComponent implements OnInit, OnChanges {
       this.applyPagination();
     });
   }
-
 }

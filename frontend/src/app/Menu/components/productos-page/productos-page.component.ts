@@ -5,6 +5,8 @@ import { ProductosApiService } from '../../service/productos-api.service';
 import { AgregarProductoComponent } from '../add-productos-dialog/add-productos-dialog.component';
 import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delete-productos-dialog.component';
 import { ProductosCardsComponent } from '../productos-cards/productos-cards.component';
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-productos-page',
@@ -12,7 +14,9 @@ import { ProductosCardsComponent } from '../productos-cards/productos-cards.comp
   imports: [ 
     ProductosCardsComponent,
     AgregarProductoComponent,
-    DeleteProductosDialogComponent
+    DeleteProductosDialogComponent,
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './productos-page.component.html',
   styleUrls: ['./productos-page.component.css']
@@ -111,8 +115,19 @@ export class ProductosFormComponent implements OnInit {
     }
   }
 
-  onProductoDeleted(id: string): void {
-    this.productos = this.productos.filter(producto => producto._id !== id);
+  onIngredientDeleted(id: string): void {
+    this.productos = this.productos.filter(productos => productos._id !== id);
     this.applyFilters();
+    alert('Producto eliminado');
   }
+
+  // applyFilters(): void {
+  //   this.filteredIngredientes = this.ingredientes.filter(ingrediente => {
+  //     const matchesSearch = ingrediente.nombre && ingrediente.nombre.toLowerCase().startsWith(this.searchTerm.toLowerCase());
+  //     const disponibilidad = ingrediente.disponible ? 'Disponible' : 'No Disponible';
+  //     const matchesFilter = this.selectedFilters.length === 0 || this.selectedFilters.includes(disponibilidad);
+  //     return matchesSearch && matchesFilter;
+  //   });
+  //   this.totalFilteredItems = this.filteredIngredientes.length; 
+  // }
 }

@@ -1,11 +1,17 @@
 <div id="miCuadroProd">
-    <h2>Productos</h2>
-    <button mat-button (click)="openAddProductoDialog()">Agregar Producto</button>
-    <app-productos-cards 
-        [productos]="filteredProductos"
-        [currentPage]="currentPage"
-        (productoEdited)="onProductoEdited($event)"
-        (productoDeleted)="onProductoDeleted($event)"
-        (pageChange)="onPageChange($event)">
-    </app-productos-cards>
+    <div class="title-cards">
+        <p>Menu</p>
+    </div>
+    <button mat-button class="botonAgregar" (click)="openAddProductoDialog()">
+        <span class="material-icons">add</span>
+    </button>
+    <div class="card-container">
+        <app-productos-cards 
+            [productos]="filteredProductos"
+            [currentPage]="currentPage"
+            (productoEdited)="onProductoEdited($event)"
+            (productoDeleted)="onIngredientDeleted($event)"
+            (pageChange)="onPageChange($event)">
+        </app-productos-cards>
+    </div>
 </div>

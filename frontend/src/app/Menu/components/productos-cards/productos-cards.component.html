@@ -3,23 +3,27 @@
         <!-- <button id="edit" mat-icon-button (click)="openEditProductosDialog(productos)">
             <mat-icon>edit</mat-icon>
         </button> -->
-        <!-- <button id="delete" mat-icon-button color="warn" (click)="openDeleteProductosDialog(productos)">
+        <button id="delete" mat-icon-button color="warn" (click)="openDeleteDialog(productos)">
             <mat-icon>delete</mat-icon>
-        </button> -->
+        </button>
     </div>
-    <mat-card>
-    <mat-card-header>
-        <div mat-card-avatar class="producto-img" [style.background-image]="getBackgroundImage(productos.img)">
-        </div>
-            <mat-card-title>{{ productos.nombre }}</mat-card-title>
-            <mat-card-subtitle>{{ productos.precio | currency }}</mat-card-subtitle>
-            <mat-card-subtitle>{{ productos.descripcion }}</mat-card-subtitle>
-            <mat-card-subtitle>{{ productos.categoria }}</mat-card-subtitle>
-            <mat-card-subtitle>
+    <mat-card class="producto-card">
+        <mat-card-header>
+            <div class="header-content">
+                <mat-card-title>{{ productos.nombre }}</mat-card-title>
+                <mat-card-subtitle>{{ productos.precio | currency }}</mat-card-subtitle>
+            </div>
+        </mat-card-header>
+        <img mat-card-image class="product-image" [src]="getImageUrl(productos.img)" alt="Imagen del producto">
+        <mat-card-content>
+            <br>
+            <p>{{ productos.descripcion }}</p>
+            <p>{{ productos.categoria }}</p>
+            <p>
                 <ng-container *ngFor="let ingrediente of productos.ingredientes">
                     {{ ingrediente.nombre }}<span *ngIf="!isLast(ingrediente, productos.ingredientes)">, </span>
                 </ng-container>
-            </mat-card-subtitle> 
-        </mat-card-header>
+            </p>
+        </mat-card-content>
     </mat-card>
 </div>
