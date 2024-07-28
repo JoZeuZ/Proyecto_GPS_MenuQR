@@ -18,7 +18,6 @@ export class CartService {
   metodoPago$ = this.metodoPago.asObservable();
   propina$ = this.propina.asObservable();
   nombreCliente$ = this.nombreCliente.asObservable();
-  cartItems$ = this.cart.asObservable();
 
   pedidoURL = 'http://localhost:3000/api/pedidos';
 

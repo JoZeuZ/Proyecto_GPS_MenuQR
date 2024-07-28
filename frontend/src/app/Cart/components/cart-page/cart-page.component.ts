@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule, MatDialog} from '@angular/material/dialog';
+import { NameDialogComponent } from '../name-dialog/name-dialog.component';
+import { LoginService } from '../../../auth/services/login.service';
 
 @Component({
   selector: 'app-cart-page',
@@ -27,20 +30,47 @@ import { MatDividerModule } from '@angular/material/divider';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatDialogModule
   ]
 })
 export class CartPageComponent implements OnInit {
   cart: any[] = [];
   mesa: number | null = null;
   nombreCliente: string = '';
+  isAuthenticated: boolean = false;
 
-  constructor(private cartService: CartService, private router: Router) {}
+  constructor(
+    private cartService: CartService, 
+    private router: Router,
+    private dialog: MatDialog,
+    private loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
     this.cartService.cart$.subscribe(cart => this.cart = cart);
     this.cartService.mesa$.subscribe(mesa => this.mesa = mesa);
     this.cartService.nombreCliente$.subscribe(nombre => this.nombreCliente = nombre);
+    this.isAuthenticated = this.loginService.isAuthenticated();
+
+    if (!this.isAuthenticated) {
+      this.openNameDialog();
+    }
+  }
+
+  openNameDialog(): void {
+    const dialogRef = this.dialog.open(NameDialogComponent, {
+      width: '250px',
+      data: { nombre: this.nombreCliente }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cartService.setNombreCliente(result);
+      } else {
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   removeItem(index: number): void {
@@ -48,7 +78,7 @@ export class CartPageComponent implements OnInit {
   }
 
   goToMenu(): void {
-    this.router.navigate(['/menu']);
+    this.router.navigate(['/']);
   }
 
   goToPayment(): void {
