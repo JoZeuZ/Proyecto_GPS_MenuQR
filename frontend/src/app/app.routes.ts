@@ -9,18 +9,21 @@ import { ReviewCardComponent } from './reviews/components/review-card/review-car
 import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { PagoPageComponent } from './Pago/components/pago-page/pago-page.component';
+import { MesasComponent } from './mesas/components/mesas.component';
+import { MesapedidoComponent } from './mesapedido/components/mesapedido.component';
 
 export const routes: Routes = [
     { path: '', component: AppComponent },
     { path: 'ingredientes', component: IngredientPageComponent },
     { path: 'users', component: UserPageComponent },
     { path: 'pedidos', component: PedidoPageComponent},
+    { path: 'mesas/pedido/:Nmesa', component: MesapedidoComponent},
     { path: 'login', component: LoginComponent},
     { path: 'reviews', component: ReviewPageComponent},
     { path: 'reviewsCard', component: ReviewCardComponent},
     {path: 'call-waiter', component: CallWaiterComponent},
     { path: 'cart', component: CartPageComponent },
     { path: 'pago', component: PagoPageComponent },
-    { path: '**', redirectTo: '' }, // Redirige a la página principal para ruta inexistente, posicionar sus rutas arriba de esta
-    // { path: 'mesas'}
+    { path: 'mesas', component: MesasComponent },
+    { path: '**', redirectTo: '' } // Redirige a la página principal para ruta inexistente, posicionar sus rutas arriba de esta
 ];

@@ -123,6 +123,18 @@ async function deletePedido(id) {
     }
 }
 
+async function getPedidoByMesaNum(Nmesa) {
+    try {
+        const mesa = await Mesa.findOne({ Nmesa: Nmesa }).exec();
+        if (!mesa) return [null, "Mesa no encontrada"];
+        const pedidos = await Pedido.find({ mesa: mesa._id }).populate('mesa').populate('productos.productoId').exec();
+        return [pedidos, null];
+    } catch (error) {
+        handleError(error, "pedido.service -> getPedidoByMesaNum");
+        return [null, error];
+    }
+}
+
 module.exports = {
     createPedido,
     getPedidoById,
@@ -130,4 +142,5 @@ module.exports = {
     getPedidos,
     getPedidosByMesaId,
     deletePedido,
+    getPedidoByMesaNum,
 };

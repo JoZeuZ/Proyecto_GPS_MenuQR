@@ -1,0 +1,18 @@
+<div *ngIf="pedido">
+  <h1>Detalle del Pedido</h1>
+  <p><strong>Cliente:</strong> {{ pedido.cliente }}</p>
+  <p><strong>Mesa:</strong> {{ pedido.mesa.Nmesa }}</p>
+  <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+  <p><strong>Total:</strong> {{ pedido.total }}</p>
+  <p><strong>Propina:</strong> {{ pedido.propina }}</p>
+  <p><strong>Método de Pago:</strong> {{ pedido.metodoPago }}</p>
+  <p><strong>Productos:</strong></p>
+  <ul>
+    <li *ngFor="let producto of pedido.productos">
+      {{ producto.productoId.nombre }} - {{ producto.cantidad }} x
+      {{ producto.productoId.precio }} 
+      <span *ngIf="producto.extras; else noExtras">({{ producto.extras }})</span>
+      <ng-template #noExtras>Sin extras</ng-template>
+    </li>
+  </ul>
+</div>

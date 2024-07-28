@@ -111,6 +111,20 @@ async function deletePedido(req, res) {
     }
 }
 
+async function getPedidosByMesaNum(req, res) {
+    try {
+        const { params } = req;
+
+        const [pedidos, error] = await pedidoService.getPedidoByMesaNum(params.Nmesa);
+        if (error) return respondError(req, res, 500, error.message);
+
+        respondSuccess(req, res, 200, pedidos);
+    } catch (error) {
+        handleError(error, "pedido.controller -> getPedidoByMesaNum");
+        respondError(req, res, 500, error.message);
+    }
+}
+
 module.exports = {
     createPedido,
     getPedido,
@@ -118,4 +132,5 @@ module.exports = {
     getPedidos,
     getPedidosByMesaId,
     deletePedido,
+    getPedidosByMesaNum,
 };

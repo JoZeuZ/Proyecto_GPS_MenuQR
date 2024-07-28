@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PedidoApiService } from '../../services/pedido-api.service';
 import { PedidoDialogComponent } from '../pedido-dialog/pedido-dialog.component';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
-import { PedidoDetailDialogComponent } from '../pedido-detail-dialog/pedido-detail-dialog.component';
+import { PedidoDetailDialogComponent } from '../pedido-detail/pedido-detail.component';
 import { FilterComponent } from '../../../public/components/filter/filter.component';
 import { SearchFilterComponent } from '../../../public/components/search-filter/search-filter.component';
 
@@ -39,7 +40,7 @@ export class PedidoPageComponent implements OnInit {
   public availabilityOptions: string[] = ['Pendiente', 'Preparación', 'Completado', 'Entregado'];
   public selectedStatuses: string[] = [];
 
-  constructor(private pedidoService: PedidoApiService, public dialog: MatDialog) {}
+  constructor(private pedidoService: PedidoApiService, private router: Router, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadPedidos();

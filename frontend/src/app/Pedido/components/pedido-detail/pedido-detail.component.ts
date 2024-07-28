@@ -5,9 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-pedido-detail-dialog',
-  templateUrl: './pedido-detail-dialog.component.html',
-  styleUrls: ['./pedido-detail-dialog.component.css'],
+  selector: 'app-pedido-detail',
+  templateUrl: './pedido-detail.component.html',
+  styleUrls: ['./pedido-detail.component.css'],
   standalone: true,
   imports: [
     CommonModule,

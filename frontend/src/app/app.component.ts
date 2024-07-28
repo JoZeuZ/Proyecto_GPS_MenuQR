@@ -24,7 +24,8 @@ import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-bu
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { CartService } from './services/cart.service';
-
+import { MesasComponent } from './mesas/components/mesas.component';
+import { MesapedidoComponent } from './mesapedido/components/mesapedido.component';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,9 @@ import { CartService } from './services/cart.service';
     ReviewCardComponent,
     CallWaiterComponent,
     CartIconComponent,
-    CartPageComponent
+    CartPageComponent,
+    MesasComponent,
+    MesapedidoComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -60,7 +63,8 @@ export class AppComponent implements OnInit {
   private routeRoles: { [key: string]: string[] } = {
     '/users': ['Administrador'],
     '/ingredientes': ['Administrador', 'Mesero'],
-    '/reviewsCard': ['Administrador', 'Mesero']
+    '/reviewsCard': ['Administrador', 'Mesero'],
+    // '/mesas': ['Administrador','Mesero'],
     // Añadir otras rutas y roles requeridos aquí
   };
 
@@ -201,5 +205,13 @@ export class AppComponent implements OnInit {
   }
   navigateToWaiterCall() {
     this.router.navigate(['/call-waiter']);
+  }
+
+  isMesasRouteActive(): boolean {
+    return this.currentRoute === '/mesas';
+  }
+
+  isMesaPedidoRouteActive(): boolean {
+    return this.currentRoute.startsWith('/mesas/pedido');
   }
 }
