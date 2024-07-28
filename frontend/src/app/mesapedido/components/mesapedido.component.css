@@ -17,15 +17,8 @@
     padding: 20px;
   }
   
-  .loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
   mat-card {
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   .producto-item {
@@ -37,7 +30,7 @@
 
 .producto-info {
     flex-grow: 1; /* Permite que este div ocupe el espacio disponible */
-    display: flex;
+    display: ruby;
     align-items: center; /* Alinea verticalmente en el centro */
 }
 
