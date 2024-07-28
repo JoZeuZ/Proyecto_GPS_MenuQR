@@ -8,7 +8,7 @@
     margin-top: 2rem;
 }
 
-.botonAgregar {
+.botoncito {
     background-color: var(--color-boton) !important;
     color: white !important;
     height: 55px;

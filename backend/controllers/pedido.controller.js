@@ -125,6 +125,23 @@ async function getPedidosByMesaNum(req, res) {
     }
 }
 
+async function eliminarProductoDelPedido(req, res) {
+    try {
+        const { params } = req;
+        const { pedidoId } = params;
+        const { productoId } = params;
+
+        const [pedido, error] = await pedidoService.eliminarProductoDelPedido(pedidoId, productoId);
+        if (error) return respondError(req, res, 500, error.message);
+        if (!pedido) return respondError(req, res, 404, "Pedido no encontrado");
+
+        respondSuccess(req, res, 200, pedido);
+    } catch (error) {
+        handleError(error, "pedido.controller -> eliminarProductoDelPedido");
+        respondError(req, res, 500, error.message);
+    }
+}
+
 module.exports = {
     createPedido,
     getPedido,
@@ -133,4 +150,5 @@ module.exports = {
     getPedidosByMesaId,
     deletePedido,
     getPedidosByMesaNum,
+    eliminarProductoDelPedido,
 };

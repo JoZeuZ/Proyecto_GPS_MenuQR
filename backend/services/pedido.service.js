@@ -135,6 +135,45 @@ async function getPedidoByMesaNum(Nmesa) {
     }
 }
 
+async function eliminarProductoDelPedido(pedidoId, productoId) {
+    try {
+        const pedido = await Pedido.findById(pedidoId).exec();
+        if (!pedido) return [null, "Pedido no encontrado"];
+        const productoIndex = pedido.productos.findIndex(p => p.productoId.toString() === productoId);
+
+
+        if (productoIndex === -1) return [null, "Producto no encontrado en el pedido"];
+
+
+        const producto = pedido.productos[productoIndex];
+        if (producto.cantidad > 1) {
+
+            producto.cantidad -= 1;
+        } else {
+
+            pedido.productos.splice(productoIndex, 1);
+        }
+
+
+        let total = 0;
+        for (const item of pedido.productos) {
+            const productoDB = await Productos.findById(item.productoId);
+            if (productoDB) {
+                total += productoDB.precio * item.cantidad;
+            }
+        }
+        pedido.total = total;
+
+        await pedido.save();
+
+        return [pedido, null];
+    } catch (error) {
+        handleError(error, "pedido.service -> eliminarProductoDelPedido");
+        return [null, error];
+    }
+}
+
+
 module.exports = {
     createPedido,
     getPedidoById,
@@ -143,4 +182,5 @@ module.exports = {
     getPedidosByMesaId,
     deletePedido,
     getPedidoByMesaNum,
+    eliminarProductoDelPedido,
 };

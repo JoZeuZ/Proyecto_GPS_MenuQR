@@ -12,5 +12,6 @@ router.delete("/:id", pedidoController.deletePedido);
 router.get("/", pedidoController.getPedidos);
 router.get("/mesa/:mesaId", pedidoController.getPedidosByMesaId);
 router.get("/mesan/:Nmesa", pedidoController.getPedidosByMesaNum);
+router.delete("/producto/:pedidoId/:productoId", pedidoController.eliminarProductoDelPedido);
 
 module.exports = router;

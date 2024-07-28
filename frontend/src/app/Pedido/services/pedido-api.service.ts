@@ -43,4 +43,8 @@ export class PedidoApiService {
   getPedidosByMesaNum(Nmesa: string): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/mesan/${Nmesa}`);
   }
+
+  deleteProductosDelPedido(pedidoId: string, productoId: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}/producto/${pedidoId}/${productoId}`);
+  }
 }

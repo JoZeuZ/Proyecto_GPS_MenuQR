@@ -1,25 +1,46 @@
-<div class="cosas">
-<div *ngIf="pedido; else noPedidos">
-  <h1>Detalle del Pedido</h1>
-  <p><strong>Cliente:</strong> {{ pedido.cliente }}</p>
-  <p><strong>Mesa:</strong> {{ pedido.mesa.Nmesa }}</p>
-  <p><strong>Estado:</strong> {{ pedido.estado }}</p>
-  <p><strong>Total:</strong> {{ pedido.total }}</p>
-  <p><strong>Propina:</strong> {{ pedido.propina }}</p>
-  <p><strong>Método de Pago:</strong> {{ pedido.metodoPago }}</p>
-  <p><strong>Productos:</strong></p>
-  <ul>
-    <li *ngFor="let producto of pedido.productos">
-      {{ producto.productoId.nombre }} - {{ producto.cantidad }} x
-      {{ producto.productoId.precio }} 
-      <span *ngIf="producto.extras; else noExtras">({{ producto.extras }})</span>
-      <ng-template #noExtras>Sin extras</ng-template>
-    </li>
-  </ul>
-  <button mat-raised-button (click)="goBack()">Volver atrás</button>
-</div>
-<ng-template #noPedidos>
-  <h1>No hay pedidos activos para esta mesa</h1>
-  <button mat-raised-button (click)="goBack()">Volver atrás</button>
-</ng-template>
+<div class="container">
+  <div class="loading" *ngIf="isLoading; else content">
+    <mat-spinner></mat-spinner>
+  </div>
+  <ng-template #content>
+    <mat-card *ngIf="pedido; else noPedidos">
+      <mat-card-header>
+        <mat-card-title>Detalle del Pedido</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Cliente:</strong> {{ pedido.cliente }}</p>
+        <p><strong>Mesa:</strong> {{ pedido.mesa.Nmesa }}</p>
+        <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+        <p><strong>Total:</strong> ${{ pedido.total }}</p>
+        <p><strong>Propina:</strong> ${{ pedido.propina }}</p>
+        <p><strong>Método de Pago:</strong> {{ pedido.metodoPago }}</p>
+        <p><strong>Productos:</strong></p>
+        <mat-list>
+          <mat-list-item *ngFor="let producto of pedido.productos" class="producto-item">
+            <div class="producto-info">
+              {{ producto.productoId.nombre }} - {{ producto.cantidad }} x ${{ producto.productoId.precio }}
+              <span *ngIf="producto.extras; else noExtras">({{ producto.extras }})</span>
+              <ng-template #noExtras>Sin extras</ng-template>
+            </div>
+            <button mat-icon-button color="warn" (click)="eliminarProducto(producto.productoId._id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="goBack()">Volver atrás</button>
+      </mat-card-actions>
+    </mat-card>
+    <ng-template #noPedidos>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>No hay pedidos activos para esta mesa</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="goBack()">Volver atrás</button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-template>
+  </ng-template>
 </div>
