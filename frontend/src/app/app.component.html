@@ -14,9 +14,6 @@
       <a mat-list-item href="reviewsCard">
         <span class="text">Ver Reseñas</span>
       </a>
-      <a mat-list-item href="call-waiter">
-        <span class="text">Llamar</span>
-      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -38,7 +35,6 @@
       <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
       <app-review-page *ngIf="isReviewRouteActive()"></app-review-page>
       <app-review-card *ngIf="isReviewCardRouteActive()"></app-review-card>
-      <app-call-waiter *ngIf="isWaiterCallRouteActive()"></app-call-waiter>
     </div>
     <app-footer-component></app-footer-component>
   </mat-sidenav-content>

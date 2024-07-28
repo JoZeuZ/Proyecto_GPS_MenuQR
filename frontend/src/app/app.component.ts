@@ -20,7 +20,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
 import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
-import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
+
 
 @Component({
   selector: 'app-root',
@@ -39,7 +39,6 @@ import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-bu
     MatIconModule,
     ReviewPageComponent,
     ReviewCardComponent,
-    CallWaiterComponent,
     ProductosFormComponent
   ],
   templateUrl: './app.component.html',
@@ -161,11 +160,5 @@ export class AppComponent implements OnInit {
   }
   navigateToReviewCard() {
     this.router.navigate(['/reviewsCard']);
-  }
-  isWaiterCallRouteActive(): boolean {
-    return this.currentRoute === '/call-waiter';
-  }
-  navigateToWaiterCall() {
-    this.router.navigate(['/call-waiter']);
   }
 }
