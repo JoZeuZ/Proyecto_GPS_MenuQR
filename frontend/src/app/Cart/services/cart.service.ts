@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { PagoApiService } from '../../Pago/services/pago-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +12,17 @@ export class CartService {
   private metodoPago = new BehaviorSubject<string | null>(null);
   private propina = new BehaviorSubject<number>(0);
   private nombreCliente = new BehaviorSubject<string>('');
+  
   cart$ = this.cart.asObservable();
   mesa$ = this.mesa.asObservable();
   metodoPago$ = this.metodoPago.asObservable();
   propina$ = this.propina.asObservable();
   nombreCliente$ = this.nombreCliente.asObservable();
+  cartItems$ = this.cart.asObservable();
 
-  constructor(private http: HttpClient) {}
+  pedidoURL = 'http://localhost:3000/api/pedidos';
+
+  constructor(private http: HttpClient, private pagoApiService: PagoApiService) {}
 
   getCart() {
     return this.cart.value;
@@ -81,9 +86,17 @@ export class CartService {
       mesa: this.getMesa(),
       productos: this.getCart(),
       metodoPago: this.getMetodoPago(),
-      propina: this.getPropina()
+      propina: this.getPropina(),
     };
-    return this.http.post('/api/pedidos', pedido);
+    return this.http.post(this.pedidoURL, pedido).pipe(
+      map((pedidoResponse: any) => {
+        const pagoData = {
+          pedidoId: pedidoResponse.data._id,
+          metodoPago: this.getMetodoPago(),
+          total: pedidoResponse.data.total // Usamos el total calculado por el backend.
+        };
+        return this.pagoApiService.createPago(pagoData).subscribe();
+      })
+    );
   }
-
 }

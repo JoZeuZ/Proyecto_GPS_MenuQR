@@ -5,6 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-cart-page',
@@ -17,7 +22,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatCardModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatDividerModule
   ]
 })
 export class CartPageComponent implements OnInit {
@@ -42,7 +52,6 @@ export class CartPageComponent implements OnInit {
   }
 
   goToPayment(): void {
-    this.cartService.setNombreCliente(this.nombreCliente);
     this.router.navigate(['/pago']);
   }
 }
