@@ -11,6 +11,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { StarRatingComponent } from '../../../star-rating/star-rating.component';
 import { ReviewDetailDialogComponent } from '../review-detail-dialog/review-detail-dialog.component';
 import { FilterComponent } from '../../../public/components/filter/filter.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-review-card',
@@ -46,7 +47,8 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   constructor(
     private reviewService: ReviewService,
     private callWaiterWebSocketService: CallWaiterWebSocketService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +121,9 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   }
 
   displayNotification(call: any): void {
-    alert(`Mesa ${call.tableNumber} está llamando.`);
+    this.snackBar.open(`Mesa ${call.tableNumber} está llamando`, 'Cerrar', {
+      duration: 10000, 
+    });
   }
 
   openReviewDialog(review: any): void {
@@ -130,6 +134,8 @@ export class ReviewCardComponent implements OnInit, OnChanges {
     });
   }
 }
+
+
 
 
 
