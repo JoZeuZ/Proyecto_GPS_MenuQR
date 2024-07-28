@@ -39,8 +39,8 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   public itemsPerPage: number = 10;
   public paginatedReviews: any[] = [];
   public categories: string[] = [];
-  public selectedCategory: string = '';
-  public selectedRating: number | null = null;
+  public selectedCategories: string[] = [];
+  public selectedRatings: number[] = [];
 
   public notifications: any[] = [];
 
@@ -87,8 +87,8 @@ export class ReviewCardComponent implements OnInit, OnChanges {
 
   applyPagination(): void {
     const filteredReviews = this.reviews
-      .filter(review => this.selectedCategory ? review.categoria === this.selectedCategory : true)
-      .filter(review => this.selectedRating !== null ? review.estrellas === this.selectedRating : true);
+      .filter(review => this.selectedCategories.length ? this.selectedCategories.includes(review.categoria) : true)
+      .filter(review => this.selectedRatings.length ? this.selectedRatings.includes(review.estrellas) : true);
 
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
@@ -102,13 +102,13 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   }
 
   onCategoryChange(selectedCategories: string[]): void {
-    this.selectedCategory = selectedCategories[0] || '';
+    this.selectedCategories = selectedCategories;
     this.currentPage = 1;
     this.applyPagination();
   }
 
   onRatingChange(selectedRatings: string[]): void {
-    this.selectedRating = selectedRatings[0] ? parseInt(selectedRatings[0], 10) : null;
+    this.selectedRatings = selectedRatings.map(rating => parseInt(rating, 10));
     this.currentPage = 1;
     this.applyPagination();
   }
