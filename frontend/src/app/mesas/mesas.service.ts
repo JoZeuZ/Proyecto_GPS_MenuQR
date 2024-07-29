@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class MesasService {
   private apiURL = 'http://localhost:3000/api/mesas/';
   private mesaNumber: number | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, ) { }
 
   getMesas() {
     return this.http.get<any>(this.apiURL);
@@ -23,7 +24,7 @@ export class MesasService {
     return this.http.put(`${this.apiURL}${mesaId}`, mesa);
   }
   
-  deleteMesa(mesaId: string) {
+  deleteMesa(mesaId: string){
     return this.http.delete(`${this.apiURL}${mesaId}`);
   }
 
