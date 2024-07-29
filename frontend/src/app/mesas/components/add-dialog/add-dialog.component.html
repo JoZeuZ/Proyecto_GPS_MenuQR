@@ -1,0 +1,23 @@
+<div id="miCuadroAgregar">
+    <h2 mat-dialog-title>Agregar Mesa</h2>
+    <div mat-dialog-content class="content">
+        <form [formGroup]="mesaForm">
+            <mat-form-field>
+                <mat-label>Número de Mesa</mat-label>
+                <input matInput type="number" formControlName="Nmesa">
+                <mat-error *ngIf="mesaForm.get('Nmesa')?.invalid">{{ getErrorMessage('Nmesa') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Cantidad de Personas</mat-label>
+                <input matInput type="number" formControlName="cantidadPersonas">
+                <mat-error *ngIf="mesaForm.get('cantidadPersonas')?.invalid">{{ getErrorMessage('cantidadPersonas')
+                    }}</mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+    <div mat-dialog-actions class="botonCancelAceptar">
+        <button mat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button (click)="addMesa()">Agregar</button>
+    </div>
+</div>
