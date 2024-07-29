@@ -10,6 +10,7 @@ import { PaginatorComponent } from '../../../public/components/paginator/paginat
 import { EditProductosDialogComponent } from '../edit-productos-dialog/edit-productos-dialog.component';
 import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delete-productos-dialog.component';
 import { ProductosApiService } from '../../service/productos-api.service';
+import { CartService } from '../../../Cart/services/cart.service';
 
 @Component({
   selector: 'app-productos-cards',
@@ -38,7 +39,11 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
   public itemsPerPage: number = 10;
   public paginatedProductos: any[] = [];
 
-  constructor(private service: ProductosApiService, private dialog: MatDialog) { }
+  constructor(
+    private service: ProductosApiService,
+    private dialog: MatDialog,
+    private cartService: CartService
+  ) { }
 
   ngOnInit(): void {
     this.applyPagination();
@@ -99,6 +104,10 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
       this.productoDeleted.emit(id);
       this.applyPagination();
     });
+  }
+
+  addToCart(producto: any) {
+    this.cartService.addToCart(producto);
   }
 }
 
