@@ -107,7 +107,13 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
   }
 
   addToCart(producto: any) {
-    this.cartService.addToCart(producto);
+    const productToCart = {
+      productoId: producto._id, // Usamos el _id del producto
+      cantidad: 1 // Puedes ajustar la cantidad según tu lógica
+    };
+  
+    console.log('Adding to cart', productToCart);
+    this.cartService.addToCart(productToCart);
   }
 }
 

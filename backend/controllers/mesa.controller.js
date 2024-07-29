@@ -12,7 +12,7 @@ async function createMesa(req, res) {
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
         const { Nmesa, cantidadPersonas } = body;
-        const qrData = `http://localhost:4200/pedido?mesa=${Nmesa}`;
+        const qrData = `http://localhost:4200/?mesa=${Nmesa}`;
         const codigoQR = await QRCode.toDataURL(qrData);
 
         const mesaData = { Nmesa, codigoQR, cantidadPersonas };
@@ -53,7 +53,7 @@ async function updateMesa(req, res) {
         const { error: bodyError } = mesaBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const qrData = `http://localhost:4200/pedido?mesa=${body.Nmesa}`;
+        const qrData = `http://localhost:4200/?mesa=${body.Nmesa}`;
         const codigoQR = await QRCode.toDataURL(qrData);
         body.codigoQR = codigoQR;
 
