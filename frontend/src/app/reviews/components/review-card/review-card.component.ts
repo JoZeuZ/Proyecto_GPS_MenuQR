@@ -11,6 +11,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { StarRatingComponent } from '../../../star-rating/star-rating.component';
 import { ReviewDetailDialogComponent } from '../review-detail-dialog/review-detail-dialog.component';
 import { FilterComponent } from '../../../public/components/filter/filter.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-review-card',
@@ -38,15 +39,16 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   public itemsPerPage: number = 10;
   public paginatedReviews: any[] = [];
   public categories: string[] = [];
-  public selectedCategory: string = '';
-  public selectedRating: number | null = null;
+  public selectedCategories: string[] = [];
+  public selectedRatings: number[] = [];
 
   public notifications: any[] = [];
 
   constructor(
     private reviewService: ReviewService,
     private callWaiterWebSocketService: CallWaiterWebSocketService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -85,8 +87,8 @@ export class ReviewCardComponent implements OnInit, OnChanges {
 
   applyPagination(): void {
     const filteredReviews = this.reviews
-      .filter(review => this.selectedCategory ? review.categoria === this.selectedCategory : true)
-      .filter(review => this.selectedRating !== null ? review.estrellas === this.selectedRating : true);
+      .filter(review => this.selectedCategories.length ? this.selectedCategories.includes(review.categoria) : true)
+      .filter(review => this.selectedRatings.length ? this.selectedRatings.includes(review.estrellas) : true);
 
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
@@ -100,13 +102,13 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   }
 
   onCategoryChange(selectedCategories: string[]): void {
-    this.selectedCategory = selectedCategories[0] || '';
+    this.selectedCategories = selectedCategories;
     this.currentPage = 1;
     this.applyPagination();
   }
 
   onRatingChange(selectedRatings: string[]): void {
-    this.selectedRating = selectedRatings[0] ? parseInt(selectedRatings[0], 10) : null;
+    this.selectedRatings = selectedRatings.map(rating => parseInt(rating, 10));
     this.currentPage = 1;
     this.applyPagination();
   }
@@ -119,7 +121,9 @@ export class ReviewCardComponent implements OnInit, OnChanges {
   }
 
   displayNotification(call: any): void {
-    alert(`Mesa ${call.tableNumber} está llamando.`);
+    this.snackBar.open(`Mesa ${call.tableNumber} está llamando`, 'Cerrar', {
+      duration: 10000, 
+    });
   }
 
   openReviewDialog(review: any): void {
@@ -130,6 +134,8 @@ export class ReviewCardComponent implements OnInit, OnChanges {
     });
   }
 }
+
+
 
 
 

@@ -7,6 +7,7 @@ import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delet
 import { ProductosCardsComponent } from '../productos-cards/productos-cards.component';
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
+import { CallWaiterComponent } from '../../../Llamada/waiter-call-button/waiter-call-button.component';
 
 @Component({
   selector: 'app-productos-page',
@@ -16,7 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
     AgregarProductoComponent,
     DeleteProductosDialogComponent,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    CallWaiterComponent
   ],
   templateUrl: './productos-page.component.html',
   styleUrls: ['./productos-page.component.css']
