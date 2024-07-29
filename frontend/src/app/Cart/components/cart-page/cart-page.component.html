@@ -1,0 +1,18 @@
+<div class="cart-container">
+  <h2>Carrito de Compra</h2>
+  <div *ngFor="let product of cart; let i = index" class="product-cart">
+    <mat-card class="product-card">
+      <mat-card-content>
+        <p>{{ product.nombre }} - {{ product.cantidad }}</p>
+        <button mat-icon-button color="warn" (click)="removeItem(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="cart.length === 0" class="empty-cart">No hay productos en el carrito</div>
+  <div class="cart-buttons">
+    <button mat-raised-button color="primary" (click)="goToMenu()">Seguir comprando</button>
+    <button mat-raised-button color="accent" (click)="goToPayment()">Proceder al pago</button>
+  </div>
+</div>
