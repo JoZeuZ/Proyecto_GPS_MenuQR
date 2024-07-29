@@ -12,7 +12,7 @@ async function createMesa(req, res) {
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
         const { Nmesa, cantidadPersonas } = body;
-        const qrData = `https://mi-restaurante.com/pedido?mesa=${Nmesa}`;
+        const qrData = `http://localhost:4200/pedido?mesa=${Nmesa}`;
         const codigoQR = await QRCode.toDataURL(qrData);
 
         const mesaData = { Nmesa, codigoQR, cantidadPersonas };
@@ -53,7 +53,7 @@ async function updateMesa(req, res) {
         const { error: bodyError } = mesaBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const qrData = `https://mi-restaurante.com/menu?mesaId=${body.Nmesa}`;
+        const qrData = `http://localhost:4200/pedido?mesa=${body.Nmesa}`;
         const codigoQR = await QRCode.toDataURL(qrData);
         body.codigoQR = codigoQR;
 
@@ -97,6 +97,8 @@ async function deleteMesa(req, res) {
     }
 }
 
+
+
 // async function deleteMesasByNumMesas(req, res) {
 //     try {
 //         const { body } = req;
@@ -127,6 +129,20 @@ async function deleteMesaByNumMesa(req, res) {
     }
 }
 
+async function getMesaByNumber(req, res) {
+    try {
+        const { Nmesa } = req.params;
+        const [mesa, error] = await mesaService.getMesaByNumber(Nmesa);
+        if (error) return respondError(req, res, 500, error.message);
+        if (!mesa) return respondError(req, res, 404, "Mesa no encontrada");
+
+        respondSuccess(req, res, 200, mesa);
+    } catch (error) {
+        handleError(error, "mesa.controller -> getMesaByNumber");
+        respondError(req, res, 500, error.message);
+    }
+}
+
 module.exports = {
     createMesa,
     getMesa,
@@ -134,4 +150,5 @@ module.exports = {
     getMesas,
     deleteMesa,
     deleteMesaByNumMesa,
+    getMesaByNumber,
 };
