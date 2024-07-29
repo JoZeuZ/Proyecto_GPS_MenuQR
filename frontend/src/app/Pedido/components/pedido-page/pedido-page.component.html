@@ -1,0 +1,39 @@
+<div class="title-cards">
+  <p>Listado de pedidos</p>
+</div>
+<div class="pedido-container">
+  <div class="buscadorFiltroAdd">
+    <app-search-filter class="buscador" (search)="onSearch($event)"></app-search-filter>
+    <app-filter [options]="availabilityOptions" (filterChange)="onFilterChange($event)"></app-filter>
+    <button class='botonAgregar' mat-raised-button (click)="openAddPedidoDialog()">
+      <span class="material-icons">add</span>
+    </button>
+  </div>
+
+  <div *ngFor="let pedido of filteredPedidos" class="pedido-card">
+    <div class="card-buttons">
+      <button id="edit" mat-icon-button (click)="openEditPedidoDialog(pedido)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button id="delete" mat-icon-button color="warn" (click)="onPedidoDeleted(pedido._id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Mesa: {{ pedido.mesa.Nmesa }}</mat-card-title>
+        <mat-card-subtitle>{{ pedido.estado }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-raised-button color="accent" (click)="openPedidoDetailDialog(pedido)">Ver Detalles</button>
+        <button mat-raised-button color="primary" (click)="updatePedidoStatus(pedido, 'Preparación')">En
+          preparación</button>
+        <button mat-raised-button color="primary" (click)="updatePedidoStatus(pedido, 'Completado')">Listo para
+          servir</button>
+        <button mat-raised-button color="primary" (click)="updatePedidoStatus(pedido, 'Entregado')">Entregado</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <app-paginator [totalItems]="totalFilteredItems" [itemsPerPage]="itemsPerPage"
+    (pageChange)="onPageChange($event)"></app-paginator>
+</div>

@@ -69,10 +69,25 @@ async function deleteMesa(id) {
     }
 }
 
+
+
+async function deleteMesaByNumMesa(Nmesa){
+    try {
+        const mesa = await Mesa.findOneAndDelete({ Nmesa: Nmesa }).exec();
+        if (!mesa) return [null, "Mesa no encontrada"];
+        return [mesa, null];
+    } catch (error) {
+        handleError(error, "mesa.service -> deleteMesaByNumMesa");
+        return [null, error];
+    }
+}
+
+
 module.exports = {
     createMesa,
     getMesaById,
     updateMesa,
     getMesas,
     deleteMesa,
+    deleteMesaByNumMesa,
 };

@@ -1,0 +1,13 @@
+.cart-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--color-principal);
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cart-button .mat-icon {
+    font-size: 24px;
+}

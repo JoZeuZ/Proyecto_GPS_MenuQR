@@ -1,0 +1,94 @@
+@import '../../../styles.css';
+
+.title-cards {
+    display: flex;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.cosas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: -116px;
+    max-width: 1200px; /* Ajusta según el diseño deseado */
+    padding: 0 1rem;
+}
+
+.card-mesas {
+    flex: 1;
+    margin-right: 1rem; 
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Alinea los botones a la derecha */
+}
+
+.botonAgregar {
+    background-color: var(--color-boton) !important;
+    color: white !important;
+    height: 55px;
+}
+
+.botonEliminar {
+    background-color: var(--color-boton) !important;
+    height: 55px;
+    margin-right: 15px;
+}
+
+.botonConfirmarEliminar {
+    margin-top: 1rem; /* Ajusta el espacio entre los botones */
+    height: 55px;
+}
+
+.selection-indicator {
+    color: var(--color-boton);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.botoncito {
+    background-color: var(--color-boton) !important;
+    color: white !important;
+    height: 55px;
+    border: none !important;
+    margin-bottom: 22px;
+    border-radius: 4px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    transition: all 0.3s ease;
+}
+
+.botoncito.selecting-mode {
+    background-color: #f0f0f0 !important;
+    color: var(--color-boton) !important;
+    border: 2px dashed var(--color-boton) !important;
+}
+
+.botoncito.selected {
+    background-color: var(--color-boton) !important;
+    color: white !important;
+    border: 2px solid #000000 !important;
+}
+
+.botones-mesas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
