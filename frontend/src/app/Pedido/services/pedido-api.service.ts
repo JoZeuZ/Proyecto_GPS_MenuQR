@@ -36,7 +36,7 @@ export class PedidoApiService {
     return this.http.get<any>(`${this.baseURL}/${id}`);
   }
 
-  getPedidosByMesaId(mesaId: string): Observable<any[]> {
+  getPedidosByMesaId(mesaId: string): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/mesa/${mesaId}`);
   }
 

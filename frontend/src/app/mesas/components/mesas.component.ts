@@ -37,7 +37,7 @@ export class MesasComponent implements OnInit {
     );
   }
 
-  goToPedido(Nmesa: number): void {
+  goToPedido(Nmesa: string): void {
     this.mesasService.setMesaNumber(Nmesa);
     this.router.navigate(['/mesas/pedido', Nmesa]);
   }

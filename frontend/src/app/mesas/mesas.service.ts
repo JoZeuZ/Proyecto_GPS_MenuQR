@@ -27,11 +27,15 @@ export class MesasService {
     return this.http.delete(`${this.apiURL}${mesaId}`);
   }
 
-  setMesaNumber(number: number): void {
-    this.mesaNumber = number;
+  setMesaNumber(Nmesa: string): void {
+    localStorage.setItem('Nmesa', Nmesa);
   }
 
-  getMesaNumber(): number | null {
-    return this.mesaNumber;
+  getMesaNumber(): string | null {
+    return localStorage.getItem('Nmesa');
+  }
+  
+  clearMesaNumber(): void {
+    localStorage.removeItem('Nmesa');
   }
 }

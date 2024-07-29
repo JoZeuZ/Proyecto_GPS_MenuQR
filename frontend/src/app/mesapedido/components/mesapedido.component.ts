@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { PedidoApiService } from '../../Pedido/services/pedido-api.service';
 import { CommonModule } from '@angular/common';
 import { MesasService } from '../../mesas/mesas.service';
@@ -9,6 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { ProductoDialogComponent } from '../../Menu/components/producto-dialog/producto-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 
 @Component({
@@ -25,7 +28,8 @@ export class MesapedidoComponent implements OnInit {
   constructor(
     private mesasService: MesasService,
     private pedidoService: PedidoApiService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +61,7 @@ export class MesapedidoComponent implements OnInit {
   }
 
   goBack(): void {
+    this.mesasService.clearMesaNumber();
     this.router.navigate(['/mesas']);
   }
 
@@ -72,5 +77,48 @@ export class MesapedidoComponent implements OnInit {
         }
       );
     }
+  }
+
+  openAgregarProductosDialog(): void {
+    const dialogRef = this.dialog.open(ProductoDialogComponent);
+
+    dialogRef.afterClosed().subscribe((producto) => {
+      if (producto) {
+        this.agregarProductoAlPedido(producto);
+      }
+    });
+  }
+
+  agregarProductoAlPedido(producto: any): void {
+    const productoExistente = this.pedido.productos.find((p: any) => p.productoId._id === producto._id);
+
+    if (productoExistente) {
+      productoExistente.cantidad += 1;
+    } else {
+      this.pedido.productos.push({
+        productoId: producto,
+        cantidad: 1
+      });
+    }
+
+    // Recalcula el total
+    let total = 0;
+    for (const item of this.pedido.productos) {
+      total += item.productoId.precio * item.cantidad;
+    }
+    this.pedido.total = total;
+    console.log(this.pedido.cliente);
+
+    // Guarda el pedido actualizado
+    this.pedidoService.updatePedido(this.pedido._id, this.pedido).subscribe(
+      (updatedPedido) => {
+        this.pedido = updatedPedido;
+        window.location.reload();
+        console.log(this.pedido);
+      },
+      (error) => {
+        console.error('Error updating pedido:', error);
+      }
+    );
   }
 }

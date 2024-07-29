@@ -54,10 +54,10 @@ async function updatePedido(id, pedidoData) {
         
         // Validación de la transición de estado
         const validTransitions = {
-            "Pendiente": ["Preparación", "Completado", "Entregado"],
-            "Preparación": ["Completado", "Entregado"],
-            "Completado": ["Entregado"],
-            "Entregado": []
+            "Pendiente": ["Pendiente","Preparación", "Completado", "Entregado"],
+            "Preparación": ["Preparación","Completado", "Entregado"],
+            "Completado": ["Completado","Entregado"],
+            "Entregado": ["Entregado"]
         };
 
         if (pedidoData.estado && !validTransitions[pedido.estado].includes(pedidoData.estado)) {
