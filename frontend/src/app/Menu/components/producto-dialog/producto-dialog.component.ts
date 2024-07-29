@@ -5,6 +5,7 @@ import { ProductosApiService } from '../../service/productos-api.service';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   templateUrl: './producto-dialog.component.html',
   styleUrl: './producto-dialog.component.css',
-  imports: [CommonModule, MatListModule, MatButtonModule]
+  imports: [CommonModule, MatListModule, MatButtonModule, MatDialogModule]
 })
 export class ProductoDialogComponent implements OnInit {
   productos: any[] = [];

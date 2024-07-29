@@ -2,8 +2,10 @@
 <div mat-dialog-content>
   <mat-list>
     <mat-list-item *ngFor="let producto of productos">
-      {{ producto.nombre }} - ${{ producto.precio }}
-      <button mat-raised-button color="primary" (click)="agregarProducto(producto)">Agregar</button>
+      {{ producto.nombre }} Valor: ${{ producto.precio }}
+      <button mat-raised-button class="botoncito" (click)="agregarProducto(producto)">
+        <span class="material-icons">add</span>
+      </button>
     </mat-list-item>
   </mat-list>
 </div>

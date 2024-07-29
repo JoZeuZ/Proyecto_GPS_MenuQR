@@ -1,6 +1,7 @@
 :root{
     --color-principal: #e02525;
     --color-boton: #b22222;
+    --color-boton-claro: #fb4c4c;
 }
 
 html, body { height: 100%; }

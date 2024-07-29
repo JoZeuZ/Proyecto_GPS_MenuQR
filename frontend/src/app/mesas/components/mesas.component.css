@@ -18,15 +18,19 @@
 .content-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-left: -116px;
+    align-items: flex-start;
+    margin-left:-116px;
     max-width: 1200px; /* Ajusta según el diseño deseado */
     padding: 0 1rem;
+    
 }
 
 .card-mesas {
     flex: 1;
     margin-right: 1rem; 
+    display: flex;
+    flex-direction: column; /* Permite el crecimiento vertical */
+    max-width: 315px; /* Ajusta el tamaño mínimo según sea necesario */
 }
 
 .action-buttons {
@@ -72,6 +76,8 @@
     justify-content: space-between;
     padding: 0 15px;
     transition: all 0.3s ease;
+    width: calc(25% - 20px); 
+    box-sizing: border-box; 
 }
 
 .botoncito.selecting-mode {
@@ -91,4 +97,16 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 1rem;
+    gap: 15px; 
+}
+
+@media (max-width: 959px) {
+    .botones-mesas {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 1rem;
+        gap: 15px; 
+        width: 175px;
+    }
 }

@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     '/users': ['Administrador'],
     '/ingredientes': ['Administrador', 'Mesero'],
     '/reviewsCard': ['Administrador', 'Mesero'],
-    // '/mesas': ['Administrador','Mesero'],
+    '/mesas': ['Administrador','Mesero'],
     // Añadir otras rutas y roles requeridos aquí
   };
 

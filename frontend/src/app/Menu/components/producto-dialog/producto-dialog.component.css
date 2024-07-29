@@ -1,0 +1,7 @@
+@import '../../../../styles.css';
+
+.botoncito{
+    background-color: var(--color-boton-claro) !important;
+    color: white !important;
+    border-radius: 50%;
+}
