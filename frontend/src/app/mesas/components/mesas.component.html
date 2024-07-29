@@ -1,27 +1,31 @@
 <div class="cosas">
-  <h2 class="title-cards">Gestion de pedidos de Mesas</h2>
+  <h2 class="title-cards">Gestión de pedidos de Mesas</h2>
   <p *ngIf="isSelecting" class="selection-indicator"></p>
-  <mat-card class="card-mesas">
-    <mat-card-content>
-      <div class="botones-mesas">
-        <button class="botoncito" mat-raised-button *ngFor="let mesa of mesas"
-          (click)="isSelecting ? toggleSelectMesa(mesa.Nmesa) : goToPedido(mesa.Nmesa)"
-          [class.selected]="selectedMesas.has(mesa.Nmesa)" [class.selecting-mode]="isSelecting">
-          Mesa {{ mesa.Nmesa }}
-          <mat-icon *ngIf="isSelecting && selectedMesas.has(mesa.Nmesa)">check_circle</mat-icon>
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
-<button class='botonAgregar' mat-raised-button (click)="openAddMesaDialog()">
-  <span class="material-icons">add</span>
-</button>
-<button class='botonEliminar' mat-raised-button [color]="isSelecting ? 'accent' : 'warn'" (click)="toggleSelecting()">
-  <span class="material-icons">{{ isSelecting ? 'cancel' : 'delete' }}</span>
-  {{ isSelecting ? 'Cancelar selección' : 'Seleccionar mesas' }}
-</button>
-<button class='botonConfirmarEliminar' mat-raised-button color="warn" *ngIf="isSelecting"
+  <div class="content-container">
+    <button class='botonEliminar' mat-raised-button [color]="isSelecting ? 'accent' : 'warn'" (click)="toggleSelecting()">
+      <span class="material-icons">{{ isSelecting ? 'cancel' : 'delete' }}</span>
+      {{ isSelecting ? 'Cancelar selección' : 'Seleccionar mesas' }}
+    </button>
+    <mat-card class="card-mesas">
+      <mat-card-content>
+        <div class="botones-mesas">
+          <button class="botoncito" mat-raised-button *ngFor="let mesa of mesas"
+            (click)="isSelecting ? toggleSelectMesa(mesa.Nmesa) : goToPedido(mesa.Nmesa)"
+            [class.selected]="selectedMesas.has(mesa.Nmesa)" [class.selecting-mode]="isSelecting">
+            Mesa {{ mesa.Nmesa }}
+            <mat-icon *ngIf="isSelecting && selectedMesas.has(mesa.Nmesa)">check_circle</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="action-buttons">
+      <button class='botonAgregar' mat-raised-button (click)="openAddMesaDialog()">
+        <span class="material-icons">add</span>
+      </button>
+    </div>
+  </div>
+  <button class='botonConfirmarEliminar' mat-raised-button color="warn" *ngIf="isSelecting"
   (click)="deleteSelectedMesas()">
   <span class="material-icons">done</span> Confirmar Eliminación
 </button>
+</div>
