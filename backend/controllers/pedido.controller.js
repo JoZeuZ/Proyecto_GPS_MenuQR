@@ -111,6 +111,37 @@ async function deletePedido(req, res) {
     }
 }
 
+async function getPedidosByMesaNum(req, res) {
+    try {
+        const { params } = req;
+
+        const [pedidos, error] = await pedidoService.getPedidoByMesaNum(params.Nmesa);
+        if (error) return respondError(req, res, 500, error.message);
+
+        respondSuccess(req, res, 200, pedidos);
+    } catch (error) {
+        handleError(error, "pedido.controller -> getPedidoByMesaNum");
+        respondError(req, res, 500, error.message);
+    }
+}
+
+async function eliminarProductoDelPedido(req, res) {
+    try {
+        const { params } = req;
+        const { pedidoId } = params;
+        const { productoId } = params;
+
+        const [pedido, error] = await pedidoService.eliminarProductoDelPedido(pedidoId, productoId);
+        if (error) return respondError(req, res, 500, error.message);
+        if (!pedido) return respondError(req, res, 404, "Pedido no encontrado");
+
+        respondSuccess(req, res, 200, pedido);
+    } catch (error) {
+        handleError(error, "pedido.controller -> eliminarProductoDelPedido");
+        respondError(req, res, 500, error.message);
+    }
+}
+
 module.exports = {
     createPedido,
     getPedido,
@@ -118,4 +149,6 @@ module.exports = {
     getPedidos,
     getPedidosByMesaId,
     deletePedido,
+    getPedidosByMesaNum,
+    eliminarProductoDelPedido,
 };

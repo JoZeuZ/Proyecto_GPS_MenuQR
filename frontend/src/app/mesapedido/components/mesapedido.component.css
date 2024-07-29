@@ -1,0 +1,46 @@
+.cosas{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cargando {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;     /* Centra verticalmente */
+    height: 80vh;           /* Usa la altura completa de la ventana del navegador */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  mat-card {
+    margin-top: 10px;
+  }
+  
+  .producto-item {
+    display: flex;
+    justify-content: space-between; /* Alinea los elementos en los extremos */
+    align-items: center; /* Alinea verticalmente en el centro */
+    margin-top: 10px; /* Añade un margen superior entre los productos */
+}
+
+.producto-info {
+    flex-grow: 1; /* Permite que este div ocupe el espacio disponible */
+    display: ruby;
+    align-items: center; /* Alinea verticalmente en el centro */
+}
+
+.producto-info span {
+    margin-left: 10px; /* Espacio entre la información del producto y los extras */
+}
+
+  
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  

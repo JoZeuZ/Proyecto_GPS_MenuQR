@@ -97,10 +97,41 @@ async function deleteMesa(req, res) {
     }
 }
 
+// async function deleteMesasByNumMesas(req, res) {
+//     try {
+//         const { body } = req;
+
+//         const { Nmesas } = body;
+//         const [mesas, error] = await mesaService.deleteMesasByNumMesas(Nmesas);
+//         if (error) return respondError(req, res, 500, error.message);
+
+//         respondSuccess(req, res, 200, mesas);
+//     } catch (error) {
+//         handleError(error, "mesa.controller -> deleteMesasByNumMesas");
+//         respondError(req, res, 500, error.message);
+//     }
+// }
+
+async function deleteMesaByNumMesa(req, res) {
+    try {
+        const { params } = req;
+
+        const [mesa, error] = await mesaService.deleteMesaByNumMesa(params.Nmesa);
+        if (error) return respondError(req, res, 500, error.message);
+        if (!mesa) return respondError(req, res, 404, "Mesa no encontrada");
+
+        respondSuccess(req, res, 200, mesa);
+    } catch (error) {
+        handleError(error, "mesa.controller -> deleteMesaByNumMesa");
+        respondError(req, res, 500, error.message);
+    }
+}
+
 module.exports = {
     createMesa,
     getMesa,
     updateMesa,
     getMesas,
     deleteMesa,
+    deleteMesaByNumMesa,
 };

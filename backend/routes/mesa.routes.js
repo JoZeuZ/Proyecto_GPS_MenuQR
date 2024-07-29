@@ -8,5 +8,6 @@ router.get("/:id", mesaController.getMesa);
 router.put("/:id", mesaController.updateMesa);
 router.get("/", mesaController.getMesas);
 router.delete("/:id", mesaController.deleteMesa);
+router.delete("/delete/:Nmesa", mesaController.deleteMesaByNumMesa);
 
 module.exports = router;

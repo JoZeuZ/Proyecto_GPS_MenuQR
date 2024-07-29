@@ -1,5 +1,5 @@
 <mat-sidenav-container class="main-container">
-  <mat-sidenav class="sidebar" #sidevar mode="side">
+  <mat-sidenav class="sidebar" #sidevar mode="over">
     <mat-nav-list>
       <!-- Elementos dentro de la sidebar -->
       <a mat-list-item href="ingredientes">
@@ -14,9 +14,6 @@
       <a mat-list-item href="reviewsCard">
         <span class="text">Ver Reseñas</span>
       </a>
-      <a mat-list-item href="call-waiter">
-        <span class="text">Llamar</span>
-      </a>
       <a mat-list-item href="pedidos">
         <span class="text">Ir a Pedidos</span>
       </a>
@@ -25,6 +22,9 @@
       </a>
       <a mat-list-item href="pago">
         <span class="text">Pagar</span>
+      </a>
+      <a mat-list-item href="mesas">
+        <span class="text">Mesas</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -49,10 +49,11 @@
       <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
       <app-review-page *ngIf="isReviewRouteActive()"></app-review-page>
       <app-review-card *ngIf="isReviewCardRouteActive()"></app-review-card>
-      <app-call-waiter *ngIf="isWaiterCallRouteActive()"></app-call-waiter>
       <app-pedido-page *ngIf="isPedidosRouteActive()"></app-pedido-page>
       <app-cart-page *ngIf="isCartRouteActive()"></app-cart-page>
       <app-pago-page *ngIf="isPagoRouteActive()"></app-pago-page>
+      <app-mesas *ngIf="isMesasRouteActive()"></app-mesas>
+      <app-mesapedido *ngIf="isMesaPedidoRouteActive()"></app-mesapedido>
     </div>
     <div class="floating-cart-icon">
       <app-cart-icon *ngIf="isRootRouteActive()"></app-cart-icon>

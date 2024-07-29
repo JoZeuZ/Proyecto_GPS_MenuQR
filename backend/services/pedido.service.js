@@ -54,10 +54,10 @@ async function updatePedido(id, pedidoData) {
         
         // Validación de la transición de estado
         const validTransitions = {
-            "Pendiente": ["Preparación", "Completado", "Entregado"],
-            "Preparación": ["Completado", "Entregado"],
-            "Completado": ["Entregado"],
-            "Entregado": []
+            "Pendiente": ["Pendiente","Preparación", "Completado", "Entregado"],
+            "Preparación": ["Preparación","Completado", "Entregado"],
+            "Completado": ["Completado","Entregado"],
+            "Entregado": ["Entregado"]
         };
 
         if (pedidoData.estado && !validTransitions[pedido.estado].includes(pedidoData.estado)) {
@@ -123,6 +123,57 @@ async function deletePedido(id) {
     }
 }
 
+async function getPedidoByMesaNum(Nmesa) {
+    try {
+        const mesa = await Mesa.findOne({ Nmesa: Nmesa }).exec();
+        if (!mesa) return [null, "Mesa no encontrada"];
+        const pedidos = await Pedido.find({ mesa: mesa._id }).populate('mesa').populate('productos.productoId').exec();
+        return [pedidos, null];
+    } catch (error) {
+        handleError(error, "pedido.service -> getPedidoByMesaNum");
+        return [null, error];
+    }
+}
+
+async function eliminarProductoDelPedido(pedidoId, productoId) {
+    try {
+        const pedido = await Pedido.findById(pedidoId).exec();
+        if (!pedido) return [null, "Pedido no encontrado"];
+        const productoIndex = pedido.productos.findIndex(p => p.productoId.toString() === productoId);
+
+
+        if (productoIndex === -1) return [null, "Producto no encontrado en el pedido"];
+
+
+        const producto = pedido.productos[productoIndex];
+        if (producto.cantidad > 1) {
+
+            producto.cantidad -= 1;
+        } else {
+
+            pedido.productos.splice(productoIndex, 1);
+        }
+
+
+        let total = 0;
+        for (const item of pedido.productos) {
+            const productoDB = await Productos.findById(item.productoId);
+            if (productoDB) {
+                total += productoDB.precio * item.cantidad;
+            }
+        }
+        pedido.total = total;
+
+        await pedido.save();
+
+        return [pedido, null];
+    } catch (error) {
+        handleError(error, "pedido.service -> eliminarProductoDelPedido");
+        return [null, error];
+    }
+}
+
+
 module.exports = {
     createPedido,
     getPedidoById,
@@ -130,4 +181,6 @@ module.exports = {
     getPedidos,
     getPedidosByMesaId,
     deletePedido,
+    getPedidoByMesaNum,
+    eliminarProductoDelPedido,
 };

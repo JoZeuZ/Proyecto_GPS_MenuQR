@@ -20,12 +20,13 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
-import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
-import { CallWaiterComponent } from './Llamada/waiter-call-button/waiter-call-button.component';
 import { CartIconComponent } from './Cart/components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './Cart/components/cart-page/cart-page.component';
 import { CartService } from './Cart/services/cart.service';
 import { PagoPageComponent } from './Pago/components/pago-page/pago-page.component';
+import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
+import { MesasComponent } from './mesas/components/mesas.component';
+import { MesapedidoComponent } from './mesapedido/components/mesapedido.component';
 
 @Component({
   selector: 'app-root',
@@ -45,13 +46,13 @@ import { PagoPageComponent } from './Pago/components/pago-page/pago-page.compone
     MatIconModule,
     ReviewPageComponent,
     ReviewCardComponent,
-    CallWaiterComponent,
     ProductosFormComponent,
     CartIconComponent,
     CartPageComponent,
+    MesasComponent,
+    MesapedidoComponent,
     PagoPageComponent
   ],
-
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -64,7 +65,8 @@ export class AppComponent implements OnInit {
   private routeRoles: { [key: string]: string[] } = {
     '/users': ['Administrador'],
     '/ingredientes': ['Administrador', 'Mesero'],
-    '/reviewsCard': ['Administrador', 'Mesero']
+    '/reviewsCard': ['Administrador', 'Mesero'],
+    // '/mesas': ['Administrador','Mesero'],
     // Añadir otras rutas y roles requeridos aquí
   };
 
@@ -188,17 +190,6 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/users']);
   }
 
-  navigateToReview() {
-    this.router.navigate(['/reviews']);
-  }
-
-  navigateToReviewCard() {
-    this.router.navigate(['/reviewsCard']);
-  }
-
-  navigateToWaiterCall() {
-    this.router.navigate(['/call-waiter']);
-  }
 
   navigateToCart() {
     this.router.navigate(['/cart']);
@@ -228,5 +219,21 @@ export class AppComponent implements OnInit {
         console.error('Error al cerrar sesión:', error);
       }
     });
+  }
+  
+  navigateToReview() {
+    this.router.navigate(['/reviews']);
+  }
+  
+  navigateToReviewCard() {
+    this.router.navigate(['/reviewsCard']);
+  }
+
+  isMesasRouteActive(): boolean {
+    return this.currentRoute === '/mesas';
+  }
+
+  isMesaPedidoRouteActive(): boolean {
+    return this.currentRoute.startsWith('/mesas/pedido');
   }
 }

@@ -31,4 +31,20 @@ export class PedidoApiService {
   deletePedido(id: string): Observable<any> {
     return this.http.delete(`${this.baseURL}/${id}`);
   }
+
+  getPedidoById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseURL}/${id}`);
+  }
+
+  getPedidosByMesaId(mesaId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseURL}/mesa/${mesaId}`);
+  }
+
+  getPedidosByMesaNum(Nmesa: string): Observable<any> {
+    return this.http.get<any>(`${this.baseURL}/mesan/${Nmesa}`);
+  }
+
+  deleteProductosDelPedido(pedidoId: string, productoId: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}/producto/${pedidoId}/${productoId}`);
+  }
 }
