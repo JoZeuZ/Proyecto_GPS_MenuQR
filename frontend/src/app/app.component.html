@@ -20,6 +20,9 @@
       <a mat-list-item href="cart">
         <span class="text">Carrito</span>
       </a>
+      <a mat-list-item href="pago">
+        <span class="text">Pagar</span>
+      </a>
       <a mat-list-item href="mesas">
         <span class="text">Mesas</span>
       </a>
@@ -48,6 +51,7 @@
       <app-review-card *ngIf="isReviewCardRouteActive()"></app-review-card>
       <app-pedido-page *ngIf="isPedidosRouteActive()"></app-pedido-page>
       <app-cart-page *ngIf="isCartRouteActive()"></app-cart-page>
+      <app-pago-page *ngIf="isPagoRouteActive()"></app-pago-page>
       <app-mesas *ngIf="isMesasRouteActive()"></app-mesas>
       <app-mesapedido *ngIf="isMesaPedidoRouteActive()"></app-mesapedido>
     </div>

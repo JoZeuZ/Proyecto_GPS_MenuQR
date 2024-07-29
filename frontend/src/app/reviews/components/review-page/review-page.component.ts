@@ -10,4 +10,3 @@ import { AddReviewComponent } from '../add-review/add-review.component';
   styleUrls: ['./review-page.component.css']
 })
 export class ReviewPageComponent {}
-

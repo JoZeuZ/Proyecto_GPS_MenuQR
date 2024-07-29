@@ -20,11 +20,11 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ReviewPageComponent } from './reviews/components/review-page/review-page.component';
 import { ReviewCardComponent } from './reviews/components/review-card/review-card.component';
+import { CartIconComponent } from './Cart/components/cart-icon/cart-icon.component';
+import { CartPageComponent } from './Cart/components/cart-page/cart-page.component';
+import { CartService } from './Cart/services/cart.service';
+import { PagoPageComponent } from './Pago/components/pago-page/pago-page.component';
 import { ProductosFormComponent } from './Menu/components/productos-page/productos-page.component';
-
-import { CartIconComponent } from './components/cart-icon/cart-icon.component';
-import { CartPageComponent } from './components/cart-page/cart-page.component';
-import { CartService } from './services/cart.service';
 import { MesasComponent } from './mesas/components/mesas.component';
 import { MesapedidoComponent } from './mesapedido/components/mesapedido.component';
 
@@ -51,6 +51,7 @@ import { MesapedidoComponent } from './mesapedido/components/mesapedido.componen
     CartPageComponent,
     MesasComponent,
     MesapedidoComponent,
+    PagoPageComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -84,6 +85,7 @@ export class AppComponent implements OnInit {
         this.currentRoute = this.router.url;
         this.checkUserRouteAccess();
       });
+
   }
 
   getUserRole(): string[] {
@@ -94,6 +96,7 @@ export class AppComponent implements OnInit {
     const decodedToken: any = jwtDecode(token);
     return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
   }
+
 
   ngOnInit() {
     this.isAuthenticated = this.loginService.isAuthenticated();
@@ -122,34 +125,6 @@ export class AppComponent implements OnInit {
     return this.currentRoute === '/ingredientes';
   }
 
-  isCartRouteActive(): boolean {
-    return this.currentRoute === '/cart';
-  }
-
-  isRootRouteActive(): boolean {
-    return this.currentRoute === '/';
-  }
-
-  isPedidosRouteActive(): boolean {
-    return this.currentRoute === '/pedidos';
-  }
-
-  isLoginRouteActive(): boolean {
-    return this.currentRoute === '/login';
-  }
-
-  navigateToIngredientes() {
-    this.router.navigate(['/ingredientes']);
-  }
-
-  navigateToPedidos() {
-    this.router.navigate(['/pedidos']);
-  }
-
-  navigateToUsers() {
-    this.router.navigate(['/users']);
-  }
-
   isUsersRouteActive(): boolean {
     return this.currentRoute === '/users';
   }
@@ -165,6 +140,59 @@ export class AppComponent implements OnInit {
     if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
       this.router.navigate(['/']);
     }
+  }
+
+  isReviewRouteActive(): boolean {
+    return this.currentRoute === '/reviews';
+  }
+
+  isReviewCardRouteActive(): boolean {
+    return this.currentRoute === '/reviewsCard';
+  }
+
+  isWaiterCallRouteActive(): boolean {
+    return this.currentRoute === '/call-waiter';
+  }
+
+  isCartRouteActive(): boolean {
+    return this.currentRoute === '/cart';
+  }
+
+  isRootRouteActive(): boolean {
+    return this.currentRoute === '/';
+  }
+
+  isPedidosRouteActive(): boolean {
+    return this.currentRoute === '/pedidos';
+  }
+
+  isPagoRouteActive(): boolean {
+    return this.currentRoute === '/pago';
+  }
+
+  isLoginRouteActive(): boolean {
+    return this.currentRoute === '/login';
+  }
+
+  navigateToIngredientes() {
+    this.router.navigate(['/ingredientes']);
+  }
+
+  navigateToPedidos() {
+    this.router.navigate(['/pedidos']);
+  }
+
+  navigateToPago() {
+    this.router.navigate(['/pago']);
+  }
+
+  navigateToUsers() {
+    this.router.navigate(['/users']);
+  }
+
+
+  navigateToCart() {
+    this.router.navigate(['/cart']);
   }
 
   openLoginDialog(): void {
@@ -193,15 +221,10 @@ export class AppComponent implements OnInit {
     });
   }
   
-  isReviewRouteActive(): boolean {
-    return this.currentRoute === '/reviews';
-  }
   navigateToReview() {
     this.router.navigate(['/reviews']);
   }
-  isReviewCardRouteActive(): boolean {
-    return this.currentRoute === '/reviewsCard';
-  }
+  
   navigateToReviewCard() {
     this.router.navigate(['/reviewsCard']);
   }

@@ -3,8 +3,11 @@
         <!-- <button id="edit" mat-icon-button (click)="openEditProductosDialog(productos)">
             <mat-icon>edit</mat-icon>
         </button> -->
-        <button id="delete" mat-icon-button color="warn" (click)="openDeleteDialog(productos)">
+        <button id="delete" mat-icon-button color="warn" (click)="openDeleteDialog(productos)" class="delete-cart-button">
             <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="addToCart(productos)" class="add-cart-button">
+            <mat-icon>add_shopping_cart</mat-icon>
         </button>
     </div>
     <mat-card class="producto-card">
