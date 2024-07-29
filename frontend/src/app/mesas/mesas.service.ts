@@ -39,4 +39,7 @@ export class MesasService {
   clearMesaNumber(): void {
     localStorage.removeItem('Nmesa');
   }
+  deleteMesabyNumber(Nmesa: string){
+    return this.http.delete(`${this.apiURL}delete/${Nmesa}`);
+  }
 }

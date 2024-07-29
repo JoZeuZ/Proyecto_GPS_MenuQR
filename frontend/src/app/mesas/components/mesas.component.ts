@@ -32,11 +32,10 @@ export class MesasComponent implements OnInit {
   fetchMesas(): void {
     this.mesasService.getMesas().subscribe(
       response => {
-        console.log('Response from getMesas:', response);
         if (Array.isArray(response.data)) {
           this.mesas = response.data;
           this.numMesas = this.mesas.length;
-          console.log('Mesas fetched:', this.mesas);
+          // console.log('Mesas fetched:', this.mesas);
         } else {
           console.error('La respuesta de la API no es un array', response);
         }
@@ -79,12 +78,11 @@ export class MesasComponent implements OnInit {
 
   deleteSelectedMesas(): void {
     console.log('Starting deletion process');
-    console.log('Selected mesas:', this.selectedMesas);
     const mesasToDelete = Array.from(this.selectedMesas);
     mesasToDelete.forEach(mesaId => {
       const mesaIdStr = mesaId.toString(); // Conversión a string
       console.log(`Attempting to delete mesa with ID: ${mesaIdStr}`);
-      this.mesasService.deleteMesa(mesaIdStr).pipe(
+      this.mesasService.deleteMesabyNumber(mesaIdStr).pipe(
         tap(response => console.log(`Response from deleteMesa for ID ${mesaIdStr}:`, response)),
         catchError(error => {
           console.error(`Error deleting mesa ${mesaIdStr}:`, error);
