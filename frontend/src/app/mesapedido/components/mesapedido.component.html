@@ -20,14 +20,15 @@
             <div class="producto-info">
               {{ producto.productoId.nombre }} - {{ producto.cantidad }} x ${{ producto.productoId.precio }}
             </div>
-            <button mat-icon-button class="botoneliminar"color="warn" (click)="eliminarProducto(producto.productoId._id)">
+            <button mat-icon-button class="botoneliminar" color="warn"
+              (click)="eliminarProducto(producto.productoId._id)">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-list-item>
         </mat-list>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button class ="botoncito2"(click)="goBack()">Volver atrás</button>
+        <button mat-raised-button class="botoncito2" (click)="goBack()">Volver atrás</button>
         <button mat-raised-button class="botoncito" (click)="openAgregarProductosDialog()">Agregar Productos</button>
       </mat-card-actions>
     </mat-card>
@@ -41,5 +42,9 @@
         </mat-card-actions>
       </mat-card>
     </ng-template>
+    <div class="qr-container" *ngIf="mesa?.codigoQR">
+      <h3>QR de la Mesa</h3>
+      <img [src]="mesa.codigoQR" alt="QR Code">
+    </div>
   </ng-template>
 </div>

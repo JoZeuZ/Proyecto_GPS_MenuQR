@@ -110,10 +110,11 @@ export class AppComponent implements OnInit {
 
     // Manejo de query params para QR
     this.route.queryParams.subscribe(params => {
-      const mesaId = params['mesaId'];
-      if (mesaId) {
-        this.cartService.setMesa(parseInt(mesaId, 10));
-        this.router.navigate(['/menu']);
+      const Nmesa = params['mesa'];
+      if (Nmesa) {
+        this.cartService.setMesa(parseInt(Nmesa, 10));
+        this.router.navigate(['/']);
+        console.log('Mesa:', Nmesa);
       }
     });
   }

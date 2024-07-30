@@ -25,7 +25,7 @@ export class CartIconComponent implements OnInit {
 
   ngOnInit() {
     this.cartService.cart$.subscribe(items => {
-      this.cartItemCount = items.length;
+      this.cartItemCount = items.reduce((sum, item) => sum + item.cantidad, 0);
     });
   }
 

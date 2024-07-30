@@ -82,6 +82,17 @@ async function deleteMesaByNumMesa(Nmesa){
     }
 }
 
+async function getMesaByNumber(Nmesa) {
+    try {
+        const mesa = await Mesa.findOne({ Nmesa }).exec();
+        if (!mesa) return [null, "Mesa no encontrada"];
+        return [mesa, null];
+    } catch (error) {
+        handleError(error, "mesa.service -> getMesaByNumber");
+        return [null, error];
+    }
+}
+
 
 module.exports = {
     createMesa,
@@ -90,4 +101,5 @@ module.exports = {
     getMesas,
     deleteMesa,
     deleteMesaByNumMesa,
+    getMesaByNumber,
 };

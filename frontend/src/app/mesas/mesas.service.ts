@@ -30,17 +30,29 @@ export class MesasService {
   }
 
   setMesaNumber(Nmesa: string): void {
-    localStorage.setItem('Nmesa', Nmesa);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('Nmesa', Nmesa);
+    }
   }
 
   getMesaNumber(): string | null {
-    return localStorage.getItem('Nmesa');
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('Nmesa');
+    }
+    return null;
   }
   
   clearMesaNumber(): void {
-    localStorage.removeItem('Nmesa');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('Nmesa');
+    }
   }
   deleteMesabyNumber(Nmesa: string){
     return this.http.delete(`${this.apiURL}delete/${Nmesa}`);
   }
+
+  getMesaByNumber(Nmesa: string): Observable<any> {
+    return this.http.get(`${this.apiURL}number/${Nmesa}`);
+  }
+
 }

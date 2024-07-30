@@ -2,16 +2,19 @@
 const Joi = require("joi");
 
 const mesaBodySchema = Joi.object({
-    Nmesa: Joi.number().required().messages({
+    Nmesa: Joi.number().required().min(0).messages({
         "number.base": "El número de mesa debe ser de tipo numérico.",
-        "any.required": "El número de mesa es obligatorio."
+        "any.required": "El número de mesa es obligatorio.",
+        "number.min": "El numero de mesa no puede ser negativo",
     }),
     codigoQR: Joi.string().messages({
         "string.base": "El código QR debe ser de tipo string.",
     }),
-    cantidadPersonas: Joi.number().required().messages({
+    cantidadPersonas: Joi.number().required().min(1).max(8).messages({
         "number.base": "La cantidad de personas debe ser de tipo numérico.",
-        "any.required": "La cantidad de personas es obligatoria."
+        "any.required": "La cantidad de personas es obligatoria.",
+        "number.min": "La cantidad de personas debe ser al menos 1.",
+        "number.max": "La cantidad de personas no puede ser mayor a 8."
     })
 }).messages({
     "object.unknown": "No se permiten propiedades adicionales."

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PagoApiService } from '../../Pago/services/pago-api.service';
 import { environment } from '../../../../environment';
@@ -13,7 +13,7 @@ export class CartService {
   private metodoPago = new BehaviorSubject<string | null>(null);
   private propina = new BehaviorSubject<number>(0);
   private nombreCliente = new BehaviorSubject<string>('');
-  
+
   cart$ = this.cart.asObservable();
   mesa$ = this.mesa.asObservable();
   metodoPago$ = this.metodoPago.asObservable();
@@ -21,8 +21,9 @@ export class CartService {
   nombreCliente$ = this.nombreCliente.asObservable();
 
   pedidoURL = `${environment.apiUrl}/pedidos`;
+  mesaURL = `${environment.apiUrl}/mesas/number`;	
 
-  constructor(private http: HttpClient, private pagoApiService: PagoApiService) {}
+  constructor(private http: HttpClient, private pagoApiService: PagoApiService) { }
 
   getCart() {
     return this.cart.value;
@@ -30,7 +31,13 @@ export class CartService {
 
   addToCart(product: any) {
     const currentCart = this.cart.value;
-    currentCart.push(product);
+    const index = currentCart.findIndex(item => item.productoId === product.productoId);
+    if (index !== -1) {
+      currentCart[index].cantidad += product.cantidad;
+    } else {
+      product.precio = product.precio || 0;
+      currentCart.push(product);
+    }
     this.cart.next(currentCart);
   }
 
@@ -38,6 +45,18 @@ export class CartService {
     const currentCart = this.cart.value;
     currentCart.splice(index, 1);
     this.cart.next(currentCart);
+  }
+
+  updateQuantity(productoId: string, cantidad: number) {
+    const currentCart = this.cart.value;
+    const index = currentCart.findIndex(item => item.productoId === productoId);
+    if (index !== -1) {
+      currentCart[index].cantidad = cantidad;
+      if (currentCart[index].cantidad <= 0) {
+        currentCart.splice(index, 1);
+      }
+      this.cart.next(currentCart);
+    }
   }
 
   setMesa(nMesa: number) {
@@ -84,16 +103,26 @@ export class CartService {
     const pedido = {
       cliente: this.getNombreCliente(),
       mesa: this.getMesa(),
-      productos: this.getCart(),
+      productos: this.getCart().map(({ productoId, cantidad }) => ({
+        productoId,
+        cantidad
+      })), // Filtro de datos
       metodoPago: this.getMetodoPago(),
       propina: this.getPropina(),
     };
-    return this.http.post(this.pedidoURL, pedido).pipe(
+
+    console.log('Pedido a enviar:', pedido);
+
+    return this.http.get(`${this.mesaURL}/${pedido.mesa}`).pipe(
+      switchMap((mesaResponse: any) => {
+        const mesaId = mesaResponse.data._id;
+        return this.http.post(`${this.pedidoURL}/${mesaId}`, pedido);
+      }),
       map((pedidoResponse: any) => {
         const pagoData = {
           pedidoId: pedidoResponse.data._id,
           metodoPago: this.getMetodoPago(),
-          total: pedidoResponse.data.total // Usamos el total calculado por el backend.
+          total: pedidoResponse.data.total
         };
         return this.pagoApiService.createPago(pagoData).subscribe();
       })

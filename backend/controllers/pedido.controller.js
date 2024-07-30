@@ -15,6 +15,8 @@ async function createPedido(req, res) {
             mesa: mesaId,
         };
 
+        console.log("Datos recibidos para el pedido:", body);
+
         const { error: bodyError } = pedidoBodySchema.validate(pedidoData);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
         const [newPedido, error] = await pedidoService.createPedido(pedidoData);
