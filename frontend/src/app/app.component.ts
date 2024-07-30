@@ -214,7 +214,8 @@ export class AppComponent implements OnInit {
     this.loginService.logout().subscribe({
       next: () => {
         this.isAuthenticated = false;
-        this.router.navigate(['/']);  // Navegar a la página principal o alguna otra página después de cerrar sesión
+        this.router.navigate(['/']);
+        window.location.reload(); 
       },
       error: (error) => {
         console.error('Error al cerrar sesión:', error);

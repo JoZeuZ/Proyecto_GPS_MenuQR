@@ -13,7 +13,7 @@ import { ProductosApiService } from '../../service/productos-api.service';
 import { CartService } from '../../../Cart/services/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
-
+import { LoginService } from '../../../auth/services/login.service';
 
 @Component({
   selector: 'app-productos-cards',
@@ -42,18 +42,23 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
   public itemsPerPage: number = 10;
   public paginatedProductos: any[] = [];
   roles : string[] = [];
+  isAuthenticated: boolean = false;
 
   constructor(
     private service: ProductosApiService,
     private dialog: MatDialog,
     private cartService: CartService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private loginService: LoginService,
   ) { }
 
   ngOnInit(): void {
     this.applyPagination();
     this.roles = this.getUserRole();
-    console.log(this.roles);
+    this.isAuthenticated = this.loginService.isAuthenticated();
+    this.loginService.getAuthState().subscribe(authState => {
+      this.isAuthenticated = authState;
+    });
   }
 
   ngOnChanges(): void {
