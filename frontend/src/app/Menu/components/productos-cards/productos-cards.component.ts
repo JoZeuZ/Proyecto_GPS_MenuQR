@@ -109,6 +109,8 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
   addToCart(producto: any) {
     const productToCart = {
       productoId: producto._id, // Usamos el _id del producto
+      nombre: producto.nombre, // Añadimos el nombre del producto
+      img: this.getImageUrl(producto.img), // Añadimos la URL de la imagen del producto
       cantidad: 1 // Puedes ajustar la cantidad según tu lógica
     };
   

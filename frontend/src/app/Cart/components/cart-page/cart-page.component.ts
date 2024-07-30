@@ -77,6 +77,10 @@ export class CartPageComponent implements OnInit {
     this.cartService.removeFromCart(index);
   }
 
+  updateQuantity(productoId: string, cantidad: number): void {
+    this.cartService.updateQuantity(productoId, cantidad);
+  }
+  
   goToMenu(): void {
     this.router.navigate(['/']);
   }

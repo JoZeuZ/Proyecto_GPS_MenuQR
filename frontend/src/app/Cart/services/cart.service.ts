@@ -30,7 +30,12 @@ export class CartService {
 
   addToCart(product: any) {
     const currentCart = this.cart.value;
-    currentCart.push(product);
+    const index = currentCart.findIndex(item => item.productoId === product.productoId);
+    if (index !== -1) {
+      currentCart[index].cantidad += product.cantidad;
+    } else {
+      currentCart.push(product);
+    }
     this.cart.next(currentCart);
   }
 
@@ -38,6 +43,18 @@ export class CartService {
     const currentCart = this.cart.value;
     currentCart.splice(index, 1);
     this.cart.next(currentCart);
+  }
+
+  updateQuantity(productoId: string, cantidad: number) {
+    const currentCart = this.cart.value;
+    const index = currentCart.findIndex(item => item.productoId === productoId);
+    if (index !== -1) {
+      currentCart[index].cantidad = cantidad;
+      if (currentCart[index].cantidad <= 0) {
+        currentCart.splice(index, 1);
+      }
+      this.cart.next(currentCart);
+    }
   }
 
   setMesa(nMesa: number) {

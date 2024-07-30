@@ -3,10 +3,24 @@
   <div *ngFor="let product of cart; let i = index" class="product-cart">
     <mat-card class="product-card">
       <mat-card-content>
-        <p>{{ product.nombre }} - {{ product.cantidad }}</p>
-        <button mat-icon-button color="warn" (click)="removeItem(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
+        <div class="product-image-container">
+          <img [src]="product.img" alt="Product Image" class="product-image" />
+        </div>
+        <div class="product-details">
+          <p>{{ product.nombre }}</p>
+          <p>{{ product.cantidad }}</p>
+        </div>
+        <div class="quantity-controls">
+          <button mat-icon-button (click)="updateQuantity(product.productoId, product.cantidad - 1)">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <button mat-icon-button (click)="updateQuantity(product.productoId, product.cantidad + 1)">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="removeItem(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
