@@ -37,7 +37,10 @@ const pedidoBodySchema = Joi.object({
     total: Joi.number().messages({
         "number.base": "El total debe ser de tipo number.",
     }),
-    propina: Joi.number().default(0),
+    propina: Joi.number().default(0).min(0).messages({
+        "number.base": "La propina debe ser de tipo number.",
+        "number.min": "La propina no puede ser negativa.",
+    }),
     metodoPago: Joi.string().valid("Efectivo", "Tarjeta", "Transferencia").required().messages({
         "string.base": "El método de pago debe ser de tipo string.",
         "any.required": "El método de pago es obligatorio.",

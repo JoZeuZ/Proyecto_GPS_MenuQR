@@ -7,8 +7,9 @@
           <img [src]="product.img" alt="Product Image" class="product-image" />
         </div>
         <div class="product-details">
-          <p>{{ product.nombre }}</p>
-          <p>{{ product.cantidad }}</p>
+          <p class="product-name">{{ product.nombre }} - </p>
+          <p class="product-quantity">{{ product.cantidad }} x </p>
+          <p class="product-price">{{ product.precio | currency }}</p>
         </div>
         <div class="quantity-controls">
           <button mat-icon-button (click)="updateQuantity(product.productoId, product.cantidad - 1)">

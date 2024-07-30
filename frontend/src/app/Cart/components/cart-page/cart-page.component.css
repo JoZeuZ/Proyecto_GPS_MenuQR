@@ -13,8 +13,8 @@
 .product-image-container {
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
 }
 
 .product-image {
@@ -25,9 +25,12 @@
 }
 
 .product-details {
-  flex: 2;
   text-align: left;
   padding-left: 16px;
+  display: flex;
+  margin-left: 720px;
+  margin-top: -75px;
+  flex-direction: row;
 }
 
 .quantity-controls {
@@ -57,4 +60,19 @@ button[mat-raised-button] {
   width: 45%;
   font-size: 16px;
   height: 50px;
+}
+
+
+.mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer) {
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.product-image[_ngcontent-ng-c1944867556] {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 770px;
 }

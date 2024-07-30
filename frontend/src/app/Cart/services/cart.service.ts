@@ -34,6 +34,7 @@ export class CartService {
     if (index !== -1) {
       currentCart[index].cantidad += product.cantidad;
     } else {
+      product.precio = product.precio || 0;
       currentCart.push(product);
     }
     this.cart.next(currentCart);
@@ -101,10 +102,15 @@ export class CartService {
     const pedido = {
       cliente: this.getNombreCliente(),
       mesa: this.getMesa(),
-      productos: this.getCart(),
+      productos: this.getCart().map(({ productoId, cantidad }) => ({
+        productoId,
+        cantidad
+      })), // Filtro de datos
       metodoPago: this.getMetodoPago(),
       propina: this.getPropina(),
     };
+
+    console.log('Pedido a enviar:', pedido);
 
     return this.http.get(`${this.mesaURL}/${pedido.mesa}`).pipe(
       switchMap((mesaResponse: any) => {

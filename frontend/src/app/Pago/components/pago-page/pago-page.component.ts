@@ -34,11 +34,29 @@ export class PagoPageComponent {
   metodoPago: string = 'Efectivo';
   propina: number = 0;
   nombreCliente: string = '';
+  cart: any[] = [];
+  total: number = 0;
 
   constructor(private cartService: CartService, private router: Router) {}
 
   ngOnInit(): void {
+    this.cartService.cart$.subscribe(cart => {
+      this.cart = cart;
+      this.calculateTotal();
+    });
     this.cartService.nombreCliente$.subscribe(nombre => this.nombreCliente = nombre);
+  }
+
+  calculateTotal() {
+    this.total = this.cart.reduce((acc, product) => acc + (product.cantidad * product.precio), 0);
+  }
+
+  setTip(percentage: number) {
+    this.propina = (this.total * percentage) / 100;
+  }
+
+  goBackToCart(): void {
+    this.router.navigate(['/cart']);
   }
 
   confirmPayment() {
