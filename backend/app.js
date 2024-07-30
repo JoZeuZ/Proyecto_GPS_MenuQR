@@ -12,6 +12,7 @@ const { createRoles } = require('./config/initialSetup.js');
 const { wss } = require('./config/websocket.js');
 const { handleFatalError, handleError } = require("./utils/errorHandler.js");
 const path = require('path');
+const environment = require('./environment.js')
 
 async function setupServer() {
     try {
@@ -19,7 +20,7 @@ async function setupServer() {
         const httpServer = http.createServer(server);
 
         server.use(express.json());
-        server.use(cors({ origin: "http://localhost:4200", credentials: true }));
+        server.use(cors({ origin: environment.front, credentials: true }));
         server.use(cookieParser());
         server.use(morgan("dev"));
         server.use(express.urlencoded({ extended: true }));

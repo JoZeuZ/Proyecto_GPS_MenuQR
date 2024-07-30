@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PagoApiService {
-  private apiUrl = 'http://localhost:3000/api/pagos'; // Cambia esta URL por la de tu backend
+  private apiUrl = `${environment.apiUrl}/pagos`; // Cambia esta URL por la de tu backend
 
   constructor(private http: HttpClient) {}
 
