@@ -130,15 +130,9 @@ export class ProductosFormComponent implements OnInit {
     alert('Producto eliminado');
   }
 
-  // applyFilters(): void {
-  //   this.filteredIngredientes = this.ingredientes.filter(ingrediente => {
-  //     const matchesSearch = ingrediente.nombre && ingrediente.nombre.toLowerCase().startsWith(this.searchTerm.toLowerCase());
-  //     const disponibilidad = ingrediente.disponible ? 'Disponible' : 'No Disponible';
-  //     const matchesFilter = this.selectedFilters.length === 0 || this.selectedFilters.includes(disponibilidad);
-  //     return matchesSearch && matchesFilter;
-  //   });
-  //   this.totalFilteredItems = this.filteredIngredientes.length; 
-  // }
+  navigateToAddReview(): void {
+    this.router.navigate(['/reviews']);
+  }
 
   getUserRole(): string[] {
     const token = this.cookieService.get('awa');
