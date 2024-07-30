@@ -12,12 +12,12 @@
 .cards-buttons {
     display: flex;
     margin-top: 315px;
-    margin-left: -3.5rem;
+    margin-left: -6.5rem;
     z-index: 1;
 }
 
 .producto-card {
-    width: 300px;
+    width: 320px;
     height: 370px;
     margin: 8px;
     position: relative;
@@ -37,7 +37,7 @@
 }
 
 mat-card-title.mat-mdc-card-title {
-    margin-top: -8px;
+    margin-top: -9px;
 }
 
 .mat-mdc-card-title,
@@ -65,4 +65,8 @@ mat-card-title.mat-mdc-card-title {
 
 .delete-cart-button {
     margin-top: -50px;
+}
+
+.hidden-button {
+    visibility: hidden;
 }

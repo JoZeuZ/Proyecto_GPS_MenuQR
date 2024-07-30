@@ -1,7 +1,20 @@
-@import '../../../../styles.css';
+@import "../../../../styles.css";
 
-.botoncito{
-    background-color: var(--color-boton-claro) !important;
-    color: white !important;
-    border-radius: 50%;
+.botoncito {
+  background-color: var(--color-boton-claro) !important;
+  color: white !important;
+  border-radius: 50%;
+}
+
+.producto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px; /* Añadir un poco de espacio para el botón */
+}
+
+.producto-info {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

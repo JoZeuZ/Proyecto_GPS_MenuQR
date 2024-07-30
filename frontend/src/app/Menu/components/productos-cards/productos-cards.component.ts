@@ -11,6 +11,9 @@ import { EditProductosDialogComponent } from '../edit-productos-dialog/edit-prod
 import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delete-productos-dialog.component';
 import { ProductosApiService } from '../../service/productos-api.service';
 import { CartService } from '../../../Cart/services/cart.service';
+import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
+import { LoginService } from '../../../auth/services/login.service';
 
 @Component({
   selector: 'app-productos-cards',
@@ -38,15 +41,24 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
 
   public itemsPerPage: number = 10;
   public paginatedProductos: any[] = [];
+  roles : string[] = [];
+  isAuthenticated: boolean = false;
 
   constructor(
     private service: ProductosApiService,
     private dialog: MatDialog,
-    private cartService: CartService
+    private cartService: CartService,
+    private cookieService: CookieService,
+    private loginService: LoginService,
   ) { }
 
   ngOnInit(): void {
     this.applyPagination();
+    this.roles = this.getUserRole();
+    this.isAuthenticated = this.loginService.isAuthenticated();
+    this.loginService.getAuthState().subscribe(authState => {
+      this.isAuthenticated = authState;
+    });
   }
 
   ngOnChanges(): void {
@@ -58,9 +70,16 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
       this.productos = [];
     }
 
+    const filteredProductos = this.filterProductos(this.productos);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProductos = this.productos.slice(startIndex, endIndex);
+    this.paginatedProductos = filteredProductos.slice(startIndex, endIndex);
+  }
+
+  filterProductos(productos: any[]): any[] {
+    return productos.filter(producto => {
+      return producto.ingredientes.every((ingrediente: any) => ingrediente.disponible);
+    });
   }
 
   isLast(ingrediente: any, ingredientes: any[]): boolean {
@@ -80,7 +99,7 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     return `http://localhost:3000/api/uploads/productos/${imgPath.split('/').pop()}`;
   }
 
-  openEditDialog(producto: any): void {
+  openEditProductosDialog(producto: any): void {
     const dialogRef = this.dialog.open(EditProductosDialogComponent, {
       width: '400px',
       data: { producto: producto }
@@ -118,5 +137,19 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     console.log('Adding to cart', productToCart);
     this.cartService.addToCart(productToCart);
   }
+
+  getUserRole(): string[] {
+    const token = this.cookieService.get('awa');
+    if (!token) {
+      return [];
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
+  }
+
+  isAdmin(): boolean {
+    return this.roles.includes('Administrador');
+  }
 }
+
 

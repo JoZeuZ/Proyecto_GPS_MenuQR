@@ -8,17 +8,21 @@ import { ProductosCardsComponent } from '../productos-cards/productos-cards.comp
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { CallWaiterComponent } from '../../../Llamada/waiter-call-button/waiter-call-button.component';
+import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-productos-page',
   standalone: true,
-  imports: [ 
+  imports: [
     ProductosCardsComponent,
     AgregarProductoComponent,
     DeleteProductosDialogComponent,
     MatButtonModule,
     MatIconModule,
-    CallWaiterComponent
+    CallWaiterComponent,
+    CommonModule
   ],
   templateUrl: './productos-page.component.html',
   styleUrls: ['./productos-page.component.css']
@@ -31,16 +35,19 @@ export class ProductosFormComponent implements OnInit {
   public searchTerm: string = '';
   public selectedFilters: string[] = [];
   public totalFilteredItems: number = 0;
+  roles: string[] = [];
 
   constructor(
     private service: ProductosApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cookieService: CookieService
   ) { }
 
   ngOnInit(): void {
     this.getProductos();
+    this.roles = this.getUserRole();
   }
 
   getProductos(): void {
@@ -123,13 +130,20 @@ export class ProductosFormComponent implements OnInit {
     alert('Producto eliminado');
   }
 
-  // applyFilters(): void {
-  //   this.filteredIngredientes = this.ingredientes.filter(ingrediente => {
-  //     const matchesSearch = ingrediente.nombre && ingrediente.nombre.toLowerCase().startsWith(this.searchTerm.toLowerCase());
-  //     const disponibilidad = ingrediente.disponible ? 'Disponible' : 'No Disponible';
-  //     const matchesFilter = this.selectedFilters.length === 0 || this.selectedFilters.includes(disponibilidad);
-  //     return matchesSearch && matchesFilter;
-  //   });
-  //   this.totalFilteredItems = this.filteredIngredientes.length; 
-  // }
+  navigateToAddReview(): void {
+    this.router.navigate(['/reviews']);
+  }
+
+  getUserRole(): string[] {
+    const token = this.cookieService.get('awa');
+    if (!token) {
+      return [];
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
+  }
+
+  isAdmin(): boolean {
+    return this.roles.includes('Administrador');
+  }
 }

@@ -45,9 +45,10 @@ export class LoginComponent {
   async onSubmit() {
     if (this.loginForm.valid) {
       try {
-        await this.loginService.login(this.loginForm.value).toPromise();  // Usar toPromise() para convertir el Observable en una Promesa
+        await this.loginService.login(this.loginForm.value).toPromise();  
         this.dialogRef.close(true); 
-        this.router.navigate(['/']);  // Navegar a la página principal o alguna otra página protegida
+        this.router.navigate(['/']);
+        window.location.reload();  
       } catch (error) {
         this.errorMessage = 'El usuario y/o contraseña son incorrectos';
         console.error('Error al iniciar sesión:', error);

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CallWaiterService {
-  private apiUrl = 'http://localhost:3000/api/llamadas'; 
+  private apiUrl = `${environment.apiUrl}/llamadas`; 
 
   constructor(private http: HttpClient) { }
 

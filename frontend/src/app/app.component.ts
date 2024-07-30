@@ -61,6 +61,7 @@ export class AppComponent implements OnInit {
   title = 'frontend';
   currentRoute: string = '';
   isAuthenticated: boolean = false;
+  roles : string[] = [];
 
   private routeRoles: { [key: string]: string[] } = {
     '/users': ['Administrador'],
@@ -135,10 +136,10 @@ export class AppComponent implements OnInit {
   }
 
   checkUserRouteAccess() {
-    const roles = this.getUserRole();
+    this.roles = this.getUserRole();
     const requiredRoles = this.routeRoles[this.currentRoute];
 
-    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
+    if (requiredRoles && !requiredRoles.some(role => this.roles.includes(role))) {
       this.router.navigate(['/']);
     }
   }
@@ -214,7 +215,8 @@ export class AppComponent implements OnInit {
     this.loginService.logout().subscribe({
       next: () => {
         this.isAuthenticated = false;
-        this.router.navigate(['/']);  // Navegar a la página principal o alguna otra página después de cerrar sesión
+        this.router.navigate(['/']);
+        window.location.reload(); 
       },
       error: (error) => {
         console.error('Error al cerrar sesión:', error);
@@ -237,4 +239,5 @@ export class AppComponent implements OnInit {
   isMesaPedidoRouteActive(): boolean {
     return this.currentRoute.startsWith('/mesas/pedido');
   }
+
 }

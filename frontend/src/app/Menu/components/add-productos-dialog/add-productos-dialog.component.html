@@ -15,11 +15,14 @@
             <mat-form-field>
                 <mat-label>Descripción</mat-label>
                 <textarea matInput formControlName="descripcion"></textarea>
-                <mat-error *ngIf="productoForm.get('descripcion')?.invalid">{{ getErrorMessage('descripcion') }}</mat-error>
+                <mat-error *ngIf="productoForm.get('descripcion')?.invalid">{{ getErrorMessage('descripcion')
+                    }}</mat-error>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Categoría</mat-label>
-                <input matInput formControlName="categoria">
+                <mat-select formControlName="categoria" placeholder="Categoria">
+                    <mat-option *ngFor="let categoria of categoriasList" [value]="categoria">{{ categoria
+                        }}</mat-option>
+                </mat-select>
                 <mat-error *ngIf="productoForm.get('categoria')?.invalid">{{ getErrorMessage('categoria') }}</mat-error>
             </mat-form-field>
             <mat-form-field>
@@ -29,13 +32,16 @@
                         {{ ingrediente.nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="productoForm.get('ingredientes')?.invalid">{{ getErrorMessage('ingredientes') }}</mat-error>
+                <mat-error *ngIf="productoForm.get('ingredientes')?.invalid">{{ getErrorMessage('ingredientes')
+                    }}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Imagen</mat-label>
                 <input matInput formControlName="img">
-                <button class="select-file-button" mat-button matSuffix (click)="fileInput.click()">Seleccionar Archivo</button>
-                <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" style="display:none;">
+                <button class="select-file-button" mat-button matSuffix (click)="fileInput.click()">Seleccionar
+                    Archivo</button>
+                <input type="file" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png"
+                    style="display:none;">
             </mat-form-field>
             <img *ngIf="imagePreview" [src]="imagePreview" alt="Imagen del producto" class="image-preview">
         </form>

@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MesasService {
 
-  private apiURL = 'http://localhost:3000/api/mesas/';
+  private apiURL = `${environment.apiUrl}/mesas/`;
   private mesaNumber: number | null = null;
 
   constructor(private http: HttpClient, ) { }

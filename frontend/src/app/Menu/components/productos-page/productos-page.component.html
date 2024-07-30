@@ -2,8 +2,11 @@
     <div class="title-cards">
         <p>Menu</p>
     </div>
-    <button mat-button class="botonAgregar" (click)="openAddProductoDialog()">
+    <button [ngClass]="{ 'hidden-button': !isAdmin() }" mat-button class="botonAgregar" (click)="openAddProductoDialog()">
         <span class="material-icons">add</span>
+    </button>
+    <button mat-button class="botonAgregar" (click)="navigateToAddReview()">
+        Crear Reseña
     </button>
     <div class="card-container">
         <app-productos-cards 
@@ -14,6 +17,7 @@
             (pageChange)="onPageChange($event)">
         </app-productos-cards>
     </div>
-    <app-call-waiter></app-call-waiter> <!-- Añade el componente aquí -->
+    <app-call-waiter></app-call-waiter> 
 </div>
+
 
