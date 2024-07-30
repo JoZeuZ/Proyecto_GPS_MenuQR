@@ -41,6 +41,7 @@ export class AgregarProductoComponent implements OnInit {
   ingredientesList: Ingrediente[] = [];
   imagePreview: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
+  categoriasList: string[] = ["Bebidas", "Plato principal", "Para compartir", "Postres", "Hamburguesas","Agregados","Promos","Pizzas", ];
 
   constructor(
     private fb: FormBuilder,
