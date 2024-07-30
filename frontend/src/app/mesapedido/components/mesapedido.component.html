@@ -19,18 +19,16 @@
           <mat-list-item *ngFor="let producto of pedido.productos" class="producto-item">
             <div class="producto-info">
               {{ producto.productoId.nombre }} - {{ producto.cantidad }} x ${{ producto.productoId.precio }}
-              <span *ngIf="producto.extras; else noExtras">({{ producto.extras }})</span>
-              <ng-template #noExtras>Sin extras</ng-template>
             </div>
-            <button mat-icon-button color="warn" (click)="eliminarProducto(producto.productoId._id)">
+            <button mat-icon-button class="botoneliminar"color="warn" (click)="eliminarProducto(producto.productoId._id)">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-list-item>
         </mat-list>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="goBack()">Volver atrás</button>
-        <button mat-raised-button color="accent" (click)="openAgregarProductosDialog()">Agregar Productos</button>
+        <button mat-raised-button class ="botoncito2"(click)="goBack()">Volver atrás</button>
+        <button mat-raised-button class="botoncito" (click)="openAgregarProductosDialog()">Agregar Productos</button>
       </mat-card-actions>
     </mat-card>
     <ng-template #noPedidos>
@@ -39,7 +37,7 @@
           <mat-card-title>No hay pedidos activos para esta mesa</mat-card-title>
         </mat-card-header>
         <mat-card-actions>
-          <button mat-raised-button color="primary" (click)="goBack()">Volver atrás</button>
+          <button mat-raised-button class="botoncito2" (click)="goBack()">Volver atrás</button>
         </mat-card-actions>
       </mat-card>
     </ng-template>

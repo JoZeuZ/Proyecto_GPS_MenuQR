@@ -2,7 +2,7 @@
   <h2 class="title-cards">Gestión de pedidos de Mesas</h2>
   <p *ngIf="isSelecting" class="selection-indicator"></p>
   <div class="content-container">
-    <button class='botonEliminar' mat-raised-button [color]="isSelecting ? 'accent' : 'warn'" (click)="toggleSelecting()">
+    <button [ngClass]="{ 'hidden-button': !isAdmin() }" class='botonEliminar' mat-raised-button [color]="isSelecting ? 'accent' : 'warn'" (click)="toggleSelecting()">
       <span class="material-icons">{{ isSelecting ? 'cancel' : 'delete' }}</span>
       {{ isSelecting ? 'Cancelar selección' : 'Seleccionar mesas' }}
     </button>
@@ -19,7 +19,7 @@
       </mat-card-content>
     </mat-card>
     <div class="action-buttons">
-      <button class='botonAgregar' mat-raised-button (click)="openAddMesaDialog()">
+      <button [ngClass]="{ 'hidden-button': !isAdmin() }" class='botonAgregar' mat-raised-button (click)="openAddMesaDialog()">
         <span class="material-icons">add</span>
       </button>
     </div>
