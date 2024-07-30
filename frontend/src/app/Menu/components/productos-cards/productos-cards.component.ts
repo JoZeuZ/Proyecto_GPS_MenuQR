@@ -65,9 +65,16 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
       this.productos = [];
     }
 
+    const filteredProductos = this.filterProductos(this.productos);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProductos = this.productos.slice(startIndex, endIndex);
+    this.paginatedProductos = filteredProductos.slice(startIndex, endIndex);
+  }
+
+  filterProductos(productos: any[]): any[] {
+    return productos.filter(producto => {
+      return producto.ingredientes.every((ingrediente: any) => ingrediente.disponible);
+    });
   }
 
   isLast(ingrediente: any, ingredientes: any[]): boolean {
@@ -130,4 +137,5 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     return this.roles.includes('Administrador');
   }
 }
+
 
