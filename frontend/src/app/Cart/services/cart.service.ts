@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PagoApiService } from '../../Pago/services/pago-api.service';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class CartService {
   propina$ = this.propina.asObservable();
   nombreCliente$ = this.nombreCliente.asObservable();
 
-  pedidoURL = 'http://localhost:3000/api/pedidos';
+  pedidoURL = `${environment.apiUrl}/pedidos`;
 
   constructor(private http: HttpClient, private pagoApiService: PagoApiService) {}
 

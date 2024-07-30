@@ -18,6 +18,10 @@
     margin-right: 20px;
 }
 
+.hidden-button {
+    visibility: hidden;
+}
+
 /* Estilos específicos para escritorio */
 @media (min-width: 960px) {
     .buscadorFiltroAdd {

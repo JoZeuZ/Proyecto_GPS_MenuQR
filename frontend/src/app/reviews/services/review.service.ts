@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewService {
 
-  baseURL = 'http://localhost:3000/api/resenas';
+  baseURL = `${environment.apiUrl}/resenas`;
 
   constructor(private http: HttpClient) { }
 
