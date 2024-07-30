@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Detalle del Pedido</h1>
+<div mat-dialog-content>
+  <p><strong>Cliente:</strong> {{ data.cliente }}</p>
+  <p><strong>Mesa:</strong> {{ data.mesa.Nmesa }}</p>
+  <p><strong>Estado:</strong> {{ data.estado }}</p>
+  <p><strong>Total:</strong> {{ data.total }}</p>
+  <p><strong>Propina:</strong> {{ data.propina }}</p>
+  <p><strong>Método de Pago:</strong> {{ data.metodoPago }}</p>
+  <p><strong>Productos:</strong></p>
+  <ul>
+    <li *ngFor="let producto of data.productos">
+      {{ producto.productoId.nombre }} - {{ producto.cantidad }} x {{ producto.productoId.precio }} ({{ producto.extras }})
+    </li>
+  </ul>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClose()">Cerrar</button>
+</div>

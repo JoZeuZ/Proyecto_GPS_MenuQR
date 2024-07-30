@@ -1,3 +1,5 @@
+@import "../../../../styles.css";
+
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -42,4 +44,29 @@ mat-card-title.mat-mdc-card-title {
 .mat-mdc-card-subtitle {
     display: block;
     margin-bottom: 5px;
+}
+
+.add-cart-button {
+    margin-top: 8px;
+    margin-left: -55px;
+    background-color: var(--color-principal);
+    color: white;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-cart-button:hover {
+    background-color: var(--color-boton);
+}
+
+.delete-cart-button {
+    margin-top: -50px;
+}
+
+.hidden-button {
+    visibility: hidden;
 }

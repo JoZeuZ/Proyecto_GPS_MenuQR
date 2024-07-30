@@ -20,7 +20,7 @@ const pedidoSchema = new Schema({
     ],
     estado: {
         type: String,
-        enum: ['Pendiente', 'Preparación', 'Completado'],
+        enum: ['Pendiente', 'Preparación', 'Completado', 'Entregado'],
         default: 'Pendiente'
     },
     total: {

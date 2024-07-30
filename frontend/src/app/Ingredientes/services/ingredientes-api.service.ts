@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IngredientesApiService {
 
-  baseURL = 'http://localhost:3000/api/ingredientes';
+  baseURL = `${environment.apiUrl}/ingredientes`;
 
   constructor(private http: HttpClient) { }
 
@@ -28,7 +29,7 @@ export class IngredientesApiService {
   }
 
   uploadImage(image: FormData): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/uploads/ingredientes', image);
+    return this.http.post<any>(`${environment.apiUrl}uploads/ingredientes`, image);
   }
 
 }

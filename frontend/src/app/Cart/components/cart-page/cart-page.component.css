@@ -1,0 +1,33 @@
+.cart-container {
+  padding: 16px;
+  text-align: center;
+}
+
+.product-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.empty-cart {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #888;
+}
+
+.cart-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  margin: 10px;
+}
+
+button[mat-raised-button] {
+  width: 45%;
+  font-size: 16px;
+  height: 50px;
+}

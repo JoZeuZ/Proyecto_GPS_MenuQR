@@ -14,31 +14,51 @@
       <a mat-list-item href="reviewsCard">
         <span class="text">Ver Reseñas</span>
       </a>
-      <a mat-list-item href="call-waiter">
-        <span class="text">Llamar</span>
+      <!-- <a mat-list-item href="pedidos">
+        <span class="text">Ir a Pedidos</span>
+      </a> -->
+      <a mat-list-item href="cart">
+        <span class="text">Carrito</span>
+      </a>
+      <a mat-list-item href="pago">
+        <span class="text">Pagar</span>
+      </a>
+      <a mat-list-item href="mesas">
+        <span class="text">Mesas</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar class="toolbar">
       <!-- Elementos dentro de la toolbar -->
-      <i class="material-icons margin" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
+      <div style="width: 48px;">
+        <i *ngIf="isAuthenticated" class="material-icons margin" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
+      </div>
       <div class="centered-text">
         <a class="material-icons bigicon" href="/">flatware</a>
       </div>
-      <button mat-icon-button *ngIf="!isAuthenticated" (click)="openLoginDialog()"> <i
-          class="material-icons">person_outline</i></button>
-      <button mat-icon-button *ngIf="isAuthenticated" (click)="onLogout()"><i
-          class="material-icons">person_off</i></button>
+      <button mat-icon-button *ngIf="!isAuthenticated" (click)="openLoginDialog()">
+        <i class="material-icons">person_outline</i>
+      </button>
+      <button mat-icon-button *ngIf="isAuthenticated" (click)="onLogout()">
+        <i class="material-icons">person_off</i>
+      </button>
     </mat-toolbar>
-    <!-- Contenido de la pagina -->
+    <!-- Contenido de la página -->
     <div class="content-container">
       <app-productos-page *ngIf="isHomeRouteActive()"></app-productos-page>
       <app-ingredient-page *ngIf="isIngredientesRouteActive()"></app-ingredient-page>
       <app-user-page *ngIf="isUsersRouteActive()"></app-user-page>
       <app-review-page *ngIf="isReviewRouteActive()"></app-review-page>
       <app-review-card *ngIf="isReviewCardRouteActive()"></app-review-card>
-      <app-call-waiter *ngIf="isWaiterCallRouteActive()"></app-call-waiter>
+      <app-pedido-page *ngIf="isPedidosRouteActive()"></app-pedido-page>
+      <app-cart-page *ngIf="isCartRouteActive()"></app-cart-page>
+      <app-pago-page *ngIf="isPagoRouteActive()"></app-pago-page>
+      <app-mesas *ngIf="isMesasRouteActive()"></app-mesas>
+      <app-mesapedido *ngIf="isMesaPedidoRouteActive()"></app-mesapedido>
+    </div>
+    <div class="floating-cart-icon">
+      <app-cart-icon *ngIf="isRootRouteActive()"></app-cart-icon>
     </div>
     <app-footer-component></app-footer-component>
   </mat-sidenav-content>

@@ -11,6 +11,7 @@ import { EditIngredientDialogComponent } from '../edit-ingredient-dialog/edit-in
 import { SearchFilterComponent } from '../../../public/components/search-filter/search-filter.component';
 import { FilterComponent } from '../../../public/components/filter/filter.component';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
+import { CallWaiterWebSocketService } from '../../../Llamada/call-waiter-websocket.service';
 
 @Component({
   selector: 'app-ingredient-page',
@@ -39,14 +40,18 @@ export class IngredientPageComponent implements OnInit {
   public availabilityOptions: string[] = ['Disponible', 'No Disponible'];
   public totalFilteredItems: number = 0;
 
+  public notifications: any[] = [];
+
   constructor(
     private service: IngredientesApiService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private callWaiterWebSocketService: CallWaiterWebSocketService
   ) { }
 
   ngOnInit(): void {
     this.getIngredientes();
+    this.listenForCallWaiterNotifications();
   }
 
   getIngredientes(): void {
@@ -136,6 +141,20 @@ export class IngredientPageComponent implements OnInit {
       duration: 5000,
       horizontalPosition: 'left',
       panelClass: ['custom-snackbar']
+    });
+  }
+
+  listenForCallWaiterNotifications(): void {
+    this.callWaiterWebSocketService.getCallWaiterObservable().subscribe(call => {
+      this.notifications.push(call);
+      this.displayNotification(call);
+    });
+  }
+
+  
+  displayNotification(call: any): void {
+    this.snackBar.open(`Mesa ${call.tableNumber} está llamando`, 'Cerrar', {
+      duration: 10000, 
     });
   }
 }

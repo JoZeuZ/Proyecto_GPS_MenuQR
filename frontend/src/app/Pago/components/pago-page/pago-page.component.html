@@ -1,0 +1,24 @@
+<div class="pago-container">
+  <h1>Confirmar Pedido</h1>
+  <mat-card class="payment-card">
+    <mat-card-content>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Método de Pago</mat-label>
+          <mat-select [(ngModel)]="metodoPago">
+            <mat-option value="Efectivo">Efectivo</mat-option>
+            <mat-option value="Tarjeta">Tarjeta</mat-option>
+            <mat-option value="Transferencia">Transferencia</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Propina</mat-label>
+          <input matInput type="number" [(ngModel)]="propina" placeholder="Ingrese la propina">
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="accent" (click)="confirmPayment()">Confirmar y Pagar</button>
+    </mat-card-content>
+  </mat-card>
+</div>

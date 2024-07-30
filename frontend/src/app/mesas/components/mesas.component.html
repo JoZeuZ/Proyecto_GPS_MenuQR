@@ -1,0 +1,31 @@
+<div class="cosas">
+  <h2 class="title-cards">Gestión de pedidos de Mesas</h2>
+  <p *ngIf="isSelecting" class="selection-indicator"></p>
+  <div class="content-container">
+    <button [ngClass]="{ 'hidden-button': !isAdmin() }" class='botonEliminar' mat-raised-button [color]="isSelecting ? 'accent' : 'warn'" (click)="toggleSelecting()">
+      <span class="material-icons">{{ isSelecting ? 'cancel' : 'delete' }}</span>
+      {{ isSelecting ? 'Cancelar selección' : 'Seleccionar mesas' }}
+    </button>
+    <mat-card class="card-mesas">
+      <mat-card-content>
+        <div class="botones-mesas">
+          <button class="botoncito" mat-raised-button *ngFor="let mesa of mesas"
+            (click)="isSelecting ? toggleSelectMesa(mesa.Nmesa) : goToPedido(mesa.Nmesa)"
+            [class.selected]="selectedMesas.has(mesa.Nmesa)" [class.selecting-mode]="isSelecting">
+            Mesa {{ mesa.Nmesa }}
+            <mat-icon *ngIf="isSelecting && selectedMesas.has(mesa.Nmesa)">check_circle</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="action-buttons">
+      <button [ngClass]="{ 'hidden-button': !isAdmin() }" class='botonAgregar' mat-raised-button (click)="openAddMesaDialog()">
+        <span class="material-icons">add</span>
+      </button>
+    </div>
+  </div>
+  <button class='botonConfirmarEliminar' mat-raised-button color="warn" *ngIf="isSelecting"
+  (click)="deleteSelectedMesas()">
+  <span class="material-icons">done</span> Confirmar Eliminación
+</button>
+</div>

@@ -10,6 +10,10 @@ import { PaginatorComponent } from '../../../public/components/paginator/paginat
 import { EditProductosDialogComponent } from '../edit-productos-dialog/edit-productos-dialog.component';
 import { DeleteProductosDialogComponent } from '../delete-productos-dialog/delete-productos-dialog.component';
 import { ProductosApiService } from '../../service/productos-api.service';
+import { CartService } from '../../../Cart/services/cart.service';
+import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
+
 
 @Component({
   selector: 'app-productos-cards',
@@ -37,11 +41,19 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
 
   public itemsPerPage: number = 10;
   public paginatedProductos: any[] = [];
+  roles : string[] = [];
 
-  constructor(private service: ProductosApiService, private dialog: MatDialog) { }
+  constructor(
+    private service: ProductosApiService,
+    private dialog: MatDialog,
+    private cartService: CartService,
+    private cookieService: CookieService
+  ) { }
 
   ngOnInit(): void {
     this.applyPagination();
+    this.roles = this.getUserRole();
+    console.log(this.roles);
   }
 
   ngOnChanges(): void {
@@ -53,9 +65,16 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
       this.productos = [];
     }
 
+    const filteredProductos = this.filterProductos(this.productos);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProductos = this.productos.slice(startIndex, endIndex);
+    this.paginatedProductos = filteredProductos.slice(startIndex, endIndex);
+  }
+
+  filterProductos(productos: any[]): any[] {
+    return productos.filter(producto => {
+      return producto.ingredientes.every((ingrediente: any) => ingrediente.disponible);
+    });
   }
 
   isLast(ingrediente: any, ingredientes: any[]): boolean {
@@ -100,5 +119,23 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
       this.applyPagination();
     });
   }
+
+  addToCart(producto: any) {
+    this.cartService.addToCart(producto);
+  }
+
+  getUserRole(): string[] {
+    const token = this.cookieService.get('awa');
+    if (!token) {
+      return [];
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
+  }
+
+  isAdmin(): boolean {
+    return this.roles.includes('Administrador');
+  }
 }
+
 
