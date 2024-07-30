@@ -9,6 +9,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddMesaDialogComponent } from '../components/add-dialog/add-dialog.component';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-mesas',
@@ -22,11 +24,16 @@ export class MesasComponent implements OnInit {
   numMesas: number = 0;
   selectedMesas: Set<number> = new Set<number>();
   isSelecting: boolean = false;
+  roles : string[] = [];
 
-  constructor(private mesasService: MesasService, private router: Router, public dialog: MatDialog) { }
+  constructor(private mesasService: MesasService, 
+    private router: Router, 
+    public dialog: MatDialog,
+    private cookieService: CookieService) { }
 
   ngOnInit(): void {
     this.fetchMesas();
+    this.roles = this.getUserRole();
   }
 
   fetchMesas(): void {
@@ -106,4 +113,16 @@ export class MesasComponent implements OnInit {
     this.isSelecting = false;
   }
 
+  getUserRole(): string[] {
+    const token = this.cookieService.get('awa');
+    if (!token) {
+      return [];
+    }
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.roles ? decodedToken.roles.map((role: any) => role.name) : [];
+  }
+
+  isAdmin(): boolean {
+    return this.roles.includes('Administrador');
+  }
 }

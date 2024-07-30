@@ -100,6 +100,10 @@
     gap: 15px; 
 }
 
+.hidden-button {
+    visibility: hidden;
+}
+
 @media (max-width: 959px) {
     .botones-mesas {
         display: flex;
