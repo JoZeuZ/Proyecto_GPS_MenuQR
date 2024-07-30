@@ -39,9 +39,6 @@ interface Ingrediente {
 export class AgregarProductoComponent implements OnInit {
   productoForm: FormGroup;
   ingredientesList: Ingrediente[] = [];
-  imagePreview: string | ArrayBuffer | null = null;
-  selectedFile: File | null = null;
-  categoriasList: string[] = ["Bebidas", "Plato principal", "Para compartir", "Postres", "Hamburguesas","Agregados","Promos","Pizzas", ];
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +53,6 @@ export class AgregarProductoComponent implements OnInit {
       descripcion: ['', Validators.required],
       categoria: ['', Validators.required],
       disponible: [true, Validators.required],
-      img: [{ value: '', disabled: true }],
       ingredientes: [[], Validators.required]
     });
   }
@@ -71,45 +67,12 @@ export class AgregarProductoComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   addProducto(): void {
     if (this.productoForm.valid) {
-      const formData = new FormData();
-      Object.keys(this.productoForm.controls).forEach(key => {
-        if (key !== 'img') {
-          formData.append(key, this.productoForm.get(key)?.value);
-        }
-      });
-
-      if (this.selectedFile) {
-        formData.append('img', this.selectedFile);
-      }
-
-      this.http.post('http://localhost:3000/api/upload/productos', formData)
+      const productoData = this.productoForm.value;
+      
+      this.productoService.createProducto(productoData)
         .pipe(
-          switchMap((response: any) => {
-            console.log('Respuesta del servidor (subida de imagen):', response);
-            if (response && response.state === 'Success' && response.imgPath) {
-              const productoData = {
-                ...this.productoForm.value,
-                img: response.imgPath
-              };
-              return this.productoService.createProducto(productoData);
-            } else {
-              return throwError(() => new Error('La respuesta del servidor no contiene la ruta de la imagen'));
-            }
-          }),
           catchError((error: HttpErrorResponse) => {
             console.error('Error en el proceso:', error);
             let errorMessage = 'Ocurrió un error desconocido';

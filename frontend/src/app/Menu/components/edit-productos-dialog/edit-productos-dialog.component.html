@@ -14,21 +14,29 @@
                 <mat-error *ngIf="productoForm.get('precio')?.invalid">{{ getErrorMessage('precio') }}</mat-error>
             </mat-form-field>
 
-            <div class="image-upload-container">
-                <h4 id="im">Imagen</h4>
-                <div class="file-input-container">
-                    <input type="file" id="file-input" #fileInput (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" hidden>
-                    <button mat-button class="botonSeleccionar" (click)="fileInput.click()">Seleccionar archivo</button>
-                    <p>{{ selectedFileName || 'Ningún archivo nuevo seleccionado' }}</p>
-                </div>
-            </div>
-            <div *ngIf="imagePreview" class="image-preview-container">
-                <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
-            </div>
+            <mat-form-field appearance="fill">
+                <mat-label>Descripción</mat-label>
+                <textarea matInput formControlName="descripcion"></textarea>
+                <mat-error *ngIf="productoForm.get('descripcion')?.invalid">{{ getErrorMessage('descripcion') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Categoría</mat-label>
+                <input matInput formControlName="categoria">
+                <mat-error *ngIf="productoForm.get('categoria')?.invalid">{{ getErrorMessage('categoria') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Ingredientes</mat-label>
+                <mat-select formControlName="ingredientes" multiple>
+                    <mat-option *ngFor="let ingrediente of data.ingredientesList" [value]="ingrediente._id">{{ ingrediente.nombre }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="productoForm.get('ingredientes')?.invalid">{{ getErrorMessage('ingredientes') }}</mat-error>
+            </mat-form-field>
         </form>
     </div>
-    <div mat-dialog-actions class="botonesSaveCancel">
-        <button mat-button color="warn" (click)="onCancelClick()">Cancelar</button>
-        <button mat-button (click)="onSaveClick()">Guardar</button>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onCancelClick()">Cancelar</button>
+        <button mat-button (click)="updateProducto()">Guardar</button>
     </div>
 </div>

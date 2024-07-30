@@ -26,10 +26,6 @@ import { HttpClient } from '@angular/common/http';
 export class EditProductosDialogComponent implements OnInit {
 
   public productoForm!: FormGroup;
-  public availableStatuses: string[] = ["Disponible", "No disponible"];
-  public imagePreview: string | ArrayBuffer | null = null;
-  public selectedFileName: string | null = null;
-  private selectedFile: File | null = null;
 
   constructor(
     private http: HttpClient, 
@@ -41,82 +37,24 @@ export class EditProductosDialogComponent implements OnInit {
     this.productoForm = new FormGroup({
       nombre: new FormControl(this.data.producto.nombre, [Validators.required]),
       precio: new FormControl(this.data.producto.precio, [Validators.required]),
+      descripcion: new FormControl(this.data.producto.descripcion, [Validators.required]),
+      categoria: new FormControl(this.data.producto.categoria, [Validators.required]),
+      ingredientes: new FormControl(this.data.producto.ingredientes, [Validators.required]),
       disponible: new FormControl(this.data.producto.disponible)
     });
   }
 
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.selectedFile = file;
-      this.selectedFileName = file.name;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   updateProducto(): void {
-    const formData = new FormData();
-    formData.append('nombre', this.productoForm.value.nombre);
-    formData.append('precio', this.productoForm.value.precio);
-    formData.append('disponible', this.productoForm.value.disponible);
-    if (this.selectedFile) {
-      formData.append('img', this.selectedFile);
-    }
+    const productoData = this.productoForm.value;
 
-    this.http.put(`http://localhost:3000/api/uploads/productos/${this.data.productos._id}`, formData)
-    .subscribe((response: any) => {
-      if (response.state === 'Success') {
-        this.dialogRef.close(response.data);
-      } else {
-        console.error('Error en la respuesta del servicio:', response);
-      }
-    });
-  }
-
-  // updateProducto() {
-  //   this.http.put(`http://localhost:3000/api/productos/${this.data.productos._id}`, this.productoForm.value)
-  //     .subscribe((response: any) => {
-  //       this.dialogRef.close({ ...this.productoForm.value, _id: this.data.productos._id, img: this.data.productos.img });
-  //     });
-  // }
-
-  deleteOldImage(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (this.data.producto.img) {
-        const deleteUrl = `http://localhost:3000/api/uploads/productos/${this.getFileNameFromPath(this.data.producto.img)}`;
-
-        this.http.delete(deleteUrl).subscribe({
-          next: (response: any) => {
-            resolve();
-          },
-          error: (error: any) => {
-            console.error('Error al eliminar la imagen:', error);
-            reject();
-          }
-        });
-      } else {
-        resolve();
-      }
-    });
-  }
-
-  getFileNameFromPath(path: string): string {
-    return path.split('/').pop() || '';
-  }
-
-  onSaveClick(): void {
-    if (this.selectedFile) {
-      this.deleteOldImage().then(() => {
-        this.updateProducto();
+    this.http.put(`http://localhost:3000/api/productos/${this.data.producto._id}`, productoData)
+      .subscribe((response: any) => {
+        if (response.state === 'Success') {
+          this.dialogRef.close(response.data);
+        } else {
+          console.error('Error en la respuesta del servicio:', response);
+        }
       });
-    } else {
-      this.updateProducto();
-    }
   }
 
   onCancelClick(): void {
@@ -130,4 +68,3 @@ export class EditProductosDialogComponent implements OnInit {
     return '';
   }
 }
-
