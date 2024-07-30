@@ -12,9 +12,10 @@ const pagoBodySchema = Joi.object({
         "any.required": "El método de pago es obligatorio.",
         "any.only": "El método de pago proporcionado no es válido.",
     }),
-    total: Joi.number().required().messages({
+    total: Joi.number().required().min(1).messages({
         "number.base": "El total debe ser de tipo numérico.",
         "any.required": "El total es obligatorio.",
+        "number.min": "El total no puede ser 0 o negativo.",
     }),
     estado: Joi.string().valid("Completado", "Reembolsado", "Cancelado").default("Completado").messages({
         "string.base": "El estado debe ser de tipo string.",
