@@ -1,1 +1,42 @@
-<p>edit-productos-dialog works!</p>
+<div id="miCuadroEditar">
+    <h1 mat-dialog-title>Editar Producto</h1>
+    <div mat-dialog-content>
+        <form [formGroup]="productoForm">
+            <mat-form-field appearance="fill">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+                <mat-error *ngIf="productoForm.get('nombre')?.invalid">{{ getErrorMessage('nombre') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Precio</mat-label>
+                <input matInput formControlName="precio" type="number">
+                <mat-error *ngIf="productoForm.get('precio')?.invalid">{{ getErrorMessage('precio') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Descripción</mat-label>
+                <textarea matInput formControlName="descripcion"></textarea>
+                <mat-error *ngIf="productoForm.get('descripcion')?.invalid">{{ getErrorMessage('descripcion') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Categoría</mat-label>
+                <input matInput formControlName="categoria">
+                <mat-error *ngIf="productoForm.get('categoria')?.invalid">{{ getErrorMessage('categoria') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Ingredientes</mat-label>
+                <mat-select formControlName="ingredientes" multiple>
+                    <mat-option *ngFor="let ingrediente of data.ingredientesList" [value]="ingrediente._id">{{ ingrediente.nombre }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="productoForm.get('ingredientes')?.invalid">{{ getErrorMessage('ingredientes') }}</mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onCancelClick()">Cancelar</button>
+        <button mat-button (click)="updateProducto()">Guardar</button>
+    </div>
+</div>

@@ -1,8 +1,8 @@
 <div class="card-container" *ngFor="let producto of paginatedProductos">
     <div class="cards-buttons">
-        <!-- <button id="edit" mat-icon-button (click)="openEditProductosDialog(productos)">
+        <button [ngClass]="{ 'hidden-button': !isAdmin() }"id="edit" mat-icon-button (click)="openEditProductosDialog(productos)">
             <mat-icon>edit</mat-icon>
-        </button> -->
+        </button> 
         <button [ngClass]="{ 'hidden-button': !isAdmin() }"id="delete" mat-icon-button color="warn" (click)="openDeleteDialog(productos)" class="delete-cart-button">
             <mat-icon>delete</mat-icon>
         </button>

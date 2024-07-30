@@ -3,11 +3,9 @@ import { environment } from '../../../../environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
-
 export class ProductosApiService {
 
   private url = `${environment.apiUrl}/productos`;
