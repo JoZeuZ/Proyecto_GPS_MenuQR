@@ -31,7 +31,9 @@
   <mat-sidenav-content>
     <mat-toolbar class="toolbar">
       <!-- Elementos dentro de la toolbar -->
-      <i class="material-icons margin" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
+      <div style="width: 48px;">
+        <i *ngIf="isAuthenticated" class="material-icons margin" style="cursor: pointer" (click)="sidevar.toggle()">dehaze</i>
+      </div>
       <div class="centered-text">
         <a class="material-icons bigicon" href="/">flatware</a>
       </div>

@@ -61,6 +61,7 @@ export class AppComponent implements OnInit {
   title = 'frontend';
   currentRoute: string = '';
   isAuthenticated: boolean = false;
+  roles : string[] = [];
 
   private routeRoles: { [key: string]: string[] } = {
     '/users': ['Administrador'],
@@ -134,10 +135,10 @@ export class AppComponent implements OnInit {
   }
 
   checkUserRouteAccess() {
-    const roles = this.getUserRole();
+    this.roles = this.getUserRole();
     const requiredRoles = this.routeRoles[this.currentRoute];
 
-    if (requiredRoles && !requiredRoles.some(role => roles.includes(role))) {
+    if (requiredRoles && !requiredRoles.some(role => this.roles.includes(role))) {
       this.router.navigate(['/']);
     }
   }
@@ -236,4 +237,5 @@ export class AppComponent implements OnInit {
   isMesaPedidoRouteActive(): boolean {
     return this.currentRoute.startsWith('/mesas/pedido');
   }
+
 }

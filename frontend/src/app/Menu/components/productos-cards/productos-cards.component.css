@@ -66,3 +66,7 @@ mat-card-title.mat-mdc-card-title {
 .delete-cart-button {
     margin-top: -50px;
 }
+
+.hidden-button {
+    visibility: hidden;
+}

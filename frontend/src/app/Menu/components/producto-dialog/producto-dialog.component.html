@@ -1,9 +1,11 @@
 <h1 mat-dialog-title>Agregar Productos</h1>
 <div mat-dialog-content>
   <mat-list>
-    <mat-list-item *ngFor="let producto of productos">
+    <mat-list-item *ngFor="let producto of productos" class ="producto-item">
+      <div class ="producto-info">
       {{ producto.nombre }} Valor: ${{ producto.precio }}
-      <button mat-raised-button class="botoncito" (click)="agregarProducto(producto)">
+    </div>
+      <button  class="botoncito" (click)="agregarProducto(producto)">
         <span class="material-icons">add</span>
       </button>
     </mat-list-item>
