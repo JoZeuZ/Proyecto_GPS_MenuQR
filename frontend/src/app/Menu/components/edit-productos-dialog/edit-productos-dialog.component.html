@@ -29,7 +29,7 @@
             <mat-form-field appearance="fill">
                 <mat-label>Ingredientes</mat-label>
                 <mat-select formControlName="ingredientes" multiple>
-                    <mat-option *ngFor="let ingrediente of data.ingredientesList" [value]="ingrediente._id">{{ ingrediente.nombre }}</mat-option>
+                    <mat-option *ngFor="let ingrediente of ingredientesList" [value]="ingrediente._id">{{ ingrediente.nombre }}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="productoForm.get('ingredientes')?.invalid">{{ getErrorMessage('ingredientes') }}</mat-error>
             </mat-form-field>

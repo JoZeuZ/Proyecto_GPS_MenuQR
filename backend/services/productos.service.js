@@ -40,8 +40,6 @@ async function createProducto(producto) {
             return [null, "La descripción del producto es requerida"];
         if (!categoria || typeof categoria !== "string")
             return [null, "La categoría del producto es requerida"];
-        if (!img || typeof img !== "string")
-            return [null, "La imagen del producto es requerida"];
         if (!ingredientes || !Array.isArray(ingredientes) || ingredientes.length === 0)
             return [null, "Los ingredientes del producto son requeridos"];
 
@@ -77,8 +75,6 @@ async function updateProducto(id, producto) {
             return [null, "La descripción del producto es requerida"];
         if (!categoria || typeof categoria !== "string")
             return [null, "La categoría del producto es requerida"];
-        if (!img || typeof img !== "string")
-            return [null, "La imagen del producto es requerida"];
         if (!ingredientes || !Array.isArray(ingredientes) || ingredientes.length === 0)
             return [null, "Los ingredientes del producto son requeridos"];
 
@@ -89,7 +85,6 @@ async function updateProducto(id, producto) {
         productoFound.precio = precio;
         productoFound.descripcion = descripcion;
         productoFound.categoria = categoria;
-        productoFound.img = img;
         productoFound.ingredientes = ingredientes;
 
         await productoFound.save();

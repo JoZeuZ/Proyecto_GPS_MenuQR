@@ -7,7 +7,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../environment';
+import { IngredientesApiService } from '../../../Ingredientes/services/ingredientes-api.service';
+import { of, throwError } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+
+interface Ingrediente {
+  _id: string;
+  nombre: string;
+}
+
 @Component({
   selector: 'app-edit-productos-dialog',
   standalone: true,
@@ -19,19 +27,39 @@ import { environment } from '../../../../../environment';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+
   ],
   templateUrl: './edit-productos-dialog.component.html',
   styleUrls: ['./edit-productos-dialog.component.css']
 })
 export class EditProductosDialogComponent implements OnInit {
 
+  ingredientesList: Ingrediente[] = [];
+  selectedFile: File | null = null;
+  categoriasList: string[] = ["Bebidas", "Plato principal", "Para compartir", "Postres", "Hamburguesas","Agregados","Promos","Pizzas", ];
+
+
   public productoForm!: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
+    private ingredienteService: IngredientesApiService,
     private http: HttpClient, 
     public dialogRef: MatDialogRef<EditProductosDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    {
+      this.productoForm = this.fb.group({
+        nombre: ['', Validators.required],
+        precio: [0, [Validators.required, Validators.min(0)]],
+        descripcion: ['', Validators.required],
+        categoria: ['', Validators.required],
+        disponible: [true, Validators.required],
+        img: [{ value: '', disabled: true }],
+        ingredientes: [[], Validators.required]
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.productoForm = new FormGroup({
@@ -42,19 +70,32 @@ export class EditProductosDialogComponent implements OnInit {
       ingredientes: new FormControl(this.data.producto.ingredientes, [Validators.required]),
       disponible: new FormControl(this.data.producto.disponible)
     });
+    this.ingredienteService.getIngredientes().subscribe((response: any) => {
+      if (response.state === 'Success' && Array.isArray(response.data[1])) {
+        this.ingredientesList = response.data[1];
+      } else {
+        console.error('Error al obtener ingredientes:', response);
+      }
+    });
   }
 
   updateProducto(): void {
-    const productoData = this.productoForm.value;
+    if (this.productoForm.valid) {
+      const productoData = this.productoForm.value;
 
-    this.http.put(`${environment.apiUrl}/productos/${this.data.producto._id}`, productoData)
-      .subscribe((response: any) => {
-        if (response.state === 'Success') {
-          this.dialogRef.close(response.data);
-        } else {
-          console.error('Error en la respuesta del servicio:', response);
-        }
-      });
+      this.http.put(`http://localhost:3000/api/productos/${this.data.producto._id}`, productoData)
+        .subscribe((response: any) => {
+          if (response.state === 'Success') {
+            this.dialogRef.close(response.data);
+            window.location.reload();
+          } else {
+            console.error('Error en la respuesta del servicio:', response);
+          }
+        });
+    } else {
+      console.error('Formulario inválido');
+      this.markFormGroupTouched(this.productoForm);
+    }
   }
 
   onCancelClick(): void {
@@ -66,5 +107,15 @@ export class EditProductosDialogComponent implements OnInit {
       return 'Este campo es requerido';
     }
     return '';
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

@@ -36,7 +36,7 @@ async function updateProducto(req, res) {
         const { id } = req.params;
         const { nombre, precio, descripcion, categoria, img, ingredientes } = req.body;
 
-        if (!nombre || !precio || !descripcion || !categoria || !img || !ingredientes) {
+        if (!nombre || !precio || !descripcion || !categoria || !ingredientes) {
             return respondError(req, res, 400, "Faltan datos");
         }
         const [updatedProducto, errorProducto] = await ProductoService.updateProducto(id, { nombre, precio, descripcion, categoria, img, ingredientes });
