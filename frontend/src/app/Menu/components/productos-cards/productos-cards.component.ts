@@ -14,6 +14,7 @@ import { CartService } from '../../../Cart/services/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
 import { LoginService } from '../../../auth/services/login.service';
+import { environment } from '../../../../../environment';
 
 @Component({
   selector: 'app-productos-cards',
@@ -96,7 +97,7 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     if (!imgPath) {
         return '';
     }
-    return `http://localhost:3000/api/uploads/productos/${imgPath.split('/').pop()}`;
+    return `${environment.apiUrl}/uploads/productos/${imgPath.split('/').pop()}`;
   }
 
   openEditProductosDialog(producto: any): void {

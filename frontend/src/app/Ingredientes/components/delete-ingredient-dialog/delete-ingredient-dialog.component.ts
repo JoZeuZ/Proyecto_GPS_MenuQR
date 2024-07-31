@@ -2,7 +2,7 @@ import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from '../../../../../environment';
 @Component({
   selector: 'app-delete-ingredient-dialog',
   templateUrl: './delete-ingredient-dialog.component.html',
@@ -34,7 +34,7 @@ export class DeleteIngredientDialog {
   }
 
   deleteIngredient(id: string) {
-    this.http.delete(`http://localhost:3000/api/ingredientes/${id}`).subscribe({
+    this.http.delete(`${environment.apiUrl}/ingredientes/${id}`).subscribe({
       next: (response: any) => {
         this.ingredientDeleted.emit(id); 
         this.dialogRef.close(true); 

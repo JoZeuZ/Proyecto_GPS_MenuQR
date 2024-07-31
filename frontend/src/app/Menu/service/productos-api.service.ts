@@ -33,7 +33,7 @@ export class ProductosApiService {
   }
 
   uploadImage(image: FormData): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/uploads/productos', image);
+    return this.http.post<any>(`${environment.apiUrl}/uploads/productos`, image);
   }
 
 }

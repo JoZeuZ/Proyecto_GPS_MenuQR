@@ -2,6 +2,7 @@ import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environment';
 
 @Component({
   selector: 'app-delete-productos-dialog',
@@ -32,7 +33,7 @@ export class DeleteProductosDialogComponent {
   }
 
   deleteProducto(id: string) {
-    this.http.delete(`http://localhost:3000/api/productos/${id}`).subscribe({
+    this.http.delete(`${environment.apiUrl}/productos/${id}`).subscribe({
       next: (response: any) => {
         this.productoDeleted.emit(id);
         this.dialogRef.close(true);

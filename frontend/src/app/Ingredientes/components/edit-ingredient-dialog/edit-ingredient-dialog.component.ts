@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from '../../../../../environment';
 @Component({
   selector: 'app-edit-ingredient-dialog',
   standalone: true,
@@ -46,7 +46,7 @@ export class EditIngredientDialogComponent implements OnInit {
   }
 
   getImageUrl(imgPath: string): string {
-    return imgPath ? `http://localhost:3000/api/${imgPath}` : '';
+    return imgPath ? `${environment.apiUrl}/${imgPath}` : '';
   }
 
   onFileSelected(event: Event): void {
@@ -64,7 +64,7 @@ export class EditIngredientDialogComponent implements OnInit {
   }
 
   updateIngredient() {
-    this.http.put(`http://localhost:3000/api/ingredientes/${this.data.ingredient._id}`, this.ingredientForm.value)
+    this.http.put(`${environment.apiUrl}/ingredientes/${this.data.ingredient._id}`, this.ingredientForm.value)
       .subscribe((response: any) => {
         this.dialogRef.close({ ...this.ingredientForm.value, _id: this.data.ingredient._id, img: this.data.ingredient.img });
       });
@@ -73,7 +73,7 @@ export class EditIngredientDialogComponent implements OnInit {
   deleteOldImage(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.data.ingredient.img) {
-        const deleteUrl = `http://localhost:3000/api/${this.data.ingredient.img}`;
+        const deleteUrl = `${environment.apiUrl}/${this.data.ingredient.img}`;
 
         this.http.delete(deleteUrl).subscribe({
           next: (response: any) => {
@@ -100,7 +100,7 @@ export class EditIngredientDialogComponent implements OnInit {
         if (this.selectedFile) {
           formData.append('img', this.selectedFile);
         }
-        this.http.post('http://localhost:3000/api/upload', formData).subscribe((response: any) => {
+        this.http.post(`${environment.apiUrl}/upload`, formData).subscribe((response: any) => {
           this.ingredientForm.value.img = response.imgPath;
           this.updateIngredient();
         });

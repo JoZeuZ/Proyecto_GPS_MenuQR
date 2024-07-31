@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from '../../../../../environment';
 @Component({
   selector: 'app-edit-productos-dialog',
   standalone: true,
@@ -47,7 +47,7 @@ export class EditProductosDialogComponent implements OnInit {
   updateProducto(): void {
     const productoData = this.productoForm.value;
 
-    this.http.put(`http://localhost:3000/api/productos/${this.data.producto._id}`, productoData)
+    this.http.put(`${environment.apiUrl}/productos/${this.data.producto._id}`, productoData)
       .subscribe((response: any) => {
         if (response.state === 'Success') {
           this.dialogRef.close(response.data);

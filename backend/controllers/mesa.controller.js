@@ -4,6 +4,7 @@ const QRCode = require("qrcode");
 const { respondSuccess, respondError } = require("../utils/resHandler");
 const { handleError } = require("../utils/errorHandler");
 const { mesaBodySchema, mesaIdSchema } = require("../schema/mesa.schema");
+const environment = require('../environment.js');
 
 async function createMesa(req, res) {
     try {
@@ -12,7 +13,7 @@ async function createMesa(req, res) {
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
         const { Nmesa, cantidadPersonas } = body;
-        const qrData = `http://localhost:4200/?mesa=${Nmesa}`;
+        const qrData = `${environment.front}/?mesa=${Nmesa}`;
         const codigoQR = await QRCode.toDataURL(qrData);
 
         const mesaData = { Nmesa, codigoQR, cantidadPersonas };
@@ -53,7 +54,7 @@ async function updateMesa(req, res) {
         const { error: bodyError } = mesaBodySchema.validate(body);
         if (bodyError) return respondError(req, res, 400, bodyError.message);
 
-        const qrData = `http://localhost:4200/?mesa=${body.Nmesa}`;
+        const qrData = `${environment.front}/?mesa=${body.Nmesa}`;
         const codigoQR = await QRCode.toDataURL(qrData);
         body.codigoQR = codigoQR;
 

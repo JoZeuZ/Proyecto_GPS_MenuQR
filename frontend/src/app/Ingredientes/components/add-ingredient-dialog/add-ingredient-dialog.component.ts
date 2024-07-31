@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environment';
 
 @Component({
   selector: 'app-add-ingredient-dialog',
@@ -75,7 +76,7 @@ export class AddIngredientDialog implements OnInit {
       formData.append('disponible', String(newIngrediente.disponible));
       formData.append('img', this.selectedFile);
 
-      this.http.post('http://localhost:3000/api/upload', formData).subscribe((response: any) => {
+      this.http.post(`${environment.apiUrl}/upload`, formData).subscribe((response: any) => {
         newIngrediente.img = response.imgPath;
         this.dialogRef.close(newIngrediente);
       });

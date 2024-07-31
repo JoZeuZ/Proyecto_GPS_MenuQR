@@ -12,6 +12,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { catchError, switchMap } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
+import { environment } from '../../../../../environment';
 
 interface Ingrediente {
   _id: string;
@@ -96,7 +97,7 @@ export class AgregarProductoComponent implements OnInit {
         formData.append('img', this.selectedFile);
       }
 
-      this.http.post('http://localhost:3000/api/upload/productos', formData)
+      this.http.post(`${environment.apiUrl}/upload/productos`, formData)
         .pipe(
           switchMap((response: any) => {
             console.log('Respuesta del servidor (subida de imagen):', response);

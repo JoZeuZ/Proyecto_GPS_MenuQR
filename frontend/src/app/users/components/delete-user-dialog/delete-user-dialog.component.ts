@@ -2,7 +2,7 @@ import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from '../../../../../environment';
 @Component({
   selector: 'app-delete-user-dialog',
   templateUrl: './delete-user-dialog.component.html',
@@ -34,7 +34,7 @@ export class DeleteUserDialogComponent {
   }
 
   deleteUser(id: string) {
-    this.http.delete(`http://localhost:3000/api/users/${id}`).subscribe(
+    this.http.delete(`${environment.apiUrl}/users/${id}`).subscribe(
       (response: any) => {
         if (response.state === 'Success') {
           this.userDeleted.emit(id); // Emite el ID del usuario eliminado

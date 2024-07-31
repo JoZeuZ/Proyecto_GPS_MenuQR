@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../../../environment';
 
 @Component({
   selector: 'app-add-dialog',
@@ -44,7 +45,7 @@ export class AddMesaDialogComponent implements OnInit {
 
     const newMesa = this.mesaForm.value;
 
-    this.http.post('http://localhost:3000/api/mesas', newMesa).subscribe(
+    this.http.post(`${environment.apiUrl}/mesas`, newMesa).subscribe(
       response => {
         this.dialogRef.close(newMesa);
       },
