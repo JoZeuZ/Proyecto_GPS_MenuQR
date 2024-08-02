@@ -22,6 +22,12 @@
     visibility: hidden;
 }
 
+.custom-snackbar {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+
 /* Estilos específicos para escritorio */
 @media (min-width: 960px) {
     .buscadorFiltroAdd {

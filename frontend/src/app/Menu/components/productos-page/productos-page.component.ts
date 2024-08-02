@@ -11,6 +11,8 @@ import { CallWaiterComponent } from '../../../Llamada/waiter-call-button/waiter-
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
 import { CommonModule } from '@angular/common';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-productos-page',
@@ -22,7 +24,8 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatIconModule,
     CallWaiterComponent,
-    CommonModule
+    CommonModule,
+    MatSnackBarModule
   ],
   templateUrl: './productos-page.component.html',
   styleUrls: ['./productos-page.component.css']

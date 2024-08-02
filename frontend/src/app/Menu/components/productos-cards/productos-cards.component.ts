@@ -15,6 +15,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
 import { LoginService } from '../../../auth/services/login.service';
 import { environment } from '../../../../../environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-productos-cards',
@@ -51,6 +53,7 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
     private cartService: CartService,
     private cookieService: CookieService,
     private loginService: LoginService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -128,15 +131,25 @@ export class ProductosCardsComponent implements OnInit, OnChanges {
 
   addToCart(producto: any) {
     const productToCart = {
-      productoId: producto._id, // Usamos el _id del producto
-      nombre: producto.nombre, // Añadimos el nombre del producto
-      img: this.getImageUrl(producto.img), // Añadimos la URL de la imagen del producto
-      cantidad: 1, // Puedes ajustar la cantidad según tu lógica
-      precio: producto.precio // Añadimos el precio del producto
+      productoId: producto._id,
+      nombre: producto.nombre, 
+      img: this.getImageUrl(producto.img), 
+      cantidad: 1,
+      precio: producto.precio 
     };
-  
+
     console.log('Adding to cart', productToCart);
     this.cartService.addToCart(productToCart);
+    this.showSnackBar(`${producto.nombre} agregado al carrito`);
+  }
+
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['custom-snackbar']
+    });
   }
 
   getUserRole(): string[] {
