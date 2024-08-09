@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,8 +20,10 @@ import { CallWaiterService } from '../websocket.service';
   ]
 })
 export class CallWaiterComponent {
+  @Input() roles: string[] = [];
   tableNumber: number | null = null;
   isInputVisible = false;
+
   constructor(private waiterService: CallWaiterService) {}
 
   toggleInputVisibility() {
@@ -37,6 +39,14 @@ export class CallWaiterComponent {
         console.error('Error calling waiter:', error);
       });
     }
+  }
+
+  isAdmin(): boolean {
+    return this.roles.includes('Administrador');
+  }
+
+  isMesero(): boolean {
+    return this.roles.includes('Mesero');
   }
 }
 

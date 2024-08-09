@@ -1,4 +1,4 @@
-<div class="call-waiter-container">
+<div *ngIf="!isAdmin() && !isMesero()" class="call-waiter-container">
   <button mat-raised-button color="warn" type="button" (click)="callWaiter()">Llamar al Mesero</button>
   <mat-form-field appearance="outline" class="table-number-field">
     <mat-label>Número de Mesa</mat-label>

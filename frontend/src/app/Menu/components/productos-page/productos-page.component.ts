@@ -146,4 +146,8 @@ export class ProductosFormComponent implements OnInit {
   isAdmin(): boolean {
     return this.roles.includes('Administrador');
   }
+
+  isMesero(): boolean {
+    return this.roles.includes('Mesero');
+  }
 }
