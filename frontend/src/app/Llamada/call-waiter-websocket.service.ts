@@ -1,22 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CallWaiterWebSocketService {
-  private ws!: WebSocket;
+  private ws: WebSocket | null = null;
   private messageSubject: Subject<any> = new Subject<any>();
 
-  public messages$ = this.messageSubject.asObservable();
-
-  constructor() {
-    this.initializeWebSocket();
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initializeWebSocket();
+    }
   }
 
   private initializeWebSocket(): void {
-    if (typeof window !== 'undefined' && window.WebSocket) {
-      this.ws = new WebSocket('ws://localhost:3000'); 
+    if (typeof window !== 'undefined' && 'WebSocket' in window) {
+      this.ws = new WebSocket('ws://localhost:3000');
 
       this.ws.onmessage = (event: MessageEvent) => {
         try {
@@ -43,16 +44,7 @@ export class CallWaiterWebSocketService {
     }
   }
 
-  public getCallWaiterObservable() {
-    if (typeof window !== 'undefined' && window.WebSocket) {
-      return this.messages$;
-    } else {
-      console.error('WebSocket is not supported in this environment');
-      return new Subject<any>().asObservable(); 
-    }
+  public getCallWaiterObservable(): Observable<any> {
+    return this.messageSubject.asObservable();
   }
 }
-
-
-
-

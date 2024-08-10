@@ -12,8 +12,13 @@
             <div mat-card-avatar class="ingrediente-img" [style.background-image]="getBackgroundImage(ingrediente.img)">
             </div>
             <mat-card-title>{{ ingrediente.nombre }}</mat-card-title>
-            <mat-card-subtitle class="mat-card">Disponibilidad: {{ ingrediente.disponible ? 'sí' : 'no'
-                }}</mat-card-subtitle>
+            <mat-card-subtitle class="mat-card">
+                Disponibilidad:
+                <span>{{ ingrediente.disponible ? 'Sí' : 'No' }}</span>
+            </mat-card-subtitle>
+            <mat-slide-toggle class="disponibilidad-toggle" [(ngModel)]="ingrediente.disponible"
+                (change)="toggleDisponibilidad(ingrediente)">
+            </mat-slide-toggle>
         </mat-card-header>
     </mat-card>
 </div>

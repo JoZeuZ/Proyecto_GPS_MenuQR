@@ -2,22 +2,36 @@
     <div class="title-cards">
         <p>Menu</p>
     </div>
-    <button [ngClass]="{ 'hidden-button': !isAdmin() }" mat-button class="botonAgregar" (click)="openAddProductoDialog()">
-        <span class="material-icons">add</span>
-    </button>
-    <button mat-button class="botonAgregar" (click)="navigateToAddReview()">
+
+    <div class="buscadorFiltroAdd">
+        <app-search-filter class="buscador" (search)="onSearchChange($event)"></app-search-filter>
+        <app-filter class="filtro"
+            [options]="['Bebidas', 'Plato principal', 'Para compartir', 'Postres', 'Hamburguesas','Agregados','Promos','Pizzas', 'Ensalada']"
+            (filterChange)="onFilterChange($event)">
+        </app-filter>
+        <button [ngClass]="{ 'hidden-button': !isAdmin() }" mat-raised-button class="botonAgregar"
+            (click)="openAddProductoDialog()">
+            <span class="material-icons">add</span>
+        </button>
+    </div>
+
+    <!-- <button [ngClass]="{'hidden-button': isAdmin()}" mat-button class="botonCrearResena"
+        (click)="navigateToAddReview()">
         Crear Reseña
-    </button>
+    </button> -->
+
+    <app-call-waiter [ngClass]="{'hidden-button': isAdmin()}" ></app-call-waiter> 
+    <br/>
     <div class="card-container">
-        <app-productos-cards 
-            [productos]="filteredProductos"
-            [currentPage]="currentPage"
-            (productoEdited)="onProductoEdited($event)"
-            (productoDeleted)="onIngredientDeleted($event)"
+        <app-productos-cards [productos]="filteredProductos" [currentPage]="currentPage"
+            (productoEdited)="onProductoEdited($event)" (productoDeleted)="onIngredientDeleted($event)"
             (pageChange)="onPageChange($event)">
         </app-productos-cards>
     </div>
-    <app-call-waiter></app-call-waiter> 
+
+    <app-paginator [currentPage]="currentPage" [totalItems]="totalFilteredItems" [itemsPerPage]="itemsPerPage"
+        (pageChange)="onPageChange($event)">
+    </app-paginator>
+
+
 </div>
-
-

@@ -63,10 +63,6 @@ mat-card-title.mat-mdc-card-title {
     background-color: var(--color-boton);
 }
 
-.delete-cart-button {
-    margin-top: -50px;
-}
-
 .hidden-button {
     visibility: hidden;
 }

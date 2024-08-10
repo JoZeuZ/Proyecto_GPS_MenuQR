@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PagoApiService } from '../../Pago/services/pago-api.service';
 import { environment } from '../../../../environment';
@@ -29,103 +29,107 @@ export class CartService {
     return this.cart.value;
   }
 
-  addToCart(product: any) {
-    const currentCart = this.cart.value;
-    const index = currentCart.findIndex(item => item.productoId === product.productoId);
-    if (index !== -1) {
-      currentCart[index].cantidad += product.cantidad;
-    } else {
-      product.precio = product.precio || 0;
-      currentCart.push(product);
-    }
-    this.cart.next(currentCart);
-  }
+ addToCart(product: any) {
+ const currentCart = this.cart.value;
+ const index = currentCart.findIndex(item => item.productoId === product.productoId);
+ if (index !== -1) {
+ currentCart[index].cantidad += product.cantidad;
+ } else {
+ product.precio = product.precio || 0;
+ currentCart.push(product);
+ }
+ this.cart.next(currentCart);
+ }
 
-  removeFromCart(index: number) {
-    const currentCart = this.cart.value;
-    currentCart.splice(index, 1);
-    this.cart.next(currentCart);
-  }
+ removeFromCart(index: number) {
+ const currentCart = this.cart.value;
+ currentCart.splice(index, 1);
+ this.cart.next(currentCart);
+ }
 
-  updateQuantity(productoId: string, cantidad: number) {
-    const currentCart = this.cart.value;
-    const index = currentCart.findIndex(item => item.productoId === productoId);
-    if (index !== -1) {
-      currentCart[index].cantidad = cantidad;
-      if (currentCart[index].cantidad <= 0) {
-        currentCart.splice(index, 1);
-      }
-      this.cart.next(currentCart);
-    }
-  }
+ updateQuantity(productoId: string, cantidad: number) {
+ const currentCart = this.cart.value;
+ const index = currentCart.findIndex(item => item.productoId === productoId);
+ if (index !== -1) {
+ currentCart[index].cantidad = cantidad;
+ if (currentCart[index].cantidad <= 0) {
+ currentCart.splice(index, 1);
+ }
+ this.cart.next(currentCart);
+ }
+ }
 
-  setMesa(nMesa: number) {
-    this.mesa.next(nMesa);
-  }
+ setMesa(nMesa: number) {
+  this.mesa.next(nMesa);
+}
 
-  getMesa() {
-    return this.mesa.value;
-  }
+getMesa(): Observable<number | null> {
+  return this.mesa.asObservable();
+}
 
-  setMetodoPago(metodo: string) {
-    this.metodoPago.next(metodo);
-  }
+getMesaValue(): number | null {
+  return this.mesa.getValue();
+}
 
-  getMetodoPago() {
-    return this.metodoPago.value;
-  }
+ setMetodoPago(metodo: string) {
+ this.metodoPago.next(metodo);
+ }
 
-  setPropina(amount: number) {
-    this.propina.next(amount);
-  }
+ getMetodoPago() {
+ return this.metodoPago.value;
+ }
 
-  getPropina() {
-    return this.propina.value;
-  }
+ setPropina(amount: number) {
+ this.propina.next(amount);
+ }
 
-  setNombreCliente(nombre: string) {
-    this.nombreCliente.next(nombre);
-  }
+ getPropina() {
+ return this.propina.value;
+ }
 
-  getNombreCliente() {
-    return this.nombreCliente.value;
-  }
+ setNombreCliente(nombre: string) {
+ this.nombreCliente.next(nombre);
+ }
 
-  clearCart() {
-    this.cart.next([]);
-    this.mesa.next(null);
-    this.metodoPago.next(null);
-    this.propina.next(0);
-    this.nombreCliente.next('');
-  }
+ getNombreCliente() {
+ return this.nombreCliente.value;
+ }
 
-  confirmOrder() {
-    const pedido = {
-      cliente: this.getNombreCliente(),
-      mesa: this.getMesa(),
-      productos: this.getCart().map(({ productoId, cantidad }) => ({
-        productoId,
-        cantidad
-      })), // Filtro de datos
-      metodoPago: this.getMetodoPago(),
-      propina: this.getPropina(),
-    };
+ clearCart() {
+ this.cart.next([]);
+ this.mesa.next(null);
+ this.metodoPago.next(null);
+ this.propina.next(0);
+ this.nombreCliente.next('');
+ }
 
-    console.log('Pedido a enviar:', pedido);
+ confirmOrder() {
+ const pedido = {
+ cliente: this.getNombreCliente(),
+ mesa: this.getMesa(),
+ productos: this.getCart().map(({ productoId, cantidad }) => ({
+ productoId,
+ cantidad
+ })), // Filtro de datos
+ metodoPago: this.getMetodoPago(),
+ propina: this.getPropina(),
+ };
 
-    return this.http.get(`${this.mesaURL}/${pedido.mesa}`).pipe(
-      switchMap((mesaResponse: any) => {
-        const mesaId = mesaResponse.data._id;
-        return this.http.post(`${this.pedidoURL}/${mesaId}`, pedido);
-      }),
-      map((pedidoResponse: any) => {
-        const pagoData = {
-          pedidoId: pedidoResponse.data._id,
-          metodoPago: this.getMetodoPago(),
-          total: pedidoResponse.data.total
-        };
-        return this.pagoApiService.createPago(pagoData).subscribe();
-      })
-    );
-  }
+ console.log('Pedido a enviar:', pedido);
+
+ return this.http.get(`${this.mesaURL}/${pedido.mesa}`).pipe(
+ switchMap((mesaResponse: any) => {
+ const mesaId = mesaResponse.data._id;
+ return this.http.post(`${this.pedidoURL}/${mesaId}`, pedido);
+ }),
+ map((pedidoResponse: any) => {
+ const pagoData = {
+ pedidoId: pedidoResponse.data._id,
+ metodoPago: this.getMetodoPago(),
+ total: pedidoResponse.data.total
+ };
+ return this.pagoApiService.createPago(pagoData).subscribe();
+ })
+ );
+ }
 }

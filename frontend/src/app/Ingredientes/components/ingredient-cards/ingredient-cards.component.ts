@@ -11,6 +11,7 @@ import { EditIngredientDialogComponent } from '../edit-ingredient-dialog/edit-in
 import { MatDialogModule } from '@angular/material/dialog';
 import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
 import { environment } from '../../../../../environment';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'; // Importa el módulo MatSlideToggle
 
 @Component({
   selector: 'app-ingredient-cards',
@@ -24,7 +25,8 @@ import { environment } from '../../../../../environment';
     MatButtonModule,
     FormsModule,
     MatDialogModule,
-    PaginatorComponent
+    PaginatorComponent,
+    MatSlideToggleModule  // Agrega el módulo MatSlideToggle a la lista de imports
   ],
   templateUrl: './ingredient-cards.component.html',
   styleUrls: ['./ingredient-cards.component.css']
@@ -67,9 +69,7 @@ export class IngredientCardsComponent implements OnInit, OnChanges {
       return '';
     }
 
-    // Ajustar la URL de la imagen según el caso
     const imageUrl = `${environment.apiUrl}/${imgPath}`
-
     return `url(${imageUrl})`;
   }
 
@@ -100,5 +100,18 @@ export class IngredientCardsComponent implements OnInit, OnChanges {
       this.ingredientDeleted.emit(id);
       this.applyPagination();
     });
+  }
+
+  toggleDisponibilidad(ingrediente: any): void {
+    // Actualiza la disponibilidad en el backend
+    this.service.updateIngrediente(ingrediente._id, { disponible: ingrediente.disponible }).subscribe(
+      (updatedIngredient) => {
+        // Manejar la respuesta si es necesario
+        this.ingredientEdited.emit(updatedIngredient);
+      },
+      (error) => {
+        console.error('Error updating ingredient availability:', error);
+      }
+    );
   }
 }

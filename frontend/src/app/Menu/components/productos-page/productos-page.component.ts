@@ -11,6 +11,9 @@ import { CallWaiterComponent } from '../../../Llamada/waiter-call-button/waiter-
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
 import { CommonModule } from '@angular/common';
+import { FilterComponent } from '../../../public/components/filter/filter.component';
+import { SearchFilterComponent } from '../../../public/components/search-filter/search-filter.component';
+import { PaginatorComponent } from '../../../public/components/paginator/paginator.component';
 
 @Component({
   selector: 'app-productos-page',
@@ -22,7 +25,10 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatIconModule,
     CallWaiterComponent,
-    CommonModule
+    CommonModule,
+    FilterComponent,
+    SearchFilterComponent,
+    PaginatorComponent
   ],
   templateUrl: './productos-page.component.html',
   styleUrls: ['./productos-page.component.css']

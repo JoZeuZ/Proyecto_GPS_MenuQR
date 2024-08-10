@@ -1,6 +1,8 @@
 @import '../../../../styles.css';
 
 .title-cards {
+    display: flex;
+    flex-direction: column-reverse;
     font-size: 20px;
     font-weight: bold;
     color: #000;
@@ -8,18 +10,37 @@
     margin-top: 2rem;
 }
 
+.buscadorFiltroAdd {
+    display: flex;
+    margin-bottom: 1rem;
+    margin-left: 4px;
+    margin-right: 4px;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .botonAgregar {
     background-color: var(--color-boton) !important;
     color: white !important;
     height: 55px;
     margin-bottom: 22px;
+}
+
+.botonCrearResena {
+    background-color: var(--color-boton) !important;
+    color: white !important;
     display: block;
-    margin-left: auto;
-    margin-right: 20px;
+    margin: 0 auto 22px auto;
+}
+
+.card-container {
+    display: ruby;
+    margin-bottom: 16px;
+    position: relative;
 }
 
 .hidden-button {
-    visibility: hidden;
+    display: none;
 }
 
 /* Estilos específicos para escritorio */
@@ -28,4 +49,6 @@
         margin-left: 22%;
         margin-right: 22%;
     }
+    
 }
+
