@@ -54,7 +54,7 @@
       <app-mesas *ngIf="isMesasRouteActive()"></app-mesas>
       <app-mesapedido *ngIf="isMesaPedidoRouteActive()"></app-mesapedido>
     </div>
-    <div class="floating-cart-icon">
+    <div *ngIf="!isAuthenticated" class="floating-cart-icon">
       <app-cart-icon *ngIf="isRootRouteActive()"></app-cart-icon>
     </div>
     <app-footer-component></app-footer-component>
